@@ -1,4 +1,6 @@
 #Images file for frontends
 
 images:
-    0: data/stone.png
+    #Format
+    #blockid: filepath
+    1: data/stone.png

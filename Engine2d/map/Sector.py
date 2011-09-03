@@ -47,7 +47,7 @@ class Sector:
         """Generate new sector"""
         x,y,z=self.position
         print "Generating sector %s" % self.position
-        if y<=0:blocks=[1,2,3,4]
+        if y<=0:blocks=[1,2]
         else:blocks=[0]
 
 

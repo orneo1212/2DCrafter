@@ -1,23 +1,28 @@
+from pygamefrontend import imageloader, mapviewer
 import Engine2d as engine
+import pygame
+import sys
 
-def showsector(tmap):
-    for yy in range(engine.Config['SS']):
-        for xx in range(engine.Config['SS']):
-            print tmap.getblock((xx, 10+yy, 0)).id,
-        print
+class PygameTest:
+    def __init__(self):
+        self.screen=pygame.display.set_mode((640, 480))
+        self.mapo=engine.map.Map()
+        self.player=engine.player.Player("test")
+        self.imageloader=imageloader.ImageLoader()
+        self.mapviewer=mapviewer.MapViever()
 
-map=engine.map.loadmap("world")
-player=engine.player.Player("test")
-map.addentity(player)
+    def events(self):
+        for event in pygame.event.get():
+            if event.type==pygame.QUIT:sys.exit()
 
-#map.render() # TODO: map renderer
+    def redraw(self):
+        self.mapviewer.render(self.screen, (0, -5), self.imageloader, self.mapo)
+        pygame.display.update()
 
-player.move("n", 0.3)
-print map.getsector([0, 0, 0])
-map.setblock([100, 100, 0], None)
-showsector(map)
+    def mainloop(self):
+        while 1:
+            self.events()
+            self.redraw()
 
-from pygamefrontend import imageloader
-
-loader=imageloader.ImageLoader()
-print loader.loadimage(0)
+test=PygameTest()
+test.mainloop()
