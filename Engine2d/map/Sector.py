@@ -44,7 +44,7 @@ class Sector:
     #temp
     def makenoise(self,divide,x,y):
         pnoise=engine.tools.pnoise
-        seed=65535
+        seed=engine.seed
 
         divide=float(divide)
         return pnoise(x/divide,y/divide,seed)
@@ -67,24 +67,22 @@ class Sector:
                 ny=self.position[1]*size+yy+1
 
                 #noises
+                biome=int(self.makenoise(300, nx, ny)*15%7)
                 detailp=self.makenoise(70, nx, ny)
                 waterp=self.makenoise(300, nx, ny)
-                stonep=self.makenoise(100, nx, ny)
                 mudp=self.makenoise(70, nx, ny)
-                lavap=self.makenoise(4, nx, ny)
                 sandp=self.makenoise(70, nx, ny)
                 treep=self.makenoise(3, nx, ny)
-
+                #biomes
+                #0 tree and mud
+                #1 mud
+                #2 desert sand
                 #check
-                isstone=stonep>0.88
-                ismud=mudp>0.07 and mudp < 0.49
-                islava=lavap<0.5 and waterp<0
-                issand=sandp>0 and sandp<0.5 and waterp>0
-                istree=treep>0.48 and ismud and waterp>0
+                ismud=mudp>0 and biome in [0,1]
+                issand=sandp>0 and biome==2
+                istree=treep>0.6 and ismud and biome ==0
 
                 if istree:blockid=7 #tree
-                elif isstone:blockid=1 # stone
-                elif islava:blockid=5 # lava
                 elif ismud:blockid=2 # mud
                 elif issand:blockid=4 # sand
                 else:blockid=3 # water

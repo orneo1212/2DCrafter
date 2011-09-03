@@ -2,6 +2,7 @@ import map
 import player
 import tools
 import yaml
+import random
 
 #Load engine config
 try:
@@ -18,3 +19,5 @@ if fp != None:
 else:
     #make temp config
     Config={"SS":64}
+
+seed=random.randint(10,65535)
