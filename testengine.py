@@ -11,12 +11,10 @@ pygame.key.set_repeat(50,50)
 #    |
 #    |
 # -------> x
-#
-#Z is a layer
 
 class PygameTest:
     def __init__(self):
-        self.screen=pygame.display.set_mode((640, 480))
+        self.screen=pygame.display.set_mode((640, 480),pygame.RESIZABLE)
         self.mapo=engine.map.Map()
         self.player=engine.player.Player("test")
         self.imageloader=imageloader.ImageLoader()
@@ -34,10 +32,6 @@ class PygameTest:
                     self.player.move("n",3.3)
                 if event.key==pygame.K_s:
                     self.player.move("s",3.3)
-                if event.key==pygame.K_r:
-                    self.player.move("u",1)
-                if event.key==pygame.K_f:
-                    self.player.move("d",1)
 
     def redraw(self):
         self.mapviewer.render(self.screen, self.player.getposition(), self.imageloader, self.mapo)

@@ -24,8 +24,7 @@ class Map:
         """get sector by position. Should always return Sector object"""
         for loadedsector in self.sectors:
             if loadedsector.position[0]==sectorposition[0] and \
-                loadedsector.position[1]==sectorposition[1] and \
-                loadedsector.position[2]==sectorposition[2]:
+                loadedsector.position[1]==sectorposition[1]:
                 #return currently loaded sector
                 return loadedsector
         #not found loaded sector create new sector
@@ -43,9 +42,7 @@ class Map:
         """Convert position from world to sector"""
         secx=position[0]/engine.Config['SS']
         secy=position[1]/engine.Config['SS']
-        secz=position[2]/engine.Config['SS']
         #local position for sector tiles
         locx=position[0]-secx*engine.Config['SS']
         locy=position[1]-secy*engine.Config['SS']
-        locz=position[2]-secz*engine.Config['SS']
-        return [[int(secx), int(secy), int(secz)], [int(locx), int(locy), int(locz)]]
+        return [[int(secx), int(secy)], [int(locx), int(locy)]]
