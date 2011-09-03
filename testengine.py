@@ -16,3 +16,8 @@ player.move("n", 0.3)
 print map.getsector([0, 0, 0])
 map.setblock([100, 100, 0], None)
 showsector(map)
+
+from pygamefrontend import imageloader
+
+loader=imageloader.ImageLoader()
+print loader.loadimage(0)

@@ -9,3 +9,5 @@ class Player:
         if direction not in mv.keys():return
         self.position[0]+=mv[direction][0]
         self.position[1]+=mv[direction][1]
+        #self.position[2]+=mv[direction][2]
+        #TODO: Z position for move

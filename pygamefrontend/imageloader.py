@@ -1,0 +1,42 @@
+import pygame
+import yaml
+
+class ImageLoader:
+
+    def __init__(self):
+        self.configfile="images.yaml"
+        self.config={}
+        self.loaded={}
+
+        #load config
+        self.loadconfig()
+
+    def loadconfig(self):
+        """Load config file (YAML file)"""
+        try:
+            conf=open(self.configfile)
+        except IOError,e:
+            print e
+            self.config={}
+            return
+        #load data
+        try:
+            self.config=yaml.load(conf.read())
+        except Exception,e:
+            print e
+            self.config={}
+            return
+
+    def loadimage(self,name):
+        """Load image by name"""
+        #wrong name
+        if name not in self.config['images'].keys():
+            return pygame.Surface((32,32))
+        #check loaded images
+        if name in self.loaded.keys():
+            return self.loaded[name]
+        #load file
+        filename=self.config['images'][name]
+        img=pygame.image.load(filename)
+        self.loaded['name']=img
+        return img
