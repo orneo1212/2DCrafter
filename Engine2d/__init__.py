@@ -1,9 +1,7 @@
-import yaml
-
 import map
 import player
-
-
+import tools
+import yaml
 
 #Load engine config
 try:

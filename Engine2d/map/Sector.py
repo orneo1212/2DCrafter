@@ -12,7 +12,7 @@ class Sector:
         """get block from local position"""
         posx=int(localposition[0])
         posy=int(localposition[1])
-        posz=int(localposition[1])
+        posz=int(localposition[2])
         return self.blocks[posz][posy][posx]
 
     def setblock(self, localposition, block):
@@ -33,11 +33,12 @@ class Sector:
     def makearray(self):
         """Make array for blocks data"""
         array=[]
-        for zz in range(engine.Config["SS"]+1):
+        size=engine.Config['SS']
+        for zz in range(size+1):
             ss=[]
-            for yy in range(engine.Config["SS"]+1):
+            for yy in range(size+1):
                 line=[]
-                for xx in range(engine.Config["SS"]+1):
+                for xx in range(size+1):
                     line.append(None)
                 ss.append(line);line=[]
             array.append(ss);ss=[]
@@ -47,13 +48,22 @@ class Sector:
         """Generate new sector"""
         x,y,z=self.position
         print "Generating sector %s" % self.position
-        if y<0:blocks=[1,2]
-        else:blocks=[0]
 
+        size=engine.Config['SS']
 
         #fill
-        for zz in range(engine.Config['SS']):
-            for yy in range(engine.Config['SS']):
-                for xx in range(engine.Config['SS']):
-                    blockid=random.choice(blocks)
+        for zz in range(size+1):
+            for yy in range(size+1):
+                for xx in range(size+1):
+                    blockid=0 # air
+                    nx=self.position[0]*size+xx+0.5
+                    ny=self.position[1]*size+yy+0.5
+                    nz=self.position[2]*size+zz+0.5
+                    noise=engine.tools.pnoise(nx,ny,nz)*100
+                    #ground
+                    if noise<0:
+                        blockid=0
+                    #air
+                    if noise>=0:
+                        blockid=1
                     self.setblock([xx,yy,zz],engine.map.Block(blockid))

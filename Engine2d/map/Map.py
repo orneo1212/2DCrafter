@@ -47,4 +47,4 @@ class Map:
         locx=position[0]-secx*engine.Config['SS']
         locy=position[1]-secy*engine.Config['SS']
         locz=position[2]-secz*engine.Config['SS']
-        return [[secx, secy,secz], [locx, locy,locz]]
+        return [[int(secx), int(secy), int(secz)], [int(locx), int(locy), int(locz)]]
