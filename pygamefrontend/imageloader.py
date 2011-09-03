@@ -29,6 +29,10 @@ class ImageLoader:
 
     def loadimage(self,name):
         """Load image by name"""
+        #check images option in yaml loaded
+        if 'images' not in self.config.keys():
+            print "Wrong config file for images. There no 'images' section"
+            return pygame.Surface((32,32))
         #wrong name
         if name not in self.config['images'].keys():
             return pygame.Surface((32,32))
