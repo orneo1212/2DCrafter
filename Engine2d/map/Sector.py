@@ -51,19 +51,25 @@ class Sector:
 
         size=engine.Config['SS']
 
+        SEED=12345
+
         #fill
         for zz in range(size+1):
             for yy in range(size+1):
                 for xx in range(size+1):
                     blockid=0 # air
-                    nx=self.position[0]*size+xx+0.5
-                    ny=self.position[1]*size+yy+0.5
-                    nz=self.position[2]*size+zz+0.5
-                    noise=engine.tools.pnoise(nx,ny,nz)*100
-                    #ground
-                    if noise<0:
-                        blockid=0
-                    #air
-                    if noise>=0:
+                    nx=self.position[0]*size+xx
+                    ny=self.position[1]*size+yy
+                    nz=self.position[2]*size+zz
+                    #noise height
+                    h=20.0*engine.tools.pnoise(nx/100.0,ny/100.0,SEED+0)
+                    h+=15.0*engine.tools.pnoise(nx/30.0,ny/30.0,SEED+65535)
+                    if engine.tools.pnoise(nx/30.0,ny/30.0,SEED)>0.5:
+                        h+=10.0
+                    h=int(h)
+
+                    if nz<h:
                         blockid=1
+                    elif nz<=1:
+                        blockid=0
                     self.setblock([xx,yy,zz],engine.map.Block(blockid))

@@ -35,9 +35,9 @@ class PygameTest:
                 if event.key==pygame.K_s:
                     self.player.move("s",3.3)
                 if event.key==pygame.K_r:
-                    self.player.move("u",3.3)
+                    self.player.move("u",1)
                 if event.key==pygame.K_f:
-                    self.player.move("d",15)
+                    self.player.move("d",1)
 
     def redraw(self):
         self.mapviewer.render(self.screen, self.player.getposition(), self.imageloader, self.mapo)

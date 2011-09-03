@@ -24,7 +24,8 @@ class Map:
         """get sector by position. Should always return Sector object"""
         for loadedsector in self.sectors:
             if loadedsector.position[0]==sectorposition[0] and \
-                loadedsector.position[1]==sectorposition[1]:
+                loadedsector.position[1]==sectorposition[1] and \
+                loadedsector.position[2]==sectorposition[2]:
                 #return currently loaded sector
                 return loadedsector
         #not found loaded sector create new sector
