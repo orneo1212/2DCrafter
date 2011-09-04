@@ -87,4 +87,5 @@ class Sector:
                 elif issand:blockid=4 # sand
                 else:blockid=3 # water
 
-                self.setblock([xx,yy],engine.map.Block(blockid))
+                block=engine.map.Block(blockid)
+                self.setblock([xx,yy],block)

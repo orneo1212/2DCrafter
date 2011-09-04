@@ -18,6 +18,9 @@ if fp != None:
     Config=yaml.load(fp)
 else:
     #make temp config
-    Config={"SS":64}
+    Config={"SS":32,seed:0}
+
+#blocks
+blocks=yaml.load(open("blocks.yaml"))
 
 seed=random.randint(10,65535)

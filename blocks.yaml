@@ -1,0 +1,33 @@
+#Blocks definition
+
+0:
+    name:
+    blocked: false
+
+1:
+    name: stone
+    blocked: false
+
+2:
+    name: mud
+    blocked: false
+
+3:
+    name: water
+    blocked: false
+
+4:
+    name: sand
+    blocked: false
+
+5:
+    name: lava
+    blocked: false
+
+6:
+    name: brick
+    blocked: true
+
+7:
+    name: tree
+    blocked: true

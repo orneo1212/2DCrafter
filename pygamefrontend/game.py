@@ -16,13 +16,13 @@ class Game:
             if event.type==pygame.QUIT:exit()
             if event.type==pygame.KEYDOWN:
                 if event.key==pygame.K_d:
-                    self.player.move("e", 3.3)
+                    self.player.move("e", 1.0)
                 if event.key==pygame.K_a:
-                    self.player.move("w", 3.3)
+                    self.player.move("w", 1.0)
                 if event.key==pygame.K_w:
-                    self.player.move("n", 3.3)
+                    self.player.move("n", 1.0)
                 if event.key==pygame.K_s:
-                    self.player.move("s", 3.3)
+                    self.player.move("s", 1.0)
 
     def redraw(self):
         self.mapviewer.renderatplayer(self.screen, self.player, self.imageloader, self.mapo)
