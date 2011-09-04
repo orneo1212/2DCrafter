@@ -1,10 +1,10 @@
 class Player:
-    def __init__(self, name,currmap=None):
+    def __init__(self, name, currmap=None):
         self.name=name
         self.position=[0, 0]
         self.currmap=currmap
 
-    def setmap(self,mapobject):
+    def setmap(self, mapobject):
         self.currmap=mapobject
 
     def move(self, direction, speed):
@@ -17,7 +17,7 @@ class Player:
         if self.currmap:
             xx=self.position[0]+mv[direction][0]*speed
             yy=self.position[0]+mv[direction][0]*speed
-            if self.currmap.isblocked((xx,yy)):return
+            if self.currmap.isblocked((xx, yy)):return
         #update position
         self.position[0]+=mv[direction][0]*speed
         self.position[1]+=mv[direction][1]*speed
