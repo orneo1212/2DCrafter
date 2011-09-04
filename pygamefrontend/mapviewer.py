@@ -22,3 +22,7 @@ class MapViever:
                 img.blit(blockimg, (locx*tilesize, locy*tilesize),(0,0,tilesize,tilesize))
         #blit
         surface.blit(img, (0, 0))
+
+    def renderatplayer(self,surface,player,imageloader,mapobject):
+        """Render map centered on given player"""
+        self.render(surface, player.getposition(), imageloader, mapobject)
