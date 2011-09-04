@@ -15,6 +15,11 @@ class MapViever:
             for xx in range(cx-viewx/2, cx+viewx/2+1): # size 20
                 locx=(viewx/2)+cx-xx
                 locy=(viewy/2)+cy-yy
+                #render player image on center position
+                if xx==cx and yy==cy:
+                    playerimg=imageloader.loadimage("player")
+                    img.blit(playerimg, (locx*tilesize, locy*tilesize),(0,0,tilesize,tilesize))
+                    continue
                 block=mapobject.getblock((xx, yy))
                 if not block:continue # skip empty places
                 if block.id==0:continue # skip block with id 0 (air)

@@ -15,6 +15,10 @@ pygame.key.set_repeat(50, 50)
 class PygameTest:
     def __init__(self):
         self.screen=pygame.display.set_mode((640, 480), pygame.RESIZABLE)
+
+        #page of view
+        self.page=[None,self.events,self.redraw]
+
         self.mapo=engine.map.Map()
         self.player=engine.player.Player("test")
         self.imageloader=imageloader.ImageLoader()
@@ -39,8 +43,8 @@ class PygameTest:
 
     def mainloop(self):
         while 1:
-            self.events()
-            self.redraw()
+            self.page[1]()
+            self.page[2]()
 
 test=PygameTest()
 test.mainloop()
