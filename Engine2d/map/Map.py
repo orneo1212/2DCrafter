@@ -34,6 +34,10 @@ class Map:
         return sector
 
     #OTHERS FUNCTIONS
+    def isblocked(self,position):
+        block=self.getblock(position)
+        if block:return block.blocked
+
     def addentity(self, entity):
         if entity not in self.entities:
             self.entities.append(entity)

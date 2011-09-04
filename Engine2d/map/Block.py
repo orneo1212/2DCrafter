@@ -3,7 +3,7 @@ class Block:
     """Class represent each block in game"""
     def __init__(self,idd):
         self.id=idd
-        self.block=False # block move through
+        self.blocked=False # block move through
         self.destoyable=True # can't be destroyed?
         self.putable=True
 

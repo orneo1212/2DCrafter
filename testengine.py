@@ -20,7 +20,7 @@ class PygameTest:
         self.page=[None,self.events,self.redraw]
 
         self.mapo=engine.map.Map()
-        self.player=engine.player.Player("test")
+        self.player=engine.player.Player("test",self.mapo)
         self.imageloader=imageloader.ImageLoader()
         self.mapviewer=mapviewer.MapViever()
 
