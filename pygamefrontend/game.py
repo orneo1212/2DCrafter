@@ -11,6 +11,12 @@ class Game:
         self.imageloader=imageloader.ImageLoader()
         self.mapviewer=mapviewer.MapViever()
 
+    def update(self):
+        #fall
+        px,py=self.player.getposition()
+        if not self.mapo.isblocked((px,py-1)):
+            self.player.move("s", 1)
+
     def events(self):
         for event in pygame.event.get():
             if event.type==pygame.QUIT:exit()
@@ -23,6 +29,8 @@ class Game:
                     self.player.move("n", 1.0)
                 if event.key==pygame.K_s:
                     self.player.move("s", 1.0)
+                if event.key==pygame.K_SPACE:
+                    self.player.move("n",2.0)
 
     def redraw(self):
         self.mapviewer.renderatplayer(self.screen, self.player, self.imageloader, self.mapo)

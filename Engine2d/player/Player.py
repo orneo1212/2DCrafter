@@ -17,7 +17,7 @@ class Player:
         if self.currmap:
             xx=int(self.position[0]+mv[direction][0]*speed)
             yy=int(self.position[1]+mv[direction][1]*speed)
-            if self.currmap.isblocked((xx, yy)):return
+            #if self.currmap.isblocked((xx, yy)):return
         #update position
         self.position[0]+=mv[direction][0]*speed
         self.position[1]+=mv[direction][1]*speed

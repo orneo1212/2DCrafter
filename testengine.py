@@ -1,3 +1,4 @@
+#!/usr/bin/python
 from pygamefrontend import game
 import Engine2d as engine
 import pygame
@@ -23,7 +24,8 @@ class PygameTest:
     def mainloop(self):
         while 1:
             self.page.events()
+            self.page.update()
             self.page.redraw()
-
-test=PygameTest()
-test.mainloop()
+if __name__=="__main__":
+    test=PygameTest()
+    test.mainloop()

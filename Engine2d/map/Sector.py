@@ -65,27 +65,9 @@ class Sector:
                 #global position
                 nx=self.position[0]*size+xx+1
                 ny=self.position[1]*size+yy+1
-
+                if ny>1:continue
                 #noises
-                biome=int(self.makenoise(300, nx, ny)*15%7)
-                detailp=self.makenoise(70, nx, ny)
-                waterp=self.makenoise(300, nx, ny)
-                mudp=self.makenoise(70, nx, ny)
-                sandp=self.makenoise(70, nx, ny)
-                treep=self.makenoise(3, nx, ny)
-                #biomes
-                #0 tree and mud
-                #1 mud
-                #2 desert sand
-                #check
-                ismud=mudp>0 and biome in [0,1]
-                issand=sandp>0 and biome==2
-                istree=treep>0.6 and ismud and biome ==0
-
-                if istree:blockid=7 #tree
-                elif ismud:blockid=2 # mud
-                elif issand:blockid=4 # sand
-                else:blockid=3 # water
-
+                noise=int(self.makenoise(5, nx,ny/0.5)*15%7)
+                if noise>0.9:blockid=1
                 block=engine.map.Block(blockid)
                 self.setblock([xx,yy],block)
