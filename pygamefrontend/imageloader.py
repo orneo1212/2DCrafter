@@ -41,6 +41,11 @@ class ImageLoader:
             return self.loaded[name]
         #load file
         filename=self.config['images'][name]
-        img=pygame.image.load(filename)
-        self.loaded['name']=img
+        try:
+            img=pygame.image.load(filename)
+            img.set_colorkey((255,0,255))
+        except Exception,e:
+            print e
+            img=pygame.Surface((32,32))
+        self.loaded[name]=img
         return img
