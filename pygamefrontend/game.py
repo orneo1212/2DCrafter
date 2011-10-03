@@ -14,10 +14,11 @@ class Game:
         self.falling=True
         self.jumping=False
         self.jumpstep=0
-        self.jumpspeed=0.25
+        self.jumpspeed=0.2
         self.fallspeed=0.5
 
     def update(self):
+        self.jump()
         self.fall()
 
     def events(self):
@@ -30,11 +31,11 @@ class Game:
             self.player.move("e", 1.0)
         if keys[pygame.K_a]:
             self.player.move("w", 1.0)
-        if keys[pygame.K_w]:
-            self.jump()
+        if keys[pygame.K_w]:pass #climb
         if keys[pygame.K_s]:
             self.player.move("s", 1.0)
         if keys[pygame.K_SPACE]:
+            self.jumping=True
             print self.jumpstep
 
 
@@ -48,18 +49,19 @@ class Game:
         if self.mapo.isblocked((px,py+1)):
             self.jumpstep=0
             self.jumping=False
-            return
-        if self.jumpstep<=5/self.jumpspeed:
-            self.jumpstep+=self.jumpspeed
-            self.player.move("n", self.jumpspeed)
+        else:
+            if self.jumpstep<=3/self.jumpspeed and self.jumping:
+                self.jumpstep+=1
+                self.player.move("n", self.jumpspeed)
+            else:self.jumping=False
 
     def fall(self):
         px,py=self.player.getposition()
         #TODO: check for AIR not for blocked (fix for ladders)
         #fall
         if not self.mapo.isblocked((px,py-1)):
-            if self.falling:
-                self.player.move("s", self.jumpspeed)
+            if self.falling and not self.jumping:
+                self.player.move("s", self.fallspeed)
             else:self.falling=True
         else: #hit the blocked
             self.falling=False

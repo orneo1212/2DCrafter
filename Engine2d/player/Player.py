@@ -7,7 +7,7 @@ class Player:
     def setmap(self, mapobject):
         self.currmap=mapobject
 
-    def move(self, direction, speed):
+    def move(self, direction, speed,collisions=True):
         """Move player to a given direction"""
         #north east west south up down
         mv={"n":(0, 1), "s":(0, -1), "e":(-1, 0), "w":(1, 0)}
@@ -17,7 +17,7 @@ class Player:
         if self.currmap:
             xx=int(self.position[0]+mv[direction][0]*speed)
             yy=int(self.position[1]+mv[direction][1]*speed)
-            #if self.currmap.isblocked((xx, yy)):return
+            if collisions and self.currmap.isblocked((xx, yy)):return
         #update position
         self.position[0]+=mv[direction][0]*speed
         self.position[1]+=mv[direction][1]*speed
