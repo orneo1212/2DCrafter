@@ -1,7 +1,7 @@
 class Player:
     def __init__(self, name, currmap=None):
         self.name=name
-        self.position=[0, 0]
+        self.position=[0, 3]
         self.currmap=currmap
 
     def setmap(self, mapobject):

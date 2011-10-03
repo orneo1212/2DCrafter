@@ -23,4 +23,4 @@ else:
 #blocks
 blocks=yaml.load(open("blocks.yaml"))
 
-seed=random.randint(10,65535)
+seed=Config['seed']

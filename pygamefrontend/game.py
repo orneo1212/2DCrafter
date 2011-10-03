@@ -1,6 +1,7 @@
 from pygamefrontend import imageloader, mapviewer
 import Engine2d as engine
 import pygame
+import time
 
 """Game page"""
 class Game:
@@ -14,8 +15,11 @@ class Game:
         self.falling=True
         self.jumping=False
         self.jumpstep=0
-        self.jumpspeed=0.2
-        self.fallspeed=0.5
+        self.jumpspeed=0.12
+        self.fallspeed=0.12
+        #times
+        self.eventstime=time.time()
+        self.eventdelay=0.02
 
     def update(self):
         self.jump()
@@ -23,20 +27,22 @@ class Game:
 
     def events(self):
         keys=pygame.key.get_pressed()
-        for event in pygame.event.get():
-            if event.type==pygame.QUIT:exit()
-        #check keys
-        #TODO:keys tick
-        if keys[pygame.K_d]:
-            self.player.move("e", 1.0)
-        if keys[pygame.K_a]:
-            self.player.move("w", 1.0)
-        if keys[pygame.K_w]:pass #climb
-        if keys[pygame.K_s]:
-            self.player.move("s", 1.0)
-        if keys[pygame.K_SPACE]:
-            self.jumping=True
-            print self.jumpstep
+        event=pygame.event.poll()
+        if event.type==pygame.QUIT:exit()
+        #events tick
+        if time.time()>self.eventstime+self.eventdelay:
+            self.eventstime=time.time()
+            #keys
+            if keys[pygame.K_d]:
+                self.player.move("e", 0.25)
+            if keys[pygame.K_a]:
+                self.player.move("w", 0.25)
+            if keys[pygame.K_w]:pass #climb
+            if keys[pygame.K_s]:
+                self.player.move("s", 0.25)
+            if keys[pygame.K_SPACE]:
+                self.jumping=True
+                print self.jumpstep
 
 
     def redraw(self):
@@ -50,7 +56,7 @@ class Game:
             self.jumpstep=0
             self.jumping=False
         else:
-            if self.jumpstep<=3/self.jumpspeed and self.jumping:
+            if self.jumpstep<3/self.jumpspeed and self.jumping:
                 self.jumpstep+=1
                 self.player.move("n", self.jumpspeed)
             else:self.jumping=False
