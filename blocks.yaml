@@ -10,7 +10,7 @@
 
 2:
     name: mud
-    blocked: true
+    blocked: false
 
 3:
     name: water
@@ -18,7 +18,7 @@
 
 4:
     name: sand
-    blocked: true
+    blocked: false
 
 5:
     name: lava

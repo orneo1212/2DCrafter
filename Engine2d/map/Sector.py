@@ -42,12 +42,12 @@ class Sector:
         return array
 
     #temp
-    def makenoise(self,divide,x,y):
+    def makenoise(self,x,y,freq,seedchange=0):
         pnoise=engine.tools.pnoise
         seed=engine.seed
 
-        divide=float(divide)
-        return pnoise(x/divide,y/divide,seed)
+        freq=1/float(freq)
+        return pnoise(x*freq,y*freq,seed+seedchange)
 
     def generate(self):
         """Generate new sector"""
@@ -65,9 +65,20 @@ class Sector:
                 #global position
                 nx=self.position[0]*size+xx+1
                 ny=self.position[1]*size+yy+1
-                if ny>1:continue
                 #noises
-                noise=int(self.makenoise(5, nx,ny/0.5)*15%7)
-                if noise>0.9:blockid=1
+                h=self.makenoise(nx,ny,64)*128
+                detail=self.makenoise(nx,ny,2)>0.4
+                h=int(128+h)
+
+                #water level
+                if h<128:
+                    blockid=3
+                #ground level h>128
+                else:
+                    if h>=128:blockid=4 #sand
+                    if h>=128+8:blockid=2 #mud
+                    if h>=160 and detail:blockid=7 #tree
+                    if h>=128+45:blockid=1 #stone
+
                 block=engine.map.Block(blockid)
                 self.setblock([xx,yy],block)
