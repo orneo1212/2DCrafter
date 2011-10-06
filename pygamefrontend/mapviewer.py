@@ -1,6 +1,10 @@
 import pygame
 
 class MapViever:
+    def __init__(self):
+        self.viewW=20
+        self.viewH=15
+        self.tilesize=32
 
     def render(self, surface, center, imageloader, mapobject):
         """Render map on the surface. Map will be centered on center position (global)."""
@@ -8,13 +12,12 @@ class MapViever:
         img.fill((0, 0, 0))
         cx, cy=center
 
-        tilesize=32
-        viewx=20
-        viewy=15
-        for yy in range(cy-viewy/2, cy+viewy/2+1): # size 15
-            for xx in range(cx-viewx/2, cx+viewx/2+1): # size 20
-                locx=(viewx/2)+cx-xx
-                locy=(viewy/2)+cy-yy
+        tilesize=self.tilesize
+
+        for yy in range(cy-self.viewH/2, cy+self.viewH/2+1):
+            for xx in range(cx-self.viewW/2, cx+self.viewW/2+1):
+                locx=(self.viewW/2)+cx-xx
+                locy=(self.viewH/2)+cy-yy
                 #render player image on center position
                 if xx==cx and yy==cy:
                     playerimg=imageloader.loadimage("player")
