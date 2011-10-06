@@ -11,9 +11,13 @@ class Game:
         self.player=engine.player.Player("test", self.mapo)
         self.imageloader=imageloader.ImageLoader()
         self.mapviewer=mapviewer.MapViever()
+        #speeds
+        self.movespeed=0.25
+        self.mineticks=1 # number of ticks to mine
+        self.minetick=0
         #times
         self.eventstime=time.time()
-        self.eventdelay=0.02
+        self.eventdelay=0.025
         #
         self.currenttile=0
 
@@ -26,19 +30,22 @@ class Game:
         if event.type==pygame.QUIT:exit()
         #events tick
         if time.time()>self.eventstime+self.eventdelay:
+            self.eventstime=time.time()
+            self.minetick+=1
+
             plpos=self.player.getposition()
             mx,my=pygame.mouse.get_pos()
             mtx,mty=self.mapviewer.getglobalfromscreen(plpos,(mx,my))
-            self.eventstime=time.time()
+
             #keys
             if keys[pygame.K_d]:
-                self.player.move("e", 0.25)
+                self.player.move("e", self.movespeed)
             if keys[pygame.K_a]:
-                self.player.move("w", 0.25)
+                self.player.move("w", self.movespeed)
             if keys[pygame.K_w]:
-                self.player.move("n", 0.25)
+                self.player.move("n", self.movespeed)
             if keys[pygame.K_s]:
-                self.player.move("s", 0.25)
+                self.player.move("s", self.movespeed)
             if keys[pygame.K_SPACE]:
                 print mtx,mty
                 print "Inventory",self.player.inventory.items
@@ -46,7 +53,8 @@ class Game:
             mousekeys=pygame.mouse.get_pressed()
             #mine block
             if mousekeys[0]==1:
-                err=self.player.mineblock((mtx,mty))
+                if self.minetick%self.mineticks==0:
+                    err=self.player.mineblock((mtx,mty))
             #get block under cursor
             if mousekeys[1]==1:
                 block=self.mapo.getblock((mtx,mty))
