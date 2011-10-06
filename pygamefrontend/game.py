@@ -14,6 +14,8 @@ class Game:
         #times
         self.eventstime=time.time()
         self.eventdelay=0.02
+        #
+        self.currenttile=0
 
     def update(self):
         pass
@@ -41,10 +43,18 @@ class Game:
                 print mtx,mty
             #Mouse events
             mousekeys=pygame.mouse.get_pressed()
+            #mine block
             if mousekeys[0]==1:
                 self.mapo.setblock((mtx,mty),None)
+            #get block under cursor
+            if mousekeys[1]==1:
+                block=self.mapo.getblock((mtx,mty))
+                if block:self.currenttile=block.id
+                else:self.currenttile=None
             if mousekeys[2]==1:
-                self.mapo.setblock((mtx,mty),engine.map.Block(1))
+                newblock=engine.map.Block(self.currenttile)
+                self.mapo.setblock((mtx,mty),newblock)
+
 
 
     def redraw(self):
