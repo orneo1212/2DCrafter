@@ -1,9 +1,10 @@
 from pygamefrontend import imageloader, mapviewer
+from pygamefrontend import gamegui
 import Engine2d as engine
 import pygame
 import time
 
-"""Game page"""
+"""Game """
 class Game:
     def __init__(self, screen):
         self.screen=screen
@@ -13,20 +14,24 @@ class Game:
         self.mapviewer=mapviewer.MapViever()
         #speeds
         self.movespeed=0.25
-        self.mineticks=1 # number of ticks to mine
+        self.mineticks=10 # number of ticks to mine
         self.minetick=0
         #times
         self.eventstime=time.time()
         self.eventdelay=0.025
         #
         self.currenttile=0
+        #GUI page
+        self.guipage=gamegui.GameGUI(self.screen)
 
     def update(self):
-        pass
+        self.guipage.update()
 
     def events(self):
         keys=pygame.key.get_pressed()
         event=pygame.event.poll()
+        #send event to pages
+        self.guipage.events(event)
         if event.type==pygame.QUIT:exit()
         #events tick
         if time.time()>self.eventstime+self.eventdelay:
@@ -68,4 +73,5 @@ class Game:
 
     def redraw(self):
         self.mapviewer.renderatplayer(self.screen, self.player, self.imageloader, self.mapo)
+        self.guipage.redraw()
         pygame.display.update()
