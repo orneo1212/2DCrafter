@@ -25,6 +25,9 @@ class Game:
         self.guipage=gamegui.GameGUI(self.screen)
 
     def update(self):
+        block=engine.map.Block(self.currenttile)
+        self.guipage.labelposition.set_text(str(self.player.getposition()))
+        self.guipage.labelselection.set_text(str(block.name))
         self.guipage.update()
 
     def events(self):

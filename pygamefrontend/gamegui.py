@@ -11,8 +11,12 @@ class GameGUI:
         self.pguapp=gui.App()
         self.c = gui.Container(align=-1,valign=-1)
         label=gui.Label("2D Building Game",color=(255,255,255))
+        self.labelposition=gui.Label("",color=(255,255,255))
+        self.labelselection=gui.Label("",color=(255,255,255))
         self.button=gui.Button("Menu")
         self.c.add(label,0,0)
+        self.c.add(self.labelposition,0,30)
+        self.c.add(self.labelselection,0,60)
         self.c.add(self.button,0,450)
         self.pguapp.init(self.c)
 
