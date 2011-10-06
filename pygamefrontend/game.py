@@ -41,11 +41,12 @@ class Game:
                 self.player.move("s", 0.25)
             if keys[pygame.K_SPACE]:
                 print mtx,mty
+                print "Inventory",self.player.inventory.items
             #Mouse events
             mousekeys=pygame.mouse.get_pressed()
             #mine block
             if mousekeys[0]==1:
-                self.mapo.setblock((mtx,mty),None)
+                err=self.player.mineblock((mtx,mty))
             #get block under cursor
             if mousekeys[1]==1:
                 block=self.mapo.getblock((mtx,mty))
@@ -53,8 +54,9 @@ class Game:
                 else:self.currenttile=None
             #put block
             if mousekeys[2]==1:
-                newblock=engine.map.Block(self.currenttile)
-                self.mapo.setblock((mtx,mty),newblock)
+                #avoid putblock on player position
+                if (mtx,mty)!=self.player.getposition():
+                    err=self.player.putblock((mtx,mty),self.currenttile)
 
     def redraw(self):
         self.mapviewer.renderatplayer(self.screen, self.player, self.imageloader, self.mapo)
