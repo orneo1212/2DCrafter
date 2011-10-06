@@ -6,20 +6,30 @@ class Block:
         self.id=idd
         self.name=""
         self.blocked=False # block move through
-        self.destoyable=True # can't be destroyed?
+        self.destoyable=True # can be destroyed?
+        self.obstacle=True
         self.putable=True
-        #restore settings from blocks.yaml if possible
-        if self.id in engine.blocks.keys():
-            self.name=engine.blocks[self.id]["name"]
-            self.blocked=engine.blocks[self.id]["blocked"]
+        self.restorefromconfig()
+
+    def restorefromconfig(self):
+        """restore settings from blocks.yaml if possible """
+        blocks=engine.blocks
+        if self.id in blocks.keys():
+            bldata=blocks[self.id] # block data
+            if bldata.has_key("name"):
+                self.name=engine.blocks[self.id]["name"]
+            if bldata.has_key("blocked"):
+                self.blocked=engine.blocks[self.id]["blocked"]
+            if bldata.has_key("obstacle"):
+                self.obstacle=engine.blocks[self.id]["obstacle"]
 
     #callbacks
-    def onDestroy(self):
+    def onDestroy(self,player):
         """Will be call when player destroy this block"""
         if self.destoyable:
             pass # call here
 
-    def onPut(self):
+    def onPut(self,player):
         """Will be call when player put block"""
         if self.putable:
             pass # call here

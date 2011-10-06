@@ -15,6 +15,7 @@
 3:
     name: water
     blocked: false
+    obstacle: false
 
 4:
     name: sand
@@ -23,6 +24,7 @@
 5:
     name: lava
     blocked: false
+    obstacle: false
 
 6:
     name: brick
