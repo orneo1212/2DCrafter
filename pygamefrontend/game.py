@@ -51,11 +51,10 @@ class Game:
                 block=self.mapo.getblock((mtx,mty))
                 if block:self.currenttile=block.id
                 else:self.currenttile=None
+            #put block
             if mousekeys[2]==1:
                 newblock=engine.map.Block(self.currenttile)
                 self.mapo.setblock((mtx,mty),newblock)
-
-
 
     def redraw(self):
         self.mapviewer.renderatplayer(self.screen, self.player, self.imageloader, self.mapo)

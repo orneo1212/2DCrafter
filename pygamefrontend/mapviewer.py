@@ -18,16 +18,22 @@ class MapViever:
             for xx in range(cx-self.viewW/2, cx+self.viewW/2+1):
                 locx=(self.viewW/2)+cx-xx
                 locy=(self.viewH/2)+cy-yy
+                #get block and blit it on tmp surface
+                block=mapobject.getblock((xx, yy))
+                drawblock=True
+                #check for air and empty blocks
+                if not block:drawblock=False # skip empty places
+                elif block.id==0:drawblock=False # skip block with id 0
+                if drawblock:
+                    blockimg=imageloader.loadimage(block.id)
+                    img.blit(blockimg, (locx*tilesize, locy*tilesize),\
+                        (0,0,tilesize,tilesize))
                 #render player image on center position
                 if xx==cx and yy==cy:
                     playerimg=imageloader.loadimage("player")
-                    img.blit(playerimg, (locx*tilesize, locy*tilesize),(0,0,tilesize,tilesize))
+                    img.blit(playerimg, (locx*tilesize, locy*tilesize),\
+                        (0,0,tilesize,tilesize))
                     continue
-                block=mapobject.getblock((xx, yy))
-                if not block:continue # skip empty places
-                if block.id==0:continue # skip block with id 0 (air)
-                blockimg=imageloader.loadimage(block.id)
-                img.blit(blockimg, (locx*tilesize, locy*tilesize),(0,0,tilesize,tilesize))
         #blit
         surface.blit(img, (0, 0))
 
