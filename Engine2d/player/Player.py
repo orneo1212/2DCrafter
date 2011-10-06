@@ -1,8 +1,11 @@
+import Engine2d as engine
+
 class Player:
     def __init__(self, name, currmap=None):
         self.name=name
         self.position=[0, 3]
         self.currmap=currmap
+        self.inventory=engine.player.Inventory()
 
     def setmap(self, mapobject):
         self.currmap=mapobject
