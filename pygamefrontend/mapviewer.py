@@ -31,6 +31,16 @@ class MapViever:
         #blit
         surface.blit(img, (0, 0))
 
+    def getglobalfromscreen(self,centerpos,screenpos):
+        """get global position (in tiles) from screenpos,
+        where view is centered at position centerposition.
+        positions should be given as tuple (x,y)"""
+        screentilex=screenpos[0]/self.tilesize
+        screentiley=screenpos[1]/self.tilesize
+        gx=self.viewW/2+centerpos[0]-screentilex
+        gy=self.viewH/2+centerpos[1]-screentiley
+        return [gx,gy]
+
     def renderatplayer(self,surface,player,imageloader,mapobject):
         """Render map centered on given player"""
         self.render(surface, player.getposition(), imageloader, mapobject)

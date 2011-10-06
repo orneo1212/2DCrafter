@@ -24,6 +24,9 @@ class Game:
         if event.type==pygame.QUIT:exit()
         #events tick
         if time.time()>self.eventstime+self.eventdelay:
+            plpos=self.player.getposition()
+            mx,my=pygame.mouse.get_pos()
+            mtx,mty=self.mapviewer.getglobalfromscreen(plpos,(mx,my))
             self.eventstime=time.time()
             #keys
             if keys[pygame.K_d]:
@@ -34,7 +37,14 @@ class Game:
                 self.player.move("n", 0.25)
             if keys[pygame.K_s]:
                 self.player.move("s", 0.25)
-            if keys[pygame.K_SPACE]:pass
+            if keys[pygame.K_SPACE]:
+                print mtx,mty
+            #Mouse events
+            mousekeys=pygame.mouse.get_pressed()
+            if mousekeys[0]==1:
+                self.mapo.setblock((mtx,mty),None)
+            if mousekeys[2]==1:
+                self.mapo.setblock((mtx,mty),engine.map.Block(1))
 
 
     def redraw(self):
