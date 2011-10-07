@@ -2,28 +2,54 @@
 class Inventory:
     """Inventory. All items are stored by ID only."""
     def __init__(self):
-        self.items={} # {ID:count]}
+        #slot=[itemid,count]
+        self.slots=[None]*20 # number of slots in inventory
+        self.maxstack=99
 
     def additem(self,itemid):
-        if itemid in self.items.keys():
-            self.items[itemid]+=1
-        else:self.items[itemid]=1
+        """Add item to inventory"""
+        #check if there is a slot with item
+        for slot in range(len(self.slots)):
+            if self.slots[slot]:
+                if self.slots[slot][0]==itemid and self.slots[slot][1]<self.maxstack:
+                    self.slots[slot][1]+=1
+                    return 0 # Done
+        #check inventory capacity
+        if self.isfull():return 1 # inventory is full
+        #find empty slot and add item
+        for slot in range(len(self.slots)):
+            if self.slots[slot]==None:
+                self.slots[slot]=[itemid,1]
+                return 0 # Done
+
+    def freeslot(self):
+        """Check if there is empty slot"""
+        freeslots=self.slots.count(None)
+        if freeslots>0:return True
+        else:return False
+
+    def isfull(self):
+        """Is inventory full?"""
+        return self.slots.count(None)==0
 
     def removeitem(self,itemid):
-        if itemid in self.items.keys():
-            #if there is a stock
-            if self.items[itemid]>1:
-                self.items[itemid]-=1
-                return 0 # Done
-            else:
-                self.items.pop(itemid)
-                return 0 # Done
-        else:return 1 #  Item not in Inventory
+        """remove item from inventory"""
+        if not self.haveitem(itemid):return 1 # Item not in inventory
+        for slot in range(len(self.slots)):
+            if self.slots[slot]:
+                if self.slots[slot][0]==itemid:
+                    #found item check for last one
+                    if self.slots[slot][1]==1:
+                        self.slots[slot]=None
+                    #item is not last in stock
+                    else:self.slots[slot][1]-=1
+                    return 0 # Done
 
     def haveitem(self,itemid):
         """Check if there is a item in inventory"""
-        if itemid in self.items.keys():
-            return True # have item
-        else: return False
+        for slot in range(len(self.slots)):
+            if self.slots[slot]:
+                if self.slots[slot][0]==itemid:return True
+        return False
 
 

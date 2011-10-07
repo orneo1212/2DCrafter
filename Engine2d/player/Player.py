@@ -31,7 +31,8 @@ class Player:
         block=self.currmap.getblock(blockposition)
         if block:
             if not block.obstacle:return 3 # Block is not an obstacle
-            self.inventory.additem(block.id)
+            err=self.inventory.additem(block.id)
+            if err:print "Additem error code:",err
             #TODO: check for full inventory
             self.currmap.setblock(blockposition,None)
             return 0 # Done
@@ -44,7 +45,8 @@ class Player:
         if block:
             if block.obstacle:return 2 # Block exist
         if self.inventory.haveitem(blockID):
-            self.inventory.removeitem(blockID)
+            err=self.inventory.removeitem(blockID)
+            if err:print "Removeitem error code:",err
             newblock=engine.map.Block(blockID)
             self.currmap.setblock(blockposition,newblock)
             return 0 # Done

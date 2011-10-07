@@ -56,7 +56,9 @@ class Game:
                 self.player.move("s", self.movespeed)
             if keys[pygame.K_SPACE]:
                 print mtx,mty
-                print "Inventory",self.player.inventory.items
+                print "Inventory:"
+                for slot in self.player.inventory.slots:
+                    if slot:print "Item ID=%s Count=%s" % (slot[0],slot[1])
             #Mouse events
             mousekeys=pygame.mouse.get_pressed()
             #mine block
