@@ -5,5 +5,3 @@ def loadmap(mapname):
 
     #TODO: mark loaded sector as not modified
     return engine.map.Map()
-
-#Circle (x-a)**2 + (y-b)**2 = r**2

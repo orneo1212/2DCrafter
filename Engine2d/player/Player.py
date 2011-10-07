@@ -33,8 +33,7 @@ class Player:
             if not block.obstacle:return 3 # Block is not an obstacle
             err=self.inventory.additem(block.id)
             if err:print "Additem error code:",err
-            #TODO: check for full inventory
-            self.currmap.setblock(blockposition,None)
+            else:self.currmap.setblock(blockposition,None)
             return 0 # Done
         else:return 2 # Err: Can't mine air (or empty block)
 

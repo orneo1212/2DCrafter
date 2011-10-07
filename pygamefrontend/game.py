@@ -1,5 +1,4 @@
 from pygamefrontend import imageloader, mapviewer
-from pygamefrontend import gamegui
 import Engine2d as engine
 import pygame
 import time
@@ -21,20 +20,13 @@ class Game:
         self.eventdelay=0.025
         #
         self.currenttile=0
-        #GUI page
-        self.guipage=gamegui.GameGUI(self.screen)
 
     def update(self):
-        block=engine.map.Block(self.currenttile)
-        self.guipage.labelposition.set_text(str(self.player.getposition()))
-        self.guipage.labelselection.set_text(str(block.name))
-        self.guipage.update()
+        pass
 
     def events(self):
         keys=pygame.key.get_pressed()
         event=pygame.event.poll()
-        #send event to pages
-        self.guipage.events(event)
         if event.type==pygame.QUIT:exit()
         #events tick
         if time.time()>self.eventstime+self.eventdelay:
@@ -78,5 +70,4 @@ class Game:
 
     def redraw(self):
         self.mapviewer.renderatplayer(self.screen, self.player, self.imageloader, self.mapo)
-        self.guipage.redraw()
         pygame.display.update()

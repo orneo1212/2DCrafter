@@ -1,4 +1,4 @@
-
+#TODO: check for items stackable.
 class Inventory:
     """Inventory. All items are stored by ID only."""
     def __init__(self):
