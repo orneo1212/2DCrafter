@@ -1,4 +1,4 @@
-from pygamefrontend import imageloader, mapviewer
+from pygamefrontend import imageloader, mapviewer,ingamescreen
 import Engine2d as engine
 import pygame
 import time
@@ -11,6 +11,8 @@ class Game:
         self.player=engine.player.Player("test", self.mapo)
         self.imageloader=imageloader.ImageLoader()
         self.mapviewer=mapviewer.MapViever()
+        #pages
+        self.ingamescreen=ingamescreen.InGameScreen(self)
         #speeds
         self.movespeed=0.25
         self.mineticks=10 # number of ticks to mine
@@ -22,7 +24,7 @@ class Game:
 
         self.starttime=time.time()
         #
-        self.currenttile=0
+        self.currenttile=8
 
     def update(self):
         self.gametimer.tick()
@@ -30,6 +32,8 @@ class Game:
         if daydelta>1:
             self.starttime=time.time()
             self.mapviewer.updatedattime()
+        #update pages
+        self.ingamescreen.update()
 
     def events(self):
         keys=pygame.key.get_pressed()
@@ -82,9 +86,16 @@ class Game:
                 #avoid putblock on player position
                 if (mtx, mty)!=self.player.getposition():
                     err=self.player.putblock((mtx, mty), self.currenttile)
+            #Send events to pages
+            self.ingamescreen.events(event)
 
     def redraw(self):
+        #clean the screen
+        self.screen.fill((117,101,50))
+        #render
         self.mapviewer.renderatplayer(self.screen, self.player, self.imageloader, self.mapo)
+        #redraw pages
+        self.ingamescreen.redraw(self.screen)
         pygame.display.update()
 
     def onexit(self):

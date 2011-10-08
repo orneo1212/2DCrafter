@@ -1,10 +1,12 @@
 import pygame
 
+TILESIZE=16
+
 class MapViever:
     def __init__(self):
         self.viewW=40
         self.viewH=30
-        self.tilesize=16
+        self.tilesize=TILESIZE
         #light
         self.lightsurface=pygame.Surface((640,480),pygame.SRCALPHA)
         #day night cycle
@@ -65,9 +67,9 @@ class MapViever:
                     playerimg=imageloader.loadimage("player")
                     surface.blit(playerimg, drawpos, drawoffset)
                     #draw light emited by player
-                    pygame.draw.circle(self.lightsurface,
-                        (255,255,255,0),(drawposx+8,drawposy+8),
-                        128,0)
+                    #pygame.draw.circle(self.lightsurface,
+                    #    (255,255,255,0),(drawposx+8,drawposy+8),
+                    #    128,0)
         #blit light mask
         surface.blit(self.lightsurface,(0,0))
 

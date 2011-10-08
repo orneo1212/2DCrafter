@@ -1,5 +1,6 @@
 import pygame
 import yaml
+from pygamefrontend import mapviewer
 
 class ImageLoader:
 
@@ -29,13 +30,14 @@ class ImageLoader:
 
     def loadimage(self, name):
         """Load image by name"""
+        empty=pygame.Surface((mapviewer.TILESIZE, mapviewer.TILESIZE))
         #check images option in yaml loaded
         if 'images' not in self.config.keys():
             print "Wrong config file for images. There no 'images' section"
-            return pygame.Surface((32, 32))
+            return empty.copy()
         #wrong name
         if name not in self.config['images'].keys():
-            return pygame.Surface((32, 32))
+            return empty.copy()
         #check loaded images
         if name in self.loaded.keys():
             return self.loaded[name]
@@ -47,6 +49,6 @@ class ImageLoader:
             img=img.convert_alpha()
         except Exception, e:
             print e
-            img=pygame.Surface((32, 32))
+            img=empty.copy()
         self.loaded[name]=img
         return img
