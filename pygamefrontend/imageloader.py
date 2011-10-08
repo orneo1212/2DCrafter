@@ -44,6 +44,7 @@ class ImageLoader:
         try:
             img=pygame.image.load(filename)
             img.set_colorkey((255,0,255))
+            img=img.convert_alpha()
         except Exception,e:
             print e
             img=pygame.Surface((32,32))
