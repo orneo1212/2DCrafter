@@ -8,7 +8,7 @@ class MapViever:
         #light
         self.lightsurface=pygame.Surface((640,480),pygame.SRCALPHA)
         #day night cycle
-        self.daytimestep=255/600 # day length in secs
+        self.daytimestep=255.0/600 # day length in secs
         self.daytime=0.0 # 0 day 255 night
 
     def updatedattime(self):
@@ -50,6 +50,12 @@ class MapViever:
                 if drawblock:
                     blockimg=imageloader.loadimage(block.id)
                     surface.blit(blockimg, drawpos, drawoffset)
+                    #draw light emited by block
+                    if block.lightradius:
+                        radius=block.lightradius*self.tilesize
+                        pygame.draw.circle(self.lightsurface,
+                        (255,255,255,0),(drawposx+8,drawposy+8),
+                        radius,0)
                 #if not draw background image
                 else:
                     backimg=imageloader.loadimage("backimg")
@@ -60,7 +66,7 @@ class MapViever:
                     surface.blit(playerimg, drawpos, drawoffset)
                     #draw light emited by player
                     pygame.draw.circle(self.lightsurface,
-                        (255,255,255,0),(drawposx+8,drawposy),
+                        (255,255,255,0),(drawposx+8,drawposy+8),
                         128,0)
         #blit light mask
         surface.blit(self.lightsurface,(0,0))

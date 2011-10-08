@@ -5,31 +5,36 @@
     blocked: false
 
 1:
-    name: stone
+    name: Stone
     blocked: true
 
 2:
-    name: mud
+    name: Mud
     blocked: false
 
 3:
-    name: water
+    name: Water
     blocked: false
     obstacle: false
 
 4:
-    name: sand
+    name: Sand
     blocked: false
 
 5:
-    name: lava
+    name: Lava
     blocked: false
     obstacle: false
 
 6:
-    name: brick
+    name: Brick
     blocked: true
 
 7:
-    name: tree
+    name: Tree
     blocked: true
+
+8:
+    name: Torch
+    blocked: false
+    lightradius: 4

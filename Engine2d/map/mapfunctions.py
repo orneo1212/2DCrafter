@@ -25,7 +25,7 @@ def loadsector(mapname, sectorposition):
     return newsector
 
 def savesector(mapname, sector):
-    """Save sectot to folder named mapname."""
+    """Save sector to folder named mapname."""
     #TODO: create world directory if not exist
     pos=sector.position
 

@@ -9,6 +9,8 @@ class Block:
         self.destoyable=True # can be destroyed?
         self.obstacle=True
         self.putable=True
+        # lightradius is a radius in tiles
+        self.lightradius=0 # if greeter then 0 will emit light
         self.restorefromconfig()
 
     def restorefromconfig(self):
@@ -22,6 +24,8 @@ class Block:
                 self.blocked=engine.blocks[self.id]["blocked"]
             if bldata.has_key("obstacle"):
                 self.obstacle=engine.blocks[self.id]["obstacle"]
+            if bldata.has_key("lightradius"):
+                self.lightradius=engine.blocks[self.id]["lightradius"]
 
     #callbacks
     def onDestroy(self,player):
