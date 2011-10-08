@@ -43,8 +43,8 @@ class Game:
             self.minetick+=1
 
             plpos=self.player.getposition()
-            mx,my=pygame.mouse.get_pos()
-            mtx,mty=self.mapviewer.getglobalfromscreen(plpos,(mx,my))
+            mx, my=pygame.mouse.get_pos()
+            mtx, mty=self.mapviewer.getglobalfromscreen(plpos, (mx, my))
 
             #keys
 
@@ -63,27 +63,27 @@ class Game:
             if keys[pygame.K_s]:
                 self.player.move("s", self.movespeed)
             if keys[pygame.K_SPACE]:
-                print "Position:",mtx,mty
-                print "FPS:",self.gametimer.get_fps()
+                print "Position:", mtx, mty
+                print "FPS:", self.gametimer.get_fps()
                 print "Inventory:"
                 for slot in self.player.inventory.slots:
-                    if slot:print "Item ID=%s Count=%s" % (slot[0],slot[1])
+                    if slot:print "Item ID=%s Count=%s" % (slot[0], slot[1])
             #Mouse events
             mousekeys=pygame.mouse.get_pressed()
             #mine block
             if mousekeys[0]==1:
                 if self.minetick%self.mineticks==0:
-                    err=self.player.mineblock((mtx,mty))
+                    err=self.player.mineblock((mtx, mty))
             #get block under cursor
             if mousekeys[1]==1:
-                block=self.mapo.getblock((mtx,mty))
+                block=self.mapo.getblock((mtx, mty))
                 if block:self.currenttile=block.id
                 else:self.currenttile=None
             #put block
             if mousekeys[2]==1:
                 #avoid putblock on player position
-                if (mtx,mty)!=self.player.getposition():
-                    err=self.player.putblock((mtx,mty),self.currenttile)
+                if (mtx, mty)!=self.player.getposition():
+                    err=self.player.putblock((mtx, mty), self.currenttile)
 
     def redraw(self):
         self.mapviewer.renderatplayer(self.screen, self.player, self.imageloader, self.mapo)

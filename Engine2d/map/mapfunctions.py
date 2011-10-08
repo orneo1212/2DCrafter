@@ -15,11 +15,12 @@ def loadsector(mapname, sectorposition):
     size=engine.Config['SS']
     for yy in range(size+1):
         for xx in range(size+1):
-            blockid=sectordata["%iX%i" % (xx, yy)]
-            if blockid!=None:
-                block=engine.map.Block(blockid)
-            else:block=None
-            newsector.setblock((xx, yy), block)
+            if sectordata.has_key("%iX%i" % (xx, yy)):
+                blockid=sectordata["%iX%i" % (xx, yy)]
+                if blockid!=None:
+                    block=engine.map.Block(blockid)
+                else:block=None
+                newsector.setblock((xx, yy), block)
     newsector.marknotmodified()
     return newsector
 
@@ -37,5 +38,5 @@ def savesector(mapname, sector):
             if block:data=block.id
             else:data=None
             sectorfile["%iX%i" % (xx, yy)]=data
-    yaml.dump(sectorfile, open("%s/%iX%i" % (mapname, pos[0], pos[1]), "w"), default_flow_style=False)
+    yaml.dump(sectorfile, open("%s/%iX%i" % (mapname, pos[0], pos[1]), "w"))
     return 0 # Done
