@@ -4,6 +4,9 @@ import tools
 import yaml
 import random
 
+#Main path
+mainpath=""
+
 #Load engine config
 try:
     fp=open("engineconfig.yaml", "r")

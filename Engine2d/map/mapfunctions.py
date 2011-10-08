@@ -1,5 +1,6 @@
-import Engine2d as engine
 import yaml
+import os
+import Engine2d as engine
 
 def loadsector(mapname, sectorposition):
     """Load sector from given mapname at position sectorposition"""
@@ -26,7 +27,11 @@ def loadsector(mapname, sectorposition):
 
 def savesector(mapname, sector):
     """Save sector to folder named mapname."""
-    #TODO: create world directory if not exist
+    #create world directory if not exist
+    mapspath=os.path.join(engine.mainpath,mapname)
+    if not os.path.isdir(mapspath):
+        os.mkdir(mapspath)
+
     pos=sector.position
 
     sectorfile={}

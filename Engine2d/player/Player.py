@@ -1,5 +1,6 @@
-import Engine2d as engine
+import os
 import yaml
+import Engine2d as engine
 
 class Player:
     def __init__(self, name, currmap=None):
@@ -11,7 +12,8 @@ class Player:
 
     def tryloadplayer(self):
         """Try load player"""
-        playerfile="players/%s.yaml" % self.name
+        playerspath=os.path.join(engine.mainpath,"players")
+        playerfile=os.path.join(playerspath,"%s.yaml" % self.name)
         try:playerdata=open(playerfile,"r")
         except IOError:return
         #file exist load player data
@@ -25,7 +27,11 @@ class Player:
 
     def unloadplayer(self):
         """unload player data"""
-        playerfile="players/%s.yaml" % self.name
+        #create players directory if not exist
+        playerspath=os.path.join(engine.mainpath,"players")
+        if not os.path.isdir(playerspath):
+            os.mkdir(playerspath)
+        playerfile=os.path.join(playerspath,"%s.yaml" % self.name)
         playerfile=open(playerfile,"w")
         data={}
         data["player"]={}
@@ -76,6 +82,7 @@ class Player:
             newblock=engine.map.Block(blockID)
             self.currmap.setblock(blockposition,newblock)
             return 0 # Done
+
     def getposition(self):
         """Return position of ther player integer"""
         return (int(self.position[0]), int(self.position[1]))

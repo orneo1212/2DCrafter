@@ -1,8 +1,10 @@
 #!/usr/bin/python
-from pygamefrontend import game
-import Engine2d as engine
 import pygame
 import sys
+import os
+
+from pygamefrontend import game
+import Engine2d as engine
 
 pygame.init()
 pygame.key.set_repeat(50, 50)
@@ -20,6 +22,8 @@ class PygameTest:
         self.game=game.Game(self.screen)
         #page of view
         self.page=self.game
+        mainpath=os.path.dirname(__file__)
+        engine.mainpath=mainpath
 
     def mainloop(self):
         while 1:
