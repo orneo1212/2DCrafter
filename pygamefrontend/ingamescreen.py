@@ -26,7 +26,6 @@ class InGameScreen:
             if slotpos!=None:
                     slot=self.gameobj.player.inventory.slots[slotpos]
                     if slot!=None:
-                        print "selected",slot[0]
                         self.gameobj.currenttile=slot[0]
 
     def getinvpos(self):

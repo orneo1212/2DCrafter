@@ -2,6 +2,7 @@ from pygamefrontend import imageloader, mapviewer,ingamescreen
 import Engine2d as engine
 import pygame
 import time
+import math
 
 """Game """
 class Game:
@@ -21,6 +22,8 @@ class Game:
         self.eventstime=time.time()
         self.eventdelay=0.025
         self.gametimer=pygame.time.Clock()
+        #
+        self.actiondistance=4
 
         self.starttime=time.time()
         #
@@ -74,8 +77,7 @@ class Game:
             mousekeys=pygame.mouse.get_pressed()
             #mine block
             if mousekeys[0]==1:
-                if self.minetick%self.mineticks==0:
-                    err=self.player.mineblock((mtx, mty))
+                self.mineblock((mtx,mty))
             #get block under cursor
             if mousekeys[1]==1:
                 block=self.mapo.getblock((mtx, mty))
@@ -83,11 +85,28 @@ class Game:
                 else:self.currenttile=None
             #put block
             if mousekeys[2]==1:
-                #avoid putblock on player position
-                if (mtx, mty)!=self.player.getposition():
-                    err=self.player.putblock((mtx, mty), self.currenttile)
+                self.putblock((mtx,mty))
             #Send events to pages
             self.ingamescreen.events(event)
+
+    def actioninrange(self,actionpos):
+        plpos=self.player.getposition()
+        if math.fabs(actionpos[0]-plpos[0])<=self.actiondistance and \
+            math.fabs(actionpos[1]-plpos[1])<=self.actiondistance:
+            return True
+        else:return False
+
+    def putblock(self,mousepos):
+        #avoid putblock on player position
+        if mousepos!=self.player.getposition():
+            if self.actioninrange(mousepos):
+                err=self.player.putblock(mousepos, self.currenttile)
+
+    def mineblock(self,mousepos):
+        plpos=self.player.getposition()
+        if self.actioninrange(mousepos):
+            if self.minetick%self.mineticks==0:
+                err=self.player.mineblock(mousepos)
 
     def redraw(self):
         #clean the screen
