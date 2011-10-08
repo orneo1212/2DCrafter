@@ -11,8 +11,6 @@ class Game:
         self.player=engine.player.Player("test", self.mapo)
         self.imageloader=imageloader.ImageLoader()
         self.mapviewer=mapviewer.MapViever()
-        #light Surface
-        self.lightsurface=pygame.Surface((640,480),pygame.SRCALPHA)
         #speeds
         self.movespeed=0.25
         self.mineticks=10 # number of ticks to mine
@@ -21,10 +19,8 @@ class Game:
         self.eventstime=time.time()
         self.eventdelay=0.025
         self.gametimer=pygame.time.Clock()
-        #day night cycle
-        self.daytime=0.0 # 0 day 255 night
+
         self.starttime=time.time()
-        self.daytimestep=255/600 # day length in secs
         #
         self.currenttile=0
 
@@ -32,12 +28,8 @@ class Game:
         self.gametimer.tick()
         daydelta=time.time()-self.starttime
         if daydelta>1:
-            self.daytime+=self.daytimestep
             self.starttime=time.time()
-            if self.daytime>=255 or self.daytime<=0:
-                self.daytimestep=-self.daytimestep
-        self.daytime=max(0,self.daytime)
-        self.daytime=min(self.daytime,255)
+            self.mapviewer.updatedattime()
 
     def events(self):
         keys=pygame.key.get_pressed()
@@ -58,9 +50,9 @@ class Game:
 
             #time change
             if keys[pygame.K_F3]:
-                self.daytime+=5
+                self.mapviewer.daytime+=5
             if keys[pygame.K_F4]:
-                self.daytime-=5
+                self.mapviewer.daytime-=5
             #directions
             if keys[pygame.K_d]:
                 self.player.move("e", self.movespeed)
@@ -94,8 +86,5 @@ class Game:
                     err=self.player.putblock((mtx,mty),self.currenttile)
 
     def redraw(self):
-        self.lightsurface.fill((0,0,0,self.daytime))
-        pygame.draw.circle(self.lightsurface,(255,255,255,0),(320+8,240),128,0)
         self.mapviewer.renderatplayer(self.screen, self.player, self.imageloader, self.mapo)
-        self.screen.blit(self.lightsurface,(0,0))
         pygame.display.update()

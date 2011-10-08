@@ -5,15 +5,29 @@ class MapViever:
         self.viewW=40
         self.viewH=30
         self.tilesize=16
+        #light
+        self.lightsurface=pygame.Surface((640,480),pygame.SRCALPHA)
+        #day night cycle
+        self.daytimestep=255/600 # day length in secs
+        self.daytime=0.0 # 0 day 255 night
+
+    def updatedattime(self):
+        """Update daytime cycle should be called in each sec"""
+        self.daytime+=self.daytimestep
+        if self.daytime>=255 or self.daytime<=0:
+            self.daytimestep=-self.daytimestep
 
     def render(self, surface, center, imageloader, mapobject):
         """Render map on the surface. Map will be centered on center position (global)."""
-        img=pygame.Surface((640, 480))
-        img.fill((0, 0, 0))
         cx, cy=center
 
         tilesize=self.tilesize
-
+        #avoid wrong daytime
+        self.daytime=max(0,self.daytime)
+        self.daytime=min(self.daytime,255)
+        #fill mask layer
+        self.lightsurface.fill((0,0,0,self.daytime))
+        #render tiles
         for yy in range(cy-self.viewH/2, cy+self.viewH/2+1):
             for xx in range(cx-self.viewW/2, cx+self.viewW/2+1):
                 locx=(self.viewW/2)+cx-xx
@@ -26,16 +40,20 @@ class MapViever:
                 elif block.id==0:drawblock=False # skip block with id 0
                 if drawblock:
                     blockimg=imageloader.loadimage(block.id)
-                    img.blit(blockimg, (locx*tilesize, locy*tilesize),\
+                    surface.blit(blockimg, (locx*tilesize, locy*tilesize),\
                         (0,0,tilesize,tilesize))
                 #render player image on center position
                 if xx==cx and yy==cy:
                     playerimg=imageloader.loadimage("player")
-                    img.blit(playerimg, (locx*tilesize, locy*tilesize),\
+                    surface.blit(playerimg, (locx*tilesize, locy*tilesize),\
                         (0,0,tilesize,tilesize))
-                    continue
-        #blit
-        surface.blit(img, (0, 0))
+                    #draw light emited by player
+                    pygame.draw.circle(self.lightsurface,
+                        (255,255,255,0),(locx*tilesize+8,locy*tilesize),
+                        128,0)
+        #blit light mask
+        surface.blit(self.lightsurface,(0,0))
+
 
     def getglobalfromscreen(self,centerpos,screenpos):
         """get global position (in tiles) from screenpos,
