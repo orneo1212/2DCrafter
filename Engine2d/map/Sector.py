@@ -21,6 +21,7 @@ class Sector:
         posx=int(localposition[0])
         posy=int(localposition[1])
         self.blocks[posy][posx]=block
+        self.markmodified()
 
     def markmodified(self):
         """Mark sector as modified"""

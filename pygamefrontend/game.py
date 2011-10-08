@@ -28,8 +28,7 @@ class Game:
         keys=pygame.key.get_pressed()
         event=pygame.event.poll()
         if event.type==pygame.QUIT:
-            for sector in self.mapo.sectors:
-                engine.map.savesector("world", sector)
+            self.mapo.unloadsectors()
             exit()
         #events tick
         if time.time()>self.eventstime+self.eventdelay:

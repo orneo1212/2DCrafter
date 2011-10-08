@@ -41,6 +41,11 @@ class Map:
         block=self.getblock(position)
         if block:return block.blocked
 
+    def unloadsectors(self):
+        """Unload all sectors"""
+        for sector in self.sectors:
+            if sector.modified:
+                engine.map.savesector("world", sector)
     def addentity(self, entity):
         if entity not in self.entities:
             self.entities.append(entity)

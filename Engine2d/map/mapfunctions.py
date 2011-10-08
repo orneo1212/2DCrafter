@@ -18,7 +18,7 @@ def loadsector(mapname, sectorposition):
             blockid=sectordata["%iX%i" % (xx, yy)]
             block=engine.map.Block(blockid)
             newsector.setblock((xx, yy), block)
-    newsector.modified=False
+    newsector.marknotmodified()
     return newsector
 
 def savesector(mapname, sector):
