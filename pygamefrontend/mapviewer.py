@@ -2,9 +2,9 @@ import pygame
 
 class MapViever:
     def __init__(self):
-        self.viewW=20
-        self.viewH=15
-        self.tilesize=32
+        self.viewW=40
+        self.viewH=30
+        self.tilesize=16
 
     def render(self, surface, center, imageloader, mapobject):
         """Render map on the surface. Map will be centered on center position (global)."""
