@@ -73,7 +73,6 @@ class MapViever:
         #blit light mask
         surface.blit(self.lightsurface,(0,0))
 
-
     def getglobalfromscreen(self,centerpos,screenpos):
         """get global position (in tiles) from screenpos,
         where view is centered at position centerposition.
