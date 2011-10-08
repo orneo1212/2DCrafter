@@ -16,7 +16,9 @@ def loadsector(mapname, sectorposition):
     for yy in range(size+1):
         for xx in range(size+1):
             blockid=sectordata["%iX%i" % (xx, yy)]
-            block=engine.map.Block(blockid)
+            if blockid!=None:
+                block=engine.map.Block(blockid)
+            else:block=None
             newsector.setblock((xx, yy), block)
     newsector.marknotmodified()
     return newsector

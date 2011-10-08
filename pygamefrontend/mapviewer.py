@@ -32,24 +32,35 @@ class MapViever:
             for xx in range(cx-self.viewW/2, cx+self.viewW/2+1):
                 locx=(self.viewW/2)+cx-xx
                 locy=(self.viewH/2)+cy-yy
-                #get block and blit it on tmp surface
-                block=mapobject.getblock((xx, yy))
+
                 drawblock=True
+
+                #get block and blit it
+                block=mapobject.getblock((xx, yy))
                 #check for air and empty blocks
                 if not block:drawblock=False # skip empty places
                 elif block.id==0:drawblock=False # skip block with id 0
+
+                drawposx=locx*tilesize
+                drawposy=locy*tilesize
+                drawpos=(drawposx,drawposy)
+
+                drawoffset=(0,0,tilesize,tilesize)
+                #draw block only if there is one
                 if drawblock:
                     blockimg=imageloader.loadimage(block.id)
-                    surface.blit(blockimg, (locx*tilesize, locy*tilesize),\
-                        (0,0,tilesize,tilesize))
+                    surface.blit(blockimg, drawpos, drawoffset)
+                #if not draw background image
+                else:
+                    backimg=imageloader.loadimage("backimg")
+                    surface.blit(backimg, drawpos, drawoffset)
                 #render player image on center position
                 if xx==cx and yy==cy:
                     playerimg=imageloader.loadimage("player")
-                    surface.blit(playerimg, (locx*tilesize, locy*tilesize),\
-                        (0,0,tilesize,tilesize))
+                    surface.blit(playerimg, drawpos, drawoffset)
                     #draw light emited by player
                     pygame.draw.circle(self.lightsurface,
-                        (255,255,255,0),(locx*tilesize+8,locy*tilesize),
+                        (255,255,255,0),(drawposx+8,drawposy),
                         128,0)
         #blit light mask
         surface.blit(self.lightsurface,(0,0))

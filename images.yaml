@@ -5,6 +5,7 @@ images:
     #blockid: filepath
     #0: air
     player: data/player.png
+    backimg: data/backimg.png
     1: data/stone.png
     2: data/mud.png
     3: data/water.png
