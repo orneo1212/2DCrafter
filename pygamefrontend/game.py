@@ -34,9 +34,7 @@ class Game:
     def events(self):
         keys=pygame.key.get_pressed()
         event=pygame.event.poll()
-        if event.type==pygame.QUIT:
-            self.mapo.unloadsectors()
-            exit()
+        if event.type==pygame.QUIT:self.onexit()
         #events tick
         if time.time()>self.eventstime+self.eventdelay:
             self.eventstime=time.time()
@@ -88,3 +86,10 @@ class Game:
     def redraw(self):
         self.mapviewer.renderatplayer(self.screen, self.player, self.imageloader, self.mapo)
         pygame.display.update()
+
+    def onexit(self):
+        """On exit"""
+        self.mapo.unloadsectors()
+        self.player.unloadplayer()
+        pygame.quit()
+        exit()

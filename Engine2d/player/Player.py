@@ -1,11 +1,38 @@
 import Engine2d as engine
+import yaml
 
 class Player:
     def __init__(self, name, currmap=None):
         self.name=name
-        self.position=[0, 3]
+        self.position=[0, 0]
         self.currmap=currmap
         self.inventory=engine.player.Inventory()
+        self.tryloadplayer()
+
+    def tryloadplayer(self):
+        """Try load player"""
+        playerfile="players/%s.yaml" % self.name
+        try:playerdata=open(playerfile,"r")
+        except IOError:return
+        #file exist load player data
+        playerdata=yaml.load(playerdata)
+        if not playerdata:return
+        #parse data fropm file
+        if playerdata.has_key("player"):
+            self.position=playerdata["player"]["position"]
+        if playerdata.has_key("inventory"):
+            self.inventory.slots=playerdata["inventory"]
+
+    def unloadplayer(self):
+        """unload player data"""
+        playerfile="players/%s.yaml" % self.name
+        playerfile=open(playerfile,"w")
+        data={}
+        data["player"]={}
+        data["player"]["position"]=self.position
+        data["inventory"]=self.inventory.slots
+        yaml.dump(data,playerfile)
+        return 0 # done
 
     def setmap(self, mapobject):
         self.currmap=mapobject
