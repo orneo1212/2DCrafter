@@ -4,11 +4,11 @@ import math
 import random
 
 class Sector:
-    def __init__(self, newposition):
+    def __init__(self, newposition,generate=True):
         self.position=newposition
         self.blocks=self.makearray()
         self.modified=True
-        self.generate()
+        if generate:self.generate()
 
     def getblock(self, localposition):
         """get block from local position"""

@@ -27,8 +27,11 @@ class Map:
                 loadedsector.position[1]==sectorposition[1]:
                 #return currently loaded sector
                 return loadedsector
-        #not found loaded sector create new sector
-        sector=engine.map.Sector(sectorposition)
+        sector=engine.map.loadsector("world", sectorposition)
+        if sector==1:
+            #not found loaded sector create new sector
+            sector=engine.map.Sector(sectorposition)
+
         #add it to loaded
         self.sectors.append(sector)
         return sector
