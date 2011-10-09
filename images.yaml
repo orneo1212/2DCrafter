@@ -1,5 +1,7 @@
 #Images file for frontends
 
+smoothscale: true
+
 images:
     #Format
     #blockid: filepath
