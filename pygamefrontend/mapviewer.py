@@ -1,5 +1,7 @@
+import os
+import yaml
 import pygame
-
+import Engine2d as engine
 TILESIZE=16
 
 class MapViever:
@@ -86,3 +88,25 @@ class MapViever:
     def renderatplayer(self,surface,player,imageloader,mapobject):
         """Render map centered on given player"""
         self.render(surface, player.getposition(), imageloader, mapobject)
+
+    def savemapdata(self,mapobject):
+        """Save map data to file"""
+        worldpath=os.path.join(engine.mainpath, mapobject.mapname)
+        mapfile=os.path.join(worldpath,"world.yaml")
+        try:
+            datafile=open(mapfile,"w")
+        except:return
+        args={}
+        args["daytime"]=self.daytime
+        args["mapseed"]=engine.seed
+        yaml.dump(args,datafile)
+
+    def loadmapdata(self,mapobject):
+        """Load map data from file"""
+        worldpath=os.path.join(engine.mainpath, mapobject.mapname)
+        mapfile=os.path.join(worldpath,"world.yaml")
+        try:
+            data=yaml.load(open(mapfile))
+        except:return
+        self.daytime=data["daytime"]
+        engine.seed=data["mapseed"]

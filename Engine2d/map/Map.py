@@ -4,12 +4,19 @@ class Map:
     def __init__(self):
         self.sectors=[] # loaded sectors
         self.entities=[]
+        self.mapname="world"
 
     # SET
     def setblock(self, position, newblock):
         secpos=self.convertposition(position)
         sector=self.getsector(secpos[0])
         sector.setblock(secpos[1], newblock)
+
+    def setmapname(self,newmapname):
+        """Set new name for map """
+        self.mapname=newmapname
+        for sector in self.sectors:
+            if sector:sector.markmodified()
 
     # GET
     def getblock(self, position):
@@ -27,7 +34,7 @@ class Map:
                 loadedsector.position[1]==sectorposition[1]:
                 #return currently loaded sector
                 return loadedsector
-        sector=engine.map.loadsector("world", sectorposition)
+        sector=engine.map.loadsector(self.mapname, sectorposition)
         if sector==1:
             #not found loaded sector create new sector
             sector=engine.map.Sector(sectorposition)
@@ -45,7 +52,7 @@ class Map:
         """Unload all sectors"""
         for sector in self.sectors:
             if sector.modified:
-                engine.map.savesector("world", sector)
+                engine.map.savesector(self.mapname, sector)
     def addentity(self, entity):
         if entity not in self.entities:
             self.entities.append(entity)

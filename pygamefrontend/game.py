@@ -12,6 +12,7 @@ class Game:
         self.player=engine.player.Player("test", self.mapo)
         self.imageloader=imageloader.ImageLoader()
         self.mapviewer=mapviewer.MapViever()
+        self.mapviewer.loadmapdata(self.mapo)
         #pages
         self.ingamescreen=ingamescreen.InGameScreen(self)
         #speeds
@@ -22,11 +23,10 @@ class Game:
         self.eventstime=time.time()
         self.eventdelay=0.025
         self.gametimer=pygame.time.Clock()
-        #
+        #Action Distance
         self.actiondistance=4
-
         self.starttime=time.time()
-        #
+        #Current selection
         self.currenttile=8
 
     def update(self):
@@ -119,6 +119,7 @@ class Game:
 
     def onexit(self):
         """On exit"""
+        self.mapviewer.savemapdata(self.mapo)
         self.mapo.unloadsectors()
         self.player.unloadplayer()
         pygame.quit()
