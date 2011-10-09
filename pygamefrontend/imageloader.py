@@ -44,9 +44,12 @@ class ImageLoader:
         #load file
         filename=self.config['images'][name]
         try:
+            #return scaled image
             img=pygame.image.load(filename)
             img.set_colorkey((255, 0, 255))
             img=img.convert_alpha()
+            img=pygame.transform.scale(img, (mapviewer.TILESIZE, \
+                mapviewer.TILESIZE))
         except Exception, e:
             print e
             img=empty.copy()

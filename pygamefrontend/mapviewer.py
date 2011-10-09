@@ -2,15 +2,17 @@ import os
 import yaml
 import pygame
 import Engine2d as engine
-TILESIZE=16
+
+TILESIZE=32
 
 class MapViever:
     def __init__(self):
-        self.viewW=40
-        self.viewH=30
+        self.viewW=20
+        self.viewH=15
         self.tilesize=TILESIZE
         #light
         self.lightsurface=pygame.Surface((640,480),pygame.SRCALPHA)
+        self.lightoffset=TILESIZE/2 # offset for blit lights circles
         #day night cycle
         self.daytimestep=255.0/600 # day length in secs
         self.daytime=0.0 # 0 day 255 night
@@ -58,8 +60,8 @@ class MapViever:
                     if block.lightradius:
                         radius=block.lightradius*self.tilesize
                         pygame.draw.circle(self.lightsurface,
-                        (255,255,255,0),(drawposx+8,drawposy+8),
-                        radius,0)
+                        (255,255,255,0),(drawposx+self.lightoffset,
+                        drawposy+self.lightoffset), radius,0)
                 #if not draw background image
                 else:
                     backimg=imageloader.loadimage("backimg")
@@ -70,8 +72,8 @@ class MapViever:
                     surface.blit(playerimg, drawpos, drawoffset)
                     #draw light emited by player
                     pygame.draw.circle(self.lightsurface,
-                        (255,255,255,0),(drawposx+8,drawposy+8),
-                        32,0)
+                        (255,255,255,0),(drawposx+self.lightoffset,\
+                        drawposy+self.lightoffset), 32,0)
         #blit light mask
         surface.blit(self.lightsurface,(0,0))
 
