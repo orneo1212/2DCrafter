@@ -67,9 +67,9 @@ class MapViever:
                     playerimg=imageloader.loadimage("player")
                     surface.blit(playerimg, drawpos, drawoffset)
                     #draw light emited by player
-                    #pygame.draw.circle(self.lightsurface,
-                    #    (255,255,255,0),(drawposx+8,drawposy+8),
-                    #    128,0)
+                    pygame.draw.circle(self.lightsurface,
+                        (255,255,255,0),(drawposx+8,drawposy+8),
+                        32,0)
         #blit light mask
         surface.blit(self.lightsurface,(0,0))
 
