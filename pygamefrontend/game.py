@@ -35,6 +35,11 @@ class Game:
         if daydelta>1:
             self.starttime=time.time()
             self.mapviewer.updatedattime()
+        #Grow
+        if self.minetick%100==0:
+            secp=self.mapo.convertposition(self.player.getposition())
+            sector=self.mapo.getsector(secp[0])
+            engine.map.randomgrow(sector)
         #update pages
         self.ingamescreen.update()
 

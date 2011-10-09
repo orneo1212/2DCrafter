@@ -1,5 +1,6 @@
-import yaml
+import random
 import os
+import yaml
 import Engine2d as engine
 
 def loadsector(mapname, sectorposition):
@@ -45,3 +46,12 @@ def savesector(mapname, sector):
             sectorfile["%iX%i" % (xx, yy)]=data
     yaml.dump(sectorfile, open("%s/%iX%i" % (mapname, pos[0], pos[1]), "w"))
     return 0 # Done
+
+def randomgrow(sector):
+    """Randomly grow blocks in sector"""
+    for xx in range(6):
+        nx=random.randint(0, engine.Config['SS'])
+        ny=random.randint(0, engine.Config['SS'])
+        block=sector.getblock((nx,ny))
+        if not block:continue
+        if block.id==2:sector.setblock((nx,ny),engine.map.Block(9))

@@ -39,3 +39,7 @@
     name: Torch
     blocked: false
     lightradius: 4
+
+9:
+    name: Grass
+    blocked: false
