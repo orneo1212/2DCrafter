@@ -18,25 +18,26 @@ class Game:
         #speeds
         self.movespeed=0.25
         self.mineticks=10 # number of ticks to mine
-        self.minetickcounter=0
-        #times
-        self.eventstime=time.time()
-        self.eventdelay=0.025
+        #timers
+        self.minetimer=engine.tools.Timer()
+        self.eventtimer=engine.tools.Timer()
         self.gametimer=pygame.time.Clock()
         #Action Distance
         self.actiondistance=4
-        self.starttime=time.time()
+
+        self.starttime=0
+
         #Current selection
         self.currenttile=8
 
     def update(self):
-        self.gametimer.tick()
+        """Update"""
         daydelta=time.time()-self.starttime
         if daydelta>1:
             self.starttime=time.time()
             self.mapviewer.updatedattime()
         #Grow
-        if self.minetickcounter%1000==0:
+        if self.minetimer.tickpassed(self.mineticks):
             secp=self.mapo.convertposition(self.player.getposition())
             sector=self.mapo.getsector(secp[0])
             engine.map.randomgrow(sector)
@@ -46,19 +47,20 @@ class Game:
     def events(self):
         keys=pygame.key.get_pressed()
         mousekeys=pygame.mouse.get_pressed()
+
+        self.gametimer.tick()
+
         #get event from queue
         event=pygame.event.poll()
 
         if event.type==pygame.QUIT:self.onexit()
 
         #events tick
-        if time.time()<self.eventstime+self.eventdelay:return
+        if not self.eventtimer.timepassed(0.025):return
+        self.eventtimer.tick()
+        self.minetimer.tick()
 
         #ALL LINES BELOW WILL BE CALLED ONE PER EVENT TICK
-
-        self.eventstime=time.time()
-        self.minetickcounter+=1
-        #keys
 
         #get mouse pos and calculate block position
         plpos=self.player.getposition()
@@ -105,14 +107,14 @@ class Game:
     def putblock(self,mousepos):
         #avoid putblock on player position
         if mousepos!=self.player.getposition():
-            if self.minetickcounter%5==0:
+            if self.minetimer.tickpassed(5):
                 if self.actioninrange(mousepos):
                     err=self.player.putblock(mousepos, self.currenttile)
 
     def mineblock(self,mousepos):
         plpos=self.player.getposition()
         if self.actioninrange(mousepos):
-            if self.minetickcounter%self.mineticks==0:
+            if self.minetimer.tickpassed(self.mineticks):
                 err=self.player.mineblock(mousepos)
 
     def redraw(self):
