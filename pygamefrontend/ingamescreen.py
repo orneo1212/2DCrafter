@@ -11,14 +11,13 @@ class InGameScreen:
         self.backpackimage=self.imgloader.loadimage("backpackimage")
         self.ts=mapviewer.TILESIZE+2 # tilesize
         self.inventorypos=(640-4*self.ts,480-5*self.ts)
-        self.itemsoffset=(3,6)
+        self.itemsoffset=(2,2)
         self.invsize=(4*self.ts,5*self.ts)
 
     def update(self):
         pass
 
     def events(self,event):
-
         #left mouse button
         if pygame.mouse.get_pressed()[0]==1:
             #select block
@@ -49,7 +48,8 @@ class InGameScreen:
 
     def redraw(self,screen):
         #screen.blit(self.backpackimage, self.inventorypos)
-        pygame.draw.rect(screen,(128,128,128),(self.inventorypos,self.invsize),0)
+        pygame.draw.rect(screen,(128,128,128),\
+            (self.inventorypos,self.invsize),0)
         xx=0
         selected=self.gameobj.currenttile
         drawselected=True
@@ -63,4 +63,4 @@ class InGameScreen:
                     pygame.draw.rect(screen,(255,255,0),\
                         (nx-1,ny-1,self.ts,self.ts),1)
                     drawselected=False
-                xx+=1
+            xx+=1

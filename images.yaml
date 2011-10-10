@@ -19,3 +19,5 @@ images:
     8: data/torch.png
     9: data/grass.png
     10: data/wood.png
+    11: data/gateclose.png
+    12: data/gateopen.png

@@ -49,3 +49,13 @@
 10:
     name: Wood
     blocked: False
+
+11:
+    name: Stone Gate
+    blocked: true
+    callbacksmodule: "StoneGateClose"
+
+12:
+    name: Stone Gate
+    blocked: False
+    callbacksmodule: "StoneGateOpen"

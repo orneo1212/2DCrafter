@@ -105,7 +105,8 @@ class Game:
         #avoid putblock on player position
         if mousepos!=self.player.getposition():
             if self.actioninrange(mousepos):
-                err=self.player.putblock(mousepos, self.currenttile)
+                if self.minetick%5==0:
+                    err=self.player.putblock(mousepos, self.currenttile)
 
     def mineblock(self,mousepos):
         plpos=self.player.getposition()
