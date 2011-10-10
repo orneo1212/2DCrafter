@@ -64,9 +64,14 @@ class Player:
         block=self.currmap.getblock(blockposition)
         if block:
             if not block.obstacle:return 3 # Block is not an obstacle
-            err=self.inventory.additem(block.id)
-            if err:print "Additem error code:",err
-            else:self.currmap.setblock(blockposition,None)
+            #call block callback if definied
+            if block.callbacksmodule:
+                block.onDestroy(blockposition,self)
+            #else simple mine it and put into inventory
+            else:
+                err=self.inventory.additem(block.id)
+                if err:print "Additem error code:",err
+                else:self.currmap.setblock(blockposition,None)
             return 0 # Done
         else:return 2 # Err: Can't mine air (or empty block)
 
@@ -75,7 +80,10 @@ class Player:
         if not self.currmap:return 1 #Err: Map not assigned
         block=self.currmap.getblock(blockposition)
         if block:
+            #call block callback if definied
+            if block.callbacksmodule:block.onPut(blockposition,self)
             if block.obstacle:return 2 # Block exist
+
         if self.inventory.haveitem(blockID):
             err=self.inventory.removeitem(blockID)
             if err:print "Removeitem error code:",err
