@@ -1,4 +1,4 @@
-from pygamefrontend import imageloader
+from pygamefrontend import imageloader, mapviewer
 import Engine2d as engine
 import pygame
 import time
@@ -9,9 +9,10 @@ class InGameScreen:
         self.gameobj=gameobject
         self.imgloader=imageloader.ImageLoader()
         self.backpackimage=self.imgloader.loadimage("backpackimage")
-        self.inventorypos=(560,380)
-        self.itemsoffset=(4,6)
-        self.invsize=(4*18,5*18)
+        self.ts=mapviewer.TILESIZE+2 # tilesize
+        self.inventorypos=(640-4*self.ts,480-5*self.ts)
+        self.itemsoffset=(3,6)
+        self.invsize=(4*self.ts,5*self.ts)
 
     def update(self):
         pass
@@ -41,18 +42,25 @@ class InGameScreen:
         nx,ny=self.getinvpos()
         if mx>nx and mx<nx+self.invsize[0]:
             if my>ny and my<ny+self.invsize[1]:
-                px=(mx-nx)/18
-                py=(my-ny)/18
+                px=(mx-nx)/self.ts
+                py=(my-ny)/self.ts
                 return px+4*py
         return None
 
     def redraw(self,screen):
-        screen.blit(self.backpackimage, self.inventorypos)
+        #screen.blit(self.backpackimage, self.inventorypos)
+        pygame.draw.rect(screen,(128,128,128),(self.inventorypos,self.invsize),0)
         xx=0
+        selected=self.gameobj.currenttile
+        drawselected=True
         for item in self.gameobj.player.inventory.slots:
             if item!=None:
                 img=self.imgloader.loadimage(item[0])
-                nx=xx%4*18+self.getinvpos()[0]
-                ny=xx/4*18+self.getinvpos()[1]
+                nx=xx%4*self.ts+self.getinvpos()[0]
+                ny=xx/4*self.ts+self.getinvpos()[1]
                 screen.blit(img,(nx,ny))
+                if item[0]==selected and drawselected:
+                    pygame.draw.rect(screen,(255,255,0),\
+                        (nx-1,ny-1,self.ts,self.ts),1)
+                    drawselected=False
                 xx+=1

@@ -45,3 +45,7 @@
 9:
     name: Grass
     blocked: false
+
+10:
+    name: Wood
+    blocked: False
