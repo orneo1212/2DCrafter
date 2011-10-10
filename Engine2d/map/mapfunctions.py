@@ -54,4 +54,4 @@ def randomgrow(sector):
         ny=random.randint(0, engine.Config['SS'])
         block=sector.getblock((nx,ny))
         if not block:continue
-        if block.id==2:sector.setblock((nx,ny),engine.map.Block(9))
+        block.onGrow(block, sector, (nx,ny))

@@ -11,6 +11,7 @@
 2:
     name: Mud
     blocked: false
+    callbacksmodule: "Mud"
 
 3:
     name: Water

@@ -58,3 +58,12 @@ class Block:
             "position":position,
             }
         self._callcallback("onput",args)
+
+    def onGrow(self,block, sector, position):
+        """Will be call when block will be grow"""
+        args={
+            "block":block,
+            "sector":sector,
+            "position":position,
+            }
+        self._callcallback("ongrow",args)
