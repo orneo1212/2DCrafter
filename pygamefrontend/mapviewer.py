@@ -2,6 +2,7 @@ import os
 import yaml
 import pygame
 import Engine2d as engine
+from pygamefrontend import functions
 
 TILESIZE=32
 
@@ -59,9 +60,9 @@ class MapViever:
                     #draw light emited by block
                     if block.lightradius:
                         radius=block.lightradius*self.tilesize
-                        pygame.draw.circle(self.lightsurface,
-                        (255,255,255,0),(drawposx+self.lightoffset,
-                        drawposy+self.lightoffset), radius,0)
+                        functions.drawlight(self.lightsurface, \
+                            (drawposx+self.lightoffset,\
+                        drawposy+self.lightoffset),radius)
                 #if not draw background image
                 else:
                     backimg=imageloader.loadimage("backimg")
@@ -71,9 +72,9 @@ class MapViever:
                     playerimg=imageloader.loadimage("player")
                     surface.blit(playerimg, drawpos, drawoffset)
                     #draw light emited by player
-                    pygame.draw.circle(self.lightsurface,
-                        (255,255,255,0),(drawposx+self.lightoffset,\
-                        drawposy+self.lightoffset), 32,0)
+                    functions.drawlight(self.lightsurface, \
+                        (drawposx+self.lightoffset,\
+                        drawposy+self.lightoffset),32)
         #blit light mask
         surface.blit(self.lightsurface,(0,0))
 
