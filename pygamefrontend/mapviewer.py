@@ -85,7 +85,7 @@ class MapViever:
                     surface.blit(blockimg, drawpos, drawoffset)
                     #draw light emited by block
                     if block.lightradius:
-                        radius=block.lightradius*self.tilesize
+                        radius=block.lightradius
                         functions.drawlight(self.lightsurface,(lx,ly),radius)
                 #if not draw background image
                 else:
@@ -96,7 +96,7 @@ class MapViever:
                     playerimg=imageloader.loadimage("player")
                     surface.blit(playerimg, drawpos, drawoffset)
                     #draw light emited by player
-                    functions.drawlight(self.lightsurface,(lx,ly),32)
+                    #functions.drawlight(self.lightsurface,(lx,ly),4)
         #blit light mask
         surface.blit(self.lightsurface,(0,0))
 
