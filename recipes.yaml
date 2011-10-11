@@ -1,7 +1,7 @@
 #Recipes
 
 Stone gates:
-    req: [1,1,1,1]
+    req: [17,17,17,17]
     result: 11
     count: 1
 
@@ -13,4 +13,9 @@ Sticks:
 Torch:
     req: [13,15]
     result: 8
+    count: 1
+
+Chest:
+    req: [10,10,10,10,10,10,10,10]
+    result: 18
     count: 1
