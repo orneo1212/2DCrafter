@@ -21,7 +21,6 @@ class MapViever:
         #time to change from day to night
         #sunset sunrise take 10% of time
         self.daydelta=255.0/(self.daylength*0.1)
-        print "daydelta",self.daydelta
 
     def updatedattime(self):
         """Update daytime cycle should be called in each sec"""
@@ -75,6 +74,9 @@ class MapViever:
                 drawposx=locx*tilesize
                 drawposy=locy*tilesize
                 drawpos=(drawposx,drawposy)
+                #light position
+                lx,ly=drawposx+self.lightoffset,\
+                    drawposy+self.lightoffset
 
                 drawoffset=(0,0,tilesize,tilesize)
                 #draw block only if there is one
@@ -84,9 +86,7 @@ class MapViever:
                     #draw light emited by block
                     if block.lightradius:
                         radius=block.lightradius*self.tilesize
-                        functions.drawlight(self.lightsurface, \
-                            (drawposx+self.lightoffset,\
-                        drawposy+self.lightoffset),radius)
+                        functions.drawlight(self.lightsurface,(lx,ly),radius)
                 #if not draw background image
                 else:
                     backimg=imageloader.loadimage("backimg")
@@ -96,9 +96,7 @@ class MapViever:
                     playerimg=imageloader.loadimage("player")
                     surface.blit(playerimg, drawpos, drawoffset)
                     #draw light emited by player
-                    functions.drawlight(self.lightsurface, \
-                        (drawposx+self.lightoffset,\
-                        drawposy+self.lightoffset),32)
+                    functions.drawlight(self.lightsurface,(lx,ly),32)
         #blit light mask
         surface.blit(self.lightsurface,(0,0))
 
