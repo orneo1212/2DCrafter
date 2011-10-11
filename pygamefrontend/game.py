@@ -13,6 +13,8 @@ class Game:
         self.imageloader=imageloader.ImageLoader()
         self.mapviewer=mapviewer.MapViever()
         self.mapviewer.loadmapdata(self.mapo)
+        #Font
+        self.font=pygame.font.SysFont("Sans", 18)
         #pages
         self.invscreen=inventoryscreen.InventoryScreen(self)
         #speeds
@@ -28,7 +30,7 @@ class Game:
         self.starttime=0
 
         #Current selection
-        self.currenttile=8
+        self.currenttile=0
 
     def update(self):
         """Update"""
@@ -127,9 +129,23 @@ class Game:
         self.screen.fill((117,101,50))
         #render
         self.mapviewer.renderatplayer(self.screen, self.player, self.imageloader, self.mapo)
+        #Draw on screen text
+        self.drawosd(self.screen)
         #redraw pages
         self.invscreen.redraw(self.screen)
         pygame.display.update()
+
+    def drawosd(self,screen):
+        #draw position
+        pos=self.player.getposition()
+        text=self.font.render("Position: %s" % str(pos), 1, (255,255,255))
+        screen.blit(text,(0,0))
+        #draw selected block  name
+        block=engine.map.Block(self.currenttile)
+        if block:name=block.name
+        else:name=""
+        text=self.font.render("Selected: %s" % name, 1, (255,255,255))
+        screen.blit(text,(0,18))
 
     def onexit(self):
         """On exit"""
