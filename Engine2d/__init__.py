@@ -1,3 +1,4 @@
+import crafting
 import map
 import player
 import tools

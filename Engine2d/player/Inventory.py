@@ -32,6 +32,14 @@ class Inventory:
         """Is inventory full?"""
         return self.slots.count(None)==0
 
+    def getitems(self):
+        """Return items ids in inventory"""
+        items=[]
+        for slot in range(len(self.slots)):
+            if self.slots[slot]:
+                items.append([self.slots[slot][0]]*self.slots[slot][1])
+        return items
+
     def removeitem(self,itemid):
         """remove item from inventory"""
         if not self.haveitem(itemid):return 1 # Item not in inventory

@@ -2,12 +2,15 @@
 
 stone gates:
     req: [1,1,1,1]
+    result: 11
     count: 1
 
 sticks:
     req: [10]
+    result: 15
     count: 4
 
 torch:
     req: [13,15]
+    result: 8
     count: 1
