@@ -15,6 +15,11 @@ Torch:
     result: 8
     count: 1
 
+Stone lamp:
+    req: [8,17]
+    result: 19
+    count: 1
+
 Chest:
     req: [10,10,10,10,10,10,10,10]
     result: 18

@@ -87,3 +87,8 @@
 18:
     name: Chest
     blocked: true
+
+19:
+    name: Stone lamp
+    blocked: true
+    lightradius: 4
