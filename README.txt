@@ -1,4 +1,9 @@
+2D Building game in python with pygame
 
+Required libraries:
+    python 2.5 >
+    pygame
+    pyyaml
 
 Controls:
     E: Toggle inventory
