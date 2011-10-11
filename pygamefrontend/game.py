@@ -1,8 +1,9 @@
+import time
+import math
+import sys
 from pygamefrontend import imageloader, mapviewer,inventoryscreen
 import Engine2d as engine
 import pygame
-import time
-import math
 
 """Game """
 class Game:
@@ -74,6 +75,14 @@ class Game:
             #Sort inventory
             if event.key==pygame.K_BACKSPACE:
                 self.player.sortinventory()
+            #time change
+            if event.key==pygame.K_F3:
+                self.mapviewer.daytime+=5
+            if event.key==pygame.K_F4:
+                self.mapviewer.daytime-=5
+            if event.key==pygame.K_SPACE:
+                print "FPS:", self.gametimer.get_fps()
+
         #events tick
         if not self.eventtimer.timepassed(0.025):return
         self.eventtimer.tick()
@@ -86,11 +95,6 @@ class Game:
         mx, my=pygame.mouse.get_pos()
         mtx, mty=self.mapviewer.getglobalfromscreen(plpos, (mx, my))
 
-        #time change
-        if keys[pygame.K_F3]:
-            self.mapviewer.daytime+=5
-        if keys[pygame.K_F4]:
-            self.mapviewer.daytime-=5
         #directions
         if keys[pygame.K_d]:
             self.player.move("e", self.movespeed)
@@ -100,8 +104,6 @@ class Game:
             self.player.move("n", self.movespeed)
         if keys[pygame.K_s]:
             self.player.move("s", self.movespeed)
-        if keys[pygame.K_SPACE]:
-            print "FPS:", self.gametimer.get_fps()
         #mine block
         if mousekeys[0]==1:
             self.mineblock((mtx,mty))
@@ -188,5 +190,4 @@ class Game:
         self.mapviewer.savemapdata(self.mapo)
         self.mapo.unloadsectors()
         self.player.unloadplayer()
-        pygame.quit()
-        exit()
+        sys.exit()

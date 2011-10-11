@@ -53,6 +53,7 @@ class Map:
         """Unload all sectors"""
         for sector in self.sectors:
             if sector.modified:
+                print "Unloading sector."
                 engine.map.savesector(self.mapname, sector)
                 self.sectors.remove(sector)
 
