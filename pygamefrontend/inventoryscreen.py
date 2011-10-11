@@ -13,6 +13,7 @@ class InventoryScreen:
         self.inventorypos=(640-4*self.ts,480-5*self.ts)
         self.itemsoffset=(2,2)
         self.invsize=(4*self.ts,5*self.ts)
+        self.font=pygame.font.SysFont("Sans",14)
         self.visible=False
 
     def update(self):
@@ -62,6 +63,10 @@ class InventoryScreen:
                 nx=xx%4*self.ts+self.getinvpos()[0]
                 ny=xx/4*self.ts+self.getinvpos()[1]
                 screen.blit(img,(nx,ny))
+                #draw count
+                txt=self.font.render(str(item[1]),1,(255,255,0))
+                screen.blit(txt,(nx,ny))
+                #draw selection
                 if item[0]==selected and drawselected:
                     pygame.draw.rect(screen,(255,255,0),\
                         (nx-1,ny-1,self.ts,self.ts),1)
