@@ -11,7 +11,7 @@
 2:
     name: Mud
     blocked: false
-    callbacksmodule: "Mud"
+    ongrow: 9
 
 3:
     name: Water
@@ -35,7 +35,7 @@
 7:
     name: Tree
     blocked: true
-    callbacksmodule: "Tree"
+    mineitems: [10,10,10,10]
 
 8:
     name: Torch
@@ -45,6 +45,7 @@
 9:
     name: Grass
     blocked: false
+    mineitems: [2]
 
 10:
     name: Wood
@@ -53,9 +54,11 @@
 11:
     name: Stone Gate
     blocked: true
-    callbacksmodule: "StoneGateClose"
+    mineitems: [11]
+    onput: 12
 
 12:
     name: Stone Gate
     blocked: False
-    callbacksmodule: "StoneGateOpen"
+    mineitems: [11]
+    onput: 11

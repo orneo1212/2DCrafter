@@ -12,7 +12,7 @@ def loadsector(mapname, sectorposition):
         return 1 # sector not loaded (not exist)
 
     sectordata=yaml.load(data)
-    newsector=engine.map.Sector(sectorposition,generate=False)
+    newsector=engine.map.Sector(sectorposition, generate=False)
 
     size=engine.Config['SS']
     for yy in range(size+1):
@@ -29,7 +29,7 @@ def loadsector(mapname, sectorposition):
 def savesector(mapname, sector):
     """Save sector to folder named mapname."""
     #create world directory if not exist
-    mapspath=os.path.join(engine.mainpath,mapname)
+    mapspath=os.path.join(engine.mainpath, mapname)
     if not os.path.isdir(mapspath):
         os.mkdir(mapspath)
 
@@ -52,6 +52,8 @@ def randomgrow(sector):
     for xx in range(6):
         nx=random.randint(0, engine.Config['SS'])
         ny=random.randint(0, engine.Config['SS'])
-        block=sector.getblock((nx,ny))
+        block=sector.getblock((nx, ny))
         if not block:continue
-        block.onGrow(block, sector, (nx,ny))
+        if block.ongrow:
+            sector.setblock((nx, ny), None)
+            sector.setblock((nx, ny), engine.map.Block(block.ongrow))

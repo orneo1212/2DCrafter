@@ -64,14 +64,17 @@ class Player:
         block=self.currmap.getblock(blockposition)
         if block:
             if not block.obstacle:return 3 # Block is not an obstacle
-            #call block callback if definied
-            if block.callbacksmodule:
-                block.onDestroy(blockposition,self)
-            #else simple mine it and put into inventory
-            else:
+            #add self item or items definied in mineitems
+            if not block.mineitems:
                 err=self.inventory.additem(block.id)
-                if err:print "Additem error code:",err
-                else:self.currmap.setblock(blockposition,None)
+            else:
+                #TODO: BUG: player gain items but block will not be removed when inventory is full
+                for itemid in block.mineitems:
+                    err=self.inventory.additem(itemid)
+
+            if err:print "Additem error code:",err
+            #remove block only when added to invetory
+            else:self.currmap.setblock(blockposition,None)
             return 0 # Done
         else:return 2 # Err: Can't mine air (or empty block)
 
@@ -81,7 +84,10 @@ class Player:
         block=self.currmap.getblock(blockposition)
         if block:
             #call block callback if definied
-            if block.callbacksmodule:block.onPut(blockposition,self)
+            #TODO: in one file callbacks
+            if block.onput:
+                self.currmap.setblock(blockposition,None)
+                self.currmap.setblock(blockposition,engine.map.Block(block.onput))
             if block.obstacle:return 2 # Block exist
 
         if self.inventory.haveitem(blockID):

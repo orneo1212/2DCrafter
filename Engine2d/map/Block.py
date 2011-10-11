@@ -11,7 +11,9 @@ class Block:
         self.obstacle=True
         # lightradius is a radius in tiles
         self.lightradius=0 # if greeter then 0 will emit light
-        self.callbacksmodule=None # Name of module with callbacks for this block
+        self.mineitems=[] # items droped by block when mined
+        self.ongrow=0 # item id when block grow
+        self.onput=0 # item id when block right click (replace blocks)
         self.restorefromconfig()
 
     def restorefromconfig(self):
@@ -27,43 +29,9 @@ class Block:
                 self.obstacle=engine.blocks[self.id]["obstacle"]
             if bldata.has_key("lightradius"):
                 self.lightradius=engine.blocks[self.id]["lightradius"]
-            if bldata.has_key("callbacksmodule"):
-                modname=engine.blocks[self.id]["callbacksmodule"]
-                try:
-                    module=__import__("Callbacks."+modname)
-                    self.callbacksmodule=getattr(module, modname)
-                except Exception:self.callbacksmodule=None
-
-    def _callcallback(self,callbackname,args):
-        if self.callbacksmodule:
-            module=self.callbacksmodule
-            if module.__dict__.has_key(callbackname):
-                try:
-                    module.__dict__[callbackname](**args)
-                except Exception,e:
-                    print "Error in %s." % callbackname,e
-    #callbacks
-    def onDestroy(self,position, player):
-        """Will be call when player destroy this block"""
-        args={
-            "player":player,
-            "position":position,
-            }
-        self._callcallback("ondestroy",args)
-
-    def onPut(self,position, player):
-        """Will be call when player put block"""
-        args={
-            "player":player,
-            "position":position,
-            }
-        self._callcallback("onput",args)
-
-    def onGrow(self,block, sector, position):
-        """Will be call when block will be grow"""
-        args={
-            "block":block,
-            "sector":sector,
-            "position":position,
-            }
-        self._callcallback("ongrow",args)
+            if bldata.has_key("mineitems"):
+                self.mineitems=engine.blocks[self.id]["mineitems"]
+            if bldata.has_key("ongrow"):
+                self.ongrow=engine.blocks[self.id]["ongrow"]
+            if bldata.has_key("onput"):
+                self.onput=engine.blocks[self.id]["onput"]

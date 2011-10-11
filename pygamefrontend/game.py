@@ -37,7 +37,7 @@ class Game:
             self.starttime=time.time()
             self.mapviewer.updatedattime()
         #Grow
-        if self.minetimer.tickpassed(self.mineticks):
+        if self.minetimer.tickpassed(1000):
             secp=self.mapo.convertposition(self.player.getposition())
             sector=self.mapo.getsector(secp[0])
             engine.map.randomgrow(sector)
