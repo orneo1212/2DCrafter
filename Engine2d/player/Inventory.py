@@ -61,4 +61,7 @@ class Inventory:
                 if self.slots[slot][0]==itemid:return True
         return False
 
+    def clear(self):
+        self.slots=[None]*20
+
 

@@ -69,6 +69,9 @@ class Game:
             #Craft
             if event.key==pygame.K_RETURN:
                 engine.crafting.craft(self.player,self.currentrecipe)
+            #Sort inventory
+            if event.key==pygame.K_BACKSPACE:
+                self.player.sortinventory()
         #events tick
         if not self.eventtimer.timepassed(0.025):return
         self.eventtimer.tick()

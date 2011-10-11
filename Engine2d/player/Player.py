@@ -100,3 +100,11 @@ class Player:
     def getposition(self):
         """Return position of ther player integer"""
         return (int(self.position[0]), int(self.position[1]))
+
+    def sortinventory(self):
+        """Sort inventory"""
+        items=self.inventory.getitems()
+        items.sort()
+        self.inventory.clear()
+        for item in items:
+            self.inventory.additem(item)
