@@ -77,9 +77,10 @@ class Game:
                 self.player.sortinventory()
             #time change
             if event.key==pygame.K_F3:
-                self.mapviewer.daytime+=5
-            if event.key==pygame.K_F4:
                 self.mapviewer.daytime-=5
+            if event.key==pygame.K_F4:
+                self.mapviewer.daytime+=5
+            #Show FPS
             if event.key==pygame.K_SPACE:
                 print "FPS:", self.gametimer.get_fps()
 

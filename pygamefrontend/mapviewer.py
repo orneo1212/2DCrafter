@@ -15,14 +15,38 @@ class MapViever:
         self.lightsurface=pygame.Surface((640,480),pygame.SRCALPHA)
         self.lightoffset=TILESIZE/2 # offset for blit lights circles
         #day night cycle
-        self.daytimestep=255.0/600 # day length in secs
-        self.daytime=0.0 # 0 day 255 night
+        self.daylength=10*60 # day+night length in secs
+        self.daytime=0.0 # time in secs
+        self.lightlevel=255 # light level 0-255
+        #time to change from day to night
+        #sunset sunrise take 10% of time
+        self.daydelta=255.0/(self.daylength*0.1)
+        print "daydelta",self.daydelta
 
     def updatedattime(self):
         """Update daytime cycle should be called in each sec"""
-        self.daytime+=self.daytimestep
-        if self.daytime>=255 or self.daytime<=0:
-            self.daytimestep=-self.daytimestep
+        self.daytime+=1
+
+        #time tu sunrise or sunset
+        dd=(self.daylength*0.1)
+
+        #sunrise
+        if self.daytime<=dd:
+            self.lightlevel=255-self.daydelta*self.daytime
+        #day
+        if self.daytime>=dd and self.daytime<self.daylength/2:
+            self.lightlevel=0
+        #sunset
+        if self.daytime>=self.daylength/2:
+            lightdelta=self.daytime-self.daylength/2
+            self.lightlevel=self.daydelta*lightdelta
+        #night
+        if self.daytime>=self.daylength/2+dd:
+            self.lightlevel=255
+
+        #limit
+        if self.daytime>self.daylength:self.daytime=0
+        if self.daytime<0:self.daytime=self.daylength
 
     def render(self, surface, center, imageloader, mapobject):
         """Render map on the surface. Map will be centered on center position (global)."""
@@ -30,10 +54,10 @@ class MapViever:
 
         tilesize=self.tilesize
         #avoid wrong daytime
-        self.daytime=max(0,self.daytime)
-        self.daytime=min(self.daytime,255)
+        self.lightlevel=max(0,self.lightlevel)
+        self.lightlevel=min(self.lightlevel,255)
         #fill mask layer
-        self.lightsurface.fill((0,0,0,self.daytime))
+        self.lightsurface.fill((0,0,0,self.lightlevel))
         #render tiles
         for yy in range(cy-self.viewH/2, cy+self.viewH/2+1):
             for xx in range(cx-self.viewW/2, cx+self.viewW/2+1):
