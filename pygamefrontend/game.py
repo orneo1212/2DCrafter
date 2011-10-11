@@ -13,6 +13,8 @@ class Game:
         self.imageloader=imageloader.ImageLoader()
         self.mapviewer=mapviewer.MapViever()
         self.mapviewer.loadmapdata(self.mapo)
+        #Sounds
+        self.minesound=pygame.mixer.Sound("data/sounds/pickaxe.ogg")
         #Font
         self.font=pygame.font.SysFont("Sans", 18)
         #pages
@@ -133,6 +135,13 @@ class Game:
         if self.actioninrange(mousepos):
             if self.minetimer.tickpassed(self.mineticks):
                 err=self.player.mineblock(mousepos)
+                if not err:self.playsound(self.minesound)
+
+
+    def playsound(self,sound):
+        """Play sound"""
+        if not pygame.mixer.get_busy():
+            if sound:sound.play()
 
     def nextrecipe(self):
         self.currentrecipeID+=1
