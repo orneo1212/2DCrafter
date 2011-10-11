@@ -72,6 +72,7 @@ class Sector:
                 ndetail=self.makenoise(nx,ny,2,869)
                 ndetail2=self.makenoise(nx,ny,2,7965)
                 trees=ndetail>0.4 and ndetail2>0.1
+                coalore=ndetail>0.4 and ndetail2>0.2
 
                 #water level
                 if h<128:
@@ -82,6 +83,7 @@ class Sector:
                     if h>=128+8:blockid=2 #mud
                     if h>=128+8 and trees:blockid=7 #tree
                     if h>=128+45:blockid=1 #stone
+                    if h>=128+45 and coalore:blockid=13 #coal ore
 
                 block=engine.map.Block(blockid)
                 self.setblock([xx,yy],block)

@@ -1,0 +1,13 @@
+#Recipes
+
+stone gates:
+    req: [1,1,1,1]
+    count: 1
+
+sticks:
+    req: [10]
+    count: 4
+
+torch:
+    req: [13,15]
+    count: 1

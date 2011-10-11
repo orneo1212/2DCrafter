@@ -49,7 +49,7 @@
 
 10:
     name: Wood
-    blocked: False
+    blocked: false
 
 11:
     name: Stone Gate
@@ -59,6 +59,18 @@
 
 12:
     name: Stone Gate
-    blocked: False
+    blocked: false
     mineitems: [11]
     onput: 11
+
+13:
+    name: Coal Ore
+    blocked: true
+
+14:
+    name: Iron Ore
+    blocked: true
+
+15:
+    name: Stick
+    blocked: false

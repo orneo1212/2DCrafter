@@ -25,5 +25,7 @@ else:
 
 #blocks
 blocks=yaml.load(open("blocks.yaml"))
+#Recipes
+recipes=yaml.load(open("recipes.yaml"))
 
 seed=Config['seed']

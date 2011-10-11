@@ -38,6 +38,7 @@ class Map:
         if sector==1:
             #not found loaded sector create new sector
             sector=engine.map.Sector(sectorposition)
+            sector.marknotmodified()
 
         #add it to loaded
         self.sectors.append(sector)
@@ -53,6 +54,8 @@ class Map:
         for sector in self.sectors:
             if sector.modified:
                 engine.map.savesector(self.mapname, sector)
+                self.sectors.remove(sector)
+
     def addentity(self, entity):
         if entity not in self.entities:
             self.entities.append(entity)

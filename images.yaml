@@ -20,3 +20,6 @@ images:
     10: data/wood.png
     11: data/gateclose.png
     12: data/gateopen.png
+    13: data/coal.png
+    14: data/iron.png
+    15: data/stick.png
