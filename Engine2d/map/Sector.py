@@ -67,23 +67,39 @@ class Sector:
                 nx=self.position[0]*size+xx+1
                 ny=self.position[1]*size+yy+1
                 #noises
-                h=self.makenoise(nx,ny,64)*128
+                h=self.makenoise(nx,ny,256)*128
                 h=int(128+h)
+
+                #others
                 ndetail=self.makenoise(nx,ny,2,869)
                 ndetail2=self.makenoise(nx,ny,2,7965)
+                ngravel=self.makenoise(nx,ny,6,8496)
+                nwater=self.makenoise(nx,ny,12,1045)
+
+                #
                 trees=ndetail>0.4 and ndetail2>0.1
                 coalore=ndetail>0.4 and ndetail2>0.2
+                ironore=ndetail>0.4 and ndetail2>0.4
+                gravel=ngravel>0.1
+                water=nwater>0.4
 
                 #water level
                 if h<128:
                     blockid=3
                 #ground level h>128
                 else:
+                    #coast layer
                     if h>=128:blockid=4 #sand
+                    #mud layer
                     if h>=128+8:blockid=2 #mud
                     if h>=128+8 and trees:blockid=7 #tree
+                    if h>=128+8 and gravel:blockid=16 #gravel
+                    #stone layer
                     if h>=128+45:blockid=1 #stone
                     if h>=128+45 and coalore:blockid=13 #coal ore
+                    if h>=128+45 and ironore:blockid=14 #Iron ore
+                    #
+                    if h>=128 and water:blockid=3 #lakes
 
                 block=engine.map.Block(blockid)
                 self.setblock([xx,yy],block)
