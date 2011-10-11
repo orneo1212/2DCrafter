@@ -37,7 +37,8 @@ class Inventory:
         items=[]
         for slot in range(len(self.slots)):
             if self.slots[slot]:
-                items.append([self.slots[slot][0]]*self.slots[slot][1])
+                for count in range(self.slots[slot][1]):
+                    items.append(self.slots[slot][0])
         return items
 
     def removeitem(self,itemid):

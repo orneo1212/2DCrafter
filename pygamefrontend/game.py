@@ -31,6 +31,8 @@ class Game:
 
         #Current selection
         self.currenttile=0
+        self.currentrecipe=""
+        self.currentrecipeID=0
 
     def update(self):
         """Update"""
@@ -62,6 +64,11 @@ class Game:
                 if self.invscreen.visible:
                     self.invscreen.visible=False
                 else:self.invscreen.visible=True
+            #Next Recipe
+            if event.key==pygame.K_PAGEDOWN:self.nextrecipe()
+            #Craft
+            if event.key==pygame.K_RETURN:
+                engine.crafting.craft(self.player,self.currentrecipe)
         #events tick
         if not self.eventtimer.timepassed(0.025):return
         self.eventtimer.tick()
@@ -124,6 +131,19 @@ class Game:
             if self.minetimer.tickpassed(self.mineticks):
                 err=self.player.mineblock(mousepos)
 
+    def nextrecipe(self):
+        self.currentrecipeID+=1
+        items=self.player.inventory.getitems()
+        recipelist=engine.crafting.getpossiblerecipes(items)
+        if self.currentrecipeID>len(recipelist)-1:
+            self.currentrecipeID=0
+        if self.currentrecipeID<0:self.currentrecipeID=0
+        #
+        if len(recipelist)==0:
+            self.currentrecipe=""
+            return
+        self.currentrecipe=recipelist[self.currentrecipeID]
+
     def redraw(self):
         #clean the screen
         self.screen.fill((117,101,50))
@@ -146,6 +166,10 @@ class Game:
         else:name=""
         text=self.font.render("Selected: %s" % name, 1, (255,255,255))
         screen.blit(text,(0,18))
+        #draw current recipe
+        text=self.font.render("Recipe: %s" % str(self.currentrecipe),\
+            1, (255,255,255))
+        screen.blit(text,(0,2*18))
 
     def onexit(self):
         """On exit"""
