@@ -1,7 +1,7 @@
 #Engine2d configuration file
 
 # Sector size x and y and z
-SS: 64
+SS: 32
 
 #seed
 seed: 1234

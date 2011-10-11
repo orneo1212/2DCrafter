@@ -1,4 +1,4 @@
-from pygamefrontend import imageloader, mapviewer,ingamescreen
+from pygamefrontend import imageloader, mapviewer,inventoryscreen
 import Engine2d as engine
 import pygame
 import time
@@ -14,7 +14,7 @@ class Game:
         self.mapviewer=mapviewer.MapViever()
         self.mapviewer.loadmapdata(self.mapo)
         #pages
-        self.ingamescreen=ingamescreen.InGameScreen(self)
+        self.invscreen=inventoryscreen.InventoryScreen(self)
         #speeds
         self.movespeed=0.25
         self.mineticks=10 # number of ticks to mine
@@ -42,7 +42,7 @@ class Game:
             sector=self.mapo.getsector(secp[0])
             engine.map.randomgrow(sector)
         #update pages
-        self.ingamescreen.update()
+        self.invscreen.update()
 
     def events(self):
         keys=pygame.key.get_pressed()
@@ -54,7 +54,12 @@ class Game:
         event=pygame.event.poll()
 
         if event.type==pygame.QUIT:self.onexit()
-
+        if event.type==pygame.KEYDOWN:
+            if event.key==pygame.K_e:
+                 #toggle inventory
+                if self.invscreen.visible:
+                    self.invscreen.visible=False
+                else:self.invscreen.visible=True
         #events tick
         if not self.eventtimer.timepassed(0.025):return
         self.eventtimer.tick()
@@ -95,7 +100,7 @@ class Game:
         if mousekeys[2]==1:
             self.putblock((mtx,mty))
         #Send events to pages
-        self.ingamescreen.events(event)
+        self.invscreen.events(event)
 
     def actioninrange(self,actionpos):
         plpos=self.player.getposition()
@@ -123,7 +128,7 @@ class Game:
         #render
         self.mapviewer.renderatplayer(self.screen, self.player, self.imageloader, self.mapo)
         #redraw pages
-        self.ingamescreen.redraw(self.screen)
+        self.invscreen.redraw(self.screen)
         pygame.display.update()
 
     def onexit(self):

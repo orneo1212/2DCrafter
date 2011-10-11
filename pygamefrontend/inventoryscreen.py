@@ -3,8 +3,8 @@ import Engine2d as engine
 import pygame
 import time
 
-"""InGame Screen """
-class InGameScreen:
+"""Inventory screen """
+class InventoryScreen:
     def __init__(self, gameobject):
         self.gameobj=gameobject
         self.imgloader=imageloader.ImageLoader()
@@ -13,11 +13,13 @@ class InGameScreen:
         self.inventorypos=(640-4*self.ts,480-5*self.ts)
         self.itemsoffset=(2,2)
         self.invsize=(4*self.ts,5*self.ts)
+        self.visible=False
 
     def update(self):
         pass
 
     def events(self,event):
+        if not self.visible:return
         #left mouse button
         if pygame.mouse.get_pressed()[0]==1:
             #select block
@@ -47,7 +49,8 @@ class InGameScreen:
         return None
 
     def redraw(self,screen):
-        #screen.blit(self.backpackimage, self.inventorypos)
+        if not self.visible:return
+
         pygame.draw.rect(screen,(128,128,128),\
             (self.inventorypos,self.invsize),0)
         xx=0

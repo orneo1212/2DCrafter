@@ -9,15 +9,10 @@ import Engine2d as engine
 pygame.init()
 pygame.key.set_repeat(50, 50)
 
-#    y
-#    ^
-#    |
-#    |
-# -------> x
-
 class PygameTest:
     def __init__(self):
         self.screen=pygame.display.set_mode((640, 480), pygame.RESIZABLE)
+        pygame.display.set_caption("2D Building Game")
         #game object
         self.game=game.Game(self.screen)
         #page of view
