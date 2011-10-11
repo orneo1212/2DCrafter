@@ -24,6 +24,10 @@ else:
     #make temp config
     Config={"SS":32,seed:0}
 
+#update seed
+import time
+if Config["seed"]==0:seed=int(time.time())
+
 #blocks
 blocks=yaml.load(open("blocks.yaml"))
 #Recipes

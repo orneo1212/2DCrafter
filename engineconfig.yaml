@@ -3,5 +3,5 @@
 # Sector size x and y and z
 SS: 32
 
-#seed
-seed: 1234
+#seed 0=random
+seed: 0
