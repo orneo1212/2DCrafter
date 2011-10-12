@@ -9,7 +9,7 @@ class Inventory:
     def additem(self,itemid,simulate=False):
         """Add item to inventory"""
         #check if there is a slot with item
-        for slot in range(len(self.slots)-1):
+        for slot in range(len(self.slots)):
             if self.slots[slot]:
                 if self.slots[slot][0]==itemid and self.slots[slot][1]<self.maxstack:
                     if not simulate:self.slots[slot][1]+=1
@@ -21,6 +21,16 @@ class Inventory:
             if self.slots[slot]==None:
                 if not simulate:self.slots[slot]=[itemid,1]
                 return 0 # Done
+
+    def getslot(self,slotid):
+        if not slotid in range(0,len(self.slots)):return None
+        return self.slots[slotid]
+
+    def getslotid(self,itemid):
+        for slot in range(len(self.slots)):
+            if self.slots[slot]:
+                if self.slots[slot][0]==itemid:return slot
+        return 0
 
     def freeslot(self):
         """Check if there is empty slot"""

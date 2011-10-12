@@ -118,6 +118,7 @@ class Game:
             block=self.mapo.getblock((mtx, mty))
             if block:self.currenttile=block.id
             else:self.currenttile=None
+            self.invscreen.setselected(block.id)
         #put block
         if mousekeys[2]==1:
             self.putblock((mtx,mty))

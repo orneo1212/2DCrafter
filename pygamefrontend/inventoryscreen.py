@@ -30,6 +30,10 @@ class InventoryScreen:
             if slot:return slot[0]
         return 0
 
+    def setselected(self,selecteditemid):
+        """Set selected item"""
+        self.selected=self.inventory.getslotid(selecteditemid)
+
     def update(self):
         pass
 
@@ -41,7 +45,7 @@ class InventoryScreen:
             mx, my=pygame.mouse.get_pos()
             slotpos=self.getslotunderpoint((mx, my))
             if slotpos!=None and self.inventory:
-                    slot=self.inventory.slots[slotpos]
+                    slot=self.inventory.getslot(slotpos)
                     if slot!=None:self.selected=slotpos
 
     def getinvpos(self):

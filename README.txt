@@ -6,6 +6,9 @@ Required libraries:
     pyyaml
 
 Controls:
+    LMB: Hold to mine block
+    RMB: put block or make action
+    MMB: Get Block under mouse ans select it in inventory
     E: Toggle inventory
     W: Move north
     S: Move south
