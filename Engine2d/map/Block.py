@@ -1,6 +1,7 @@
 import sys
 
 import Engine2d as engine
+from data import callbacks
 
 class Block:
     """Class represent each block in game"""
@@ -14,8 +15,17 @@ class Block:
         self.lightradius=0 # if greeter then 0 will emit light
         self.mineitems=[] # items droped by block when mined
         self.ongrow=0 # item id when block grow
-        self.onput=0 # item id when block right click (replace blocks)
+        self.onput=0 # item id when block right click (action e.g.door)
+        self.unique=False # Is unique object like chests, signs
+        #callbacks
+        self.onputcall=None # when player put a block
         self.restorefromconfig()
+
+    def getcallfunction(self,functionname):
+        """Return function object by name to call or None"""
+        if not callbacks.__dict__.has_key(functionname):return None
+        function=getattr(callbacks,functionname)
+        return function
 
     def restorefromconfig(self):
         """restore settings from blocks.yaml if possible """
@@ -36,3 +46,8 @@ class Block:
                 self.ongrow=engine.blocks[self.id]["ongrow"]
             if bldata.has_key("onput"):
                 self.onput=engine.blocks[self.id]["onput"]
+            if bldata.has_key("unique"):
+                self.unique=engine.blocks[self.id]["unique"]
+            if bldata.has_key("onputcall"):
+                fn=engine.blocks[self.id]["onputcall"]
+                self.onputcall=self.getcallfunction(fn)

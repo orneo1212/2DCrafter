@@ -88,17 +88,23 @@ class Player:
         if not self.currmap:return 1 #Err: Map not assigned
         block=self.currmap.getblock(blockposition)
         if block:
-            #call block callback if definied
-            #TODO: in one file callbacks
-            if block.onput:
+
+            #call onputcall(player,position)
+            if block.onputcall:
+                block.onputcall(self,blockposition)
+            #make block action
+            if block.onput: #action
                 self.currmap.setblock(blockposition,None)
                 self.currmap.setblock(blockposition,engine.map.Block(block.onput))
             if block.obstacle:return 2 # Block exist
 
+        #put block on the empty field
         if self.inventory.haveitem(blockID):
             err=self.inventory.removeitem(blockID)
             if err:print "Removeitem error code:",err
             newblock=engine.map.Block(blockID)
+            #TODO:check for unique. Generate uid
+            #set block at position
             self.currmap.setblock(blockposition,newblock)
             return 0 # Done
 
