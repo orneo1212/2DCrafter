@@ -19,7 +19,8 @@ class Game:
         #Font
         self.font=pygame.font.SysFont("Sans", 18)
         #pages
-        self.invscreen=inventoryscreen.InventoryScreen(self)
+        self.invscreen=inventoryscreen.InventoryScreen()
+        self.invscreen.setinventory(self.player.inventory)
         #speeds
         self.movespeed=0.25
         self.mineticks=10 # number of ticks to mine
@@ -50,6 +51,8 @@ class Game:
             engine.map.randomgrow(sector)
         #update pages
         self.invscreen.update()
+
+        self.currenttile=self.invscreen.getselected()
 
     def events(self):
         keys=pygame.key.get_pressed()
