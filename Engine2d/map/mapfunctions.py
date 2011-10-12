@@ -24,13 +24,14 @@ def loadsector(mapname, sectorposition):
                     if isinstance(blockdata,int):
                         print "Converting"
                         blockdata={"id":blockdata}
+                    #create block
                     block=engine.map.Block(blockdata["id"])
-
                     #load metadata
                     if blockdata.has_key("uid"):
                         block.uid=blockdata["uid"]
-
-                else:blockdata=None
+                    #If not block
+                    if block.id==None:block=None
+                else:block=None
                 newsector.setblock((xx, yy), block)
     newsector.marknotmodified()
     return newsector
