@@ -38,7 +38,7 @@ class Map:
         if sector==1:
             #not found loaded sector create new sector
             sector=engine.map.Sector(sectorposition)
-            sector.marknotmodified()
+            sector.markmodified()
 
         #add it to loaded
         self.sectors.append(sector)

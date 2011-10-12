@@ -14,49 +14,16 @@ class MapViever:
         #light
         self.lightsurface=pygame.Surface((640,480),pygame.SRCALPHA)
         self.lightoffset=TILESIZE/2 # offset for blit lights circles
-        #day night cycle
-        self.daylength=10*60 # day+night length in secs
-        self.daytime=self.daylength*0.1# time in secs
-        self.lightlevel=255 # light level 0-255
-        #time to change from day to night
-        #sunset sunrise take 10% of time
-        self.daydelta=255.0/(self.daylength*0.1)
-
-    def updatedattime(self):
-        """Update daytime cycle should be called in each sec"""
-        self.daytime+=1
-
-        #time tu sunrise or sunset
-        dd=(self.daylength*0.1)
-
-        #sunrise
-        if self.daytime<=dd:
-            self.lightlevel=255-self.daydelta*self.daytime
-        #day
-        if self.daytime>=dd and self.daytime<self.daylength/2:
-            self.lightlevel=0
-        #sunset
-        if self.daytime>=self.daylength/2:
-            lightdelta=self.daytime-self.daylength/2
-            self.lightlevel=self.daydelta*lightdelta
-        #night
-        if self.daytime>=self.daylength/2+dd:
-            self.lightlevel=255
-
-        #limit
-        if self.daytime>self.daylength:self.daytime=0
-        if self.daytime<0:self.daytime=self.daylength
 
     def render(self, surface, center, imageloader, mapobject):
         """Render map on the surface. Map will be centered on center position (global)."""
         cx, cy=center
 
         tilesize=self.tilesize
-        #avoid wrong daytime
-        self.lightlevel=max(0,self.lightlevel)
-        self.lightlevel=min(self.lightlevel,255)
+        #light level
+        lightlevel=engine.environment.DAYTIME.getlightlevel()
         #fill mask layer
-        self.lightsurface.fill((0,0,0,self.lightlevel))
+        self.lightsurface.fill((0,0,0,lightlevel))
         #render tiles
         for yy in range(cy-self.viewH/2, cy+self.viewH/2+1):
             for xx in range(cx-self.viewW/2, cx+self.viewW/2+1):
@@ -116,13 +83,16 @@ class MapViever:
 
     def savemapdata(self,mapobject):
         """Save map data to file"""
-        worldpath=os.path.join(engine.mainpath, mapobject.mapname)
-        mapfile=os.path.join(worldpath,"world.yaml")
+        #create world directory if not exist
+        mapspath=os.path.join(engine.mainpath, mapobject.mapname)
+        if not os.path.isdir(mapspath):
+            os.mkdir(mapspath)
+        mapfile=os.path.join(mapspath,"world.yaml")
         try:
             datafile=open(mapfile,"w")
         except:return
         args={}
-        args["daytime"]=self.daytime
+        args["daytime"]=engine.environment.DAYTIME.daytime
         args["mapseed"]=engine.seed
         yaml.dump(args,datafile)
 
@@ -133,5 +103,5 @@ class MapViever:
         try:
             data=yaml.load(open(mapfile))
         except:return
-        self.daytime=data["daytime"]
+        engine.environment.DAYTIME.daytime=data["daytime"]
         engine.seed=data["mapseed"]

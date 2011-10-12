@@ -1,9 +1,11 @@
+import yaml
+import random
+
+import environment
 import crafting
 import map
 import player
 import tools
-import yaml
-import random
 
 #Main path
 mainpath=""
@@ -26,7 +28,7 @@ else:
 
 #update seed
 import time
-if Config["seed"]==0:seed=int(time.time())
+if Config["seed"]==0:Config["seed"]=int(time.time())
 
 #blocks
 blocks=yaml.load(open("blocks.yaml"))

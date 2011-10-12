@@ -42,7 +42,7 @@ class Game:
         daydelta=time.time()-self.starttime
         if daydelta>1:
             self.starttime=time.time()
-            self.mapviewer.updatedattime()
+            engine.environment.DAYTIME.updatedaytime()
         #Grow
         if self.minetimer.tickpassed(1000):
             secp=self.mapo.convertposition(self.player.getposition())
@@ -77,9 +77,9 @@ class Game:
                 self.player.sortinventory()
             #time change
             if event.key==pygame.K_F3:
-                self.mapviewer.daytime-=5
+                engine.environment.DAYTIME.daytime-=5
             if event.key==pygame.K_F4:
-                self.mapviewer.daytime+=5
+                engine.environment.DAYTIME.daytime+=5
             #Show FPS
             if event.key==pygame.K_SPACE:
                 print "FPS:", self.gametimer.get_fps()
