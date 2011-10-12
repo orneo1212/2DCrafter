@@ -21,6 +21,10 @@ class Block:
         self.onputcall=None # when player put a block
         self.restorefromconfig()
 
+    def generateUID(self):
+        """Generate unique id"""
+        self.uid=id(self)
+
     def getcallfunction(self,functionname):
         """Return function object by name to call or None"""
         if not callbacks.__dict__.has_key(functionname):return None

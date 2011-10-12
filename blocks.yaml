@@ -88,7 +88,7 @@
     name: Chest
     blocked: true
     unique: true
-    onputcall: "NewChestPlaced"
+    onputcall: "OpenChest"
 
 19:
     name: Stone lamp
