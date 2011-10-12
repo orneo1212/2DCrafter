@@ -6,20 +6,20 @@ class Inventory:
         self.slots=[None]*20 # number of slots in inventory
         self.maxstack=99
 
-    def additem(self,itemid):
+    def additem(self,itemid,simulate=False):
         """Add item to inventory"""
         #check if there is a slot with item
-        for slot in range(len(self.slots)):
+        for slot in range(len(self.slots)-1):
             if self.slots[slot]:
                 if self.slots[slot][0]==itemid and self.slots[slot][1]<self.maxstack:
-                    self.slots[slot][1]+=1
+                    if not simulate:self.slots[slot][1]+=1
                     return 0 # Done
         #check inventory capacity
         if self.isfull():return 1 # inventory is full
         #find empty slot and add item
         for slot in range(len(self.slots)):
             if self.slots[slot]==None:
-                self.slots[slot]=[itemid,1]
+                if not simulate:self.slots[slot]=[itemid,1]
                 return 0 # Done
 
     def freeslot(self):
@@ -41,7 +41,7 @@ class Inventory:
                     items.append(self.slots[slot][0])
         return items
 
-    def removeitem(self,itemid):
+    def removeitem(self,itemid,simulate=False):
         """remove item from inventory"""
         if not self.haveitem(itemid):return 1 # Item not in inventory
         for slot in range(len(self.slots)):
@@ -49,9 +49,10 @@ class Inventory:
                 if self.slots[slot][0]==itemid:
                     #found item check for last one
                     if self.slots[slot][1]==1:
-                        self.slots[slot]=None
+                        if not simulate:self.slots[slot]=None
                     #item is not last in stock
-                    else:self.slots[slot][1]-=1
+                    else:
+                        if not simulate:self.slots[slot][1]-=1
                     return 0 # Done
 
     def haveitem(self,itemid):

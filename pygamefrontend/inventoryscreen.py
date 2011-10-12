@@ -27,7 +27,8 @@ class InventoryScreen:
         """Get selected item id"""
         if self.inventory:
             slot=self.inventory.slots[self.selected]
-        return slot[0]
+            if slot:return slot[0]
+        return 0
 
     def update(self):
         pass

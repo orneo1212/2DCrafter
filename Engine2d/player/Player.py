@@ -68,13 +68,18 @@ class Player:
             if not block.mineitems:
                 err=self.inventory.additem(block.id)
             else:
-                #TODO: BUG: player gain items but block will not be removed when inventory is full
+                #simulate add item
                 for itemid in block.mineitems:
-                    err=self.inventory.additem(itemid)
+                    err=self.inventory.additem(itemid,True)
+                    if err:break
 
+            #check error
             if err:print "Additem error code:",err
             #remove block only when added to invetory
-            else:self.currmap.setblock(blockposition,None)
+            else:
+                for itemid in block.mineitems:
+                    err=self.inventory.additem(itemid,False)
+                self.currmap.setblock(blockposition,None)
             return 0 # Done
         else:return 2 # Err: Can't mine air (or empty block)
 
