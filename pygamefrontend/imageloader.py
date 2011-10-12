@@ -1,11 +1,13 @@
 import pygame
 import yaml
+import Engine2d as engine
+
 from pygamefrontend import mapviewer
 
-class ImageLoader:
+class ImageLoader(engine.dataobj.DataLoader):
 
-    def __init__(self):
-        self.configfile="images.yaml"
+    def __init__(self,filename):
+        engine.dataobj.DataLoader.__init__(self,filename)
         self.config={}
         self.loaded={}
 
@@ -15,7 +17,7 @@ class ImageLoader:
     def loadconfig(self):
         """Load config file (YAML file)"""
         try:
-            conf=open(self.configfile)
+            conf=open(self.filename)
         except IOError, e:
             print e
             self.config={"smoothscale":True}

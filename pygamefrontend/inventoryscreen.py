@@ -6,7 +6,7 @@ import time
 """Inventory screen (show content of Inventory object)"""
 class InventoryScreen:
     def __init__(self):
-        self.imgloader=imageloader.ImageLoader()
+        self.imgloader=imageloader.ImageLoader("data/images.yaml")
         self.font=pygame.font.SysFont("Sans", 14)
         #
         self.ts=mapviewer.TILESIZE+2 # tilesize

@@ -12,7 +12,7 @@ class Game:
         self.mapo=engine.map.Map()
         self.mapo.loadmapdata()
         self.player=engine.player.Player("test", self.mapo)
-        self.imageloader=imageloader.ImageLoader()
+        self.imageloader=imageloader.ImageLoader("data/images.yaml")
         self.mapviewer=mapviewer.MapViever()
         #Sounds
         self.minesound=pygame.mixer.Sound("data/sounds/pickaxe.ogg")
