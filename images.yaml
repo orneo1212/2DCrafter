@@ -6,25 +6,25 @@ images:
     #Format
     #blockid: filepath
     #0: air
-    player: data/player.png
-    backimg: data/backimg.png
-    1: data/stone.png
-    2: data/mud.png
-    3: data/water.png
-    4: data/sand.png
-    5: data/lava.png
-    6: data/brick.png
-    7: data/tree.png
-    8: data/torch.png
-    9: data/grass.png
-    10: data/wood.png
-    11: data/gateclose.png
-    12: data/gateopen.png
-    13: data/coal.png
-    14: data/iron.png
-    15: data/stick.png
-    16: data/gravel.png
-    17: data/cobblestone.png
-    18: data/chest.png
-    19: data/stonelamp.png
-    20: data/sapling.png
+    player: data/images/player.png
+    backimg: data/images/backimg.png
+    1: data/images/stone.png
+    2: data/images/mud.png
+    3: data/images/water.png
+    4: data/images/sand.png
+    5: data/images/lava.png
+    6: data/images/brick.png
+    7: data/images/tree.png
+    8: data/images/torch.png
+    9: data/images/grass.png
+    10: data/images/wood.png
+    11: data/images/gateclose.png
+    12: data/images/gateopen.png
+    13: data/images/coal.png
+    14: data/images/iron.png
+    15: data/images/stick.png
+    16: data/images/gravel.png
+    17: data/images/cobblestone.png
+    18: data/images/chest.png
+    19: data/images/stonelamp.png
+    20: data/images/sapling.png
