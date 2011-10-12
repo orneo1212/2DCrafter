@@ -6,6 +6,7 @@ class Block:
     """Class represent each block in game"""
     def __init__(self, idd):
         self.id=idd
+        self.uid=0 #unique id or 0
         self.name=""
         self.blocked=False # block move through
         self.obstacle=True

@@ -18,10 +18,19 @@ def loadsector(mapname, sectorposition):
     for yy in range(size+1):
         for xx in range(size+1):
             if sectordata.has_key("%iX%i" % (xx, yy)):
-                blockid=sectordata["%iX%i" % (xx, yy)]
-                if blockid!=None:
-                    block=engine.map.Block(blockid)
-                else:block=None
+                blockdata=sectordata["%iX%i" % (xx, yy)]
+                if blockdata!=None:
+                    #convert old format
+                    if isinstance(blockdata,int):
+                        print "Converting"
+                        blockdata={"id":blockdata}
+                    block=engine.map.Block(blockdata["id"])
+
+                    #load metadata
+                    if blockdata.has_key("uid"):
+                        block.uid=blockdata["uid"]
+
+                else:blockdata=None
                 newsector.setblock((xx, yy), block)
     newsector.marknotmodified()
     return newsector
@@ -40,11 +49,17 @@ def savesector(mapname, sector):
     size=engine.Config['SS']
     for yy in range(size+1):
         for xx in range(size+1):
+            data={}
             block=sector.getblock((xx, yy))
-            if block:data=block.id
-            else:data=None
+            #new format
+            if block:
+                data["id"]=block.id
+                if block.uid!=0:data["uid"]=block.uid
+            else:data["id"]=None
+
             sectorfile["%iX%i" % (xx, yy)]=data
-    yaml.dump(sectorfile, open("%s/%iX%i" % (mapname, pos[0], pos[1]), "w"))
+    dfile=open("%s/%iX%i" % (mapname, pos[0], pos[1]), "w")
+    yaml.dump(sectorfile, dfile)
     return 0 # Done
 
 def randomgrow(sector):
