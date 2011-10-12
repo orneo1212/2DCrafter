@@ -36,7 +36,7 @@
 7:
     name: Tree
     blocked: true
-    mineitems: [10,10,10,10]
+    mineitems: [20,20,10,10,10,10]
 
 8:
     name: Torch
@@ -92,3 +92,8 @@
     name: Stone lamp
     blocked: true
     lightradius: 4
+
+20:
+    name: Sapling
+    blocked: false
+    ongrow: 7
