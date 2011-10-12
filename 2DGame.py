@@ -11,7 +11,7 @@ pygame.key.set_repeat(50, 50)
 
 class PygameTest:
     def __init__(self):
-        self.screen=pygame.display.set_mode((640, 480), pygame.RESIZABLE)
+        self.screen=pygame.display.set_mode((640, 480), pygame.DOUBLEBUF)
         pygame.display.set_caption("2D Building Game")
         #game object
         self.game=game.Game(self.screen)

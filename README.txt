@@ -11,5 +11,6 @@ Controls:
     S: Move south
     A: Move west
     D: Move east
+    PAGE UP: Previous recipe to craft
     PAGE DOWN: Next recipe to craft
     ENTER: Do craft selected recipe

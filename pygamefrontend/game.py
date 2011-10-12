@@ -61,6 +61,7 @@ class Game:
         self.gametimer.tick()
 
         #get event from queue
+        pygame.event.clear(pygame.MOUSEMOTION)
         event=pygame.event.poll()
 
         if event.type==pygame.QUIT:self.onexit()
@@ -72,6 +73,7 @@ class Game:
                 else:self.invscreen.visible=True
             #Next Recipe
             if event.key==pygame.K_PAGEDOWN:self.nextrecipe()
+            if event.key==pygame.K_PAGEUP:self.nextrecipe(True)
             #Craft
             if event.key==pygame.K_RETURN:
                 engine.crafting.craft(self.player,self.currentrecipe)
@@ -149,13 +151,16 @@ class Game:
         if not pygame.mixer.get_busy():
             if sound:sound.play()
 
-    def nextrecipe(self):
-        self.currentrecipeID+=1
+    def nextrecipe(self,reverse=False):
+        """Toggle recipe"""
+        if reverse:self.currentrecipeID-=1
+        else:self.currentrecipeID+=1
+
         items=self.player.inventory.getitems()
         recipelist=engine.crafting.getpossiblerecipes(items)
         if self.currentrecipeID>len(recipelist)-1:
             self.currentrecipeID=0
-        if self.currentrecipeID<0:self.currentrecipeID=0
+        if self.currentrecipeID<0:self.currentrecipeID=len(recipelist)-1
         #
         if len(recipelist)==0:
             self.currentrecipe=""
