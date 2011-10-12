@@ -5,7 +5,7 @@ Stone gates:
     result: 11
     count: 1
 
-Sticks:
+Stick:
     req: [10]
     result: 15
     count: 4
