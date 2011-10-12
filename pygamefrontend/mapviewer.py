@@ -16,7 +16,7 @@ class MapViever:
         self.lightoffset=TILESIZE/2 # offset for blit lights circles
         #day night cycle
         self.daylength=10*60 # day+night length in secs
-        self.daytime=0.0 # time in secs
+        self.daytime=self.daylength*0.1# time in secs
         self.lightlevel=255 # light level 0-255
         #time to change from day to night
         #sunset sunrise take 10% of time

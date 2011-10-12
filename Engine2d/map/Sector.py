@@ -67,13 +67,14 @@ class Sector:
                 nx=self.position[0]*size+xx+1
                 ny=self.position[1]*size+yy+1
                 #noises
-                h=self.makenoise(nx,ny,256)*128
+                h=self.makenoise(nx,ny,512)*128
                 h=int(128+h)
 
                 #others
                 ndetail=self.makenoise(nx,ny,2,869)
                 ndetail2=self.makenoise(nx,ny,2,7965)
                 ngravel=self.makenoise(nx,ny,6,8496)
+                nstone=self.makenoise(nx,ny,4,9865)
                 nwater=self.makenoise(nx,ny,12,1045)
 
                 #
@@ -81,6 +82,7 @@ class Sector:
                 coalore=ndetail>0.4 and ndetail2>0.2
                 ironore=ndetail>0.4 and ndetail2>0.4
                 gravel=ngravel>0.1
+                stone=nstone>0.4
                 water=nwater>0.4
 
                 #water level
@@ -94,6 +96,7 @@ class Sector:
                     if h>=128+8:blockid=2 #mud
                     if h>=128+8 and trees:blockid=7 #tree
                     if h>=128+8 and gravel:blockid=16 #gravel
+                    if h>=128+8 and stone:blockid=1 #stone
                     #stone layer
                     if h>=128+45:blockid=1 #stone
                     if h>=128+45 and coalore:blockid=13 #coal ore
