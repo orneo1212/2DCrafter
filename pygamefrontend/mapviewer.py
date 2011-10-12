@@ -80,28 +80,3 @@ class MapViever:
     def renderatplayer(self,surface,player,imageloader,mapobject):
         """Render map centered on given player"""
         self.render(surface, player.getposition(), imageloader, mapobject)
-
-    def savemapdata(self,mapobject):
-        """Save map data to file"""
-        #create world directory if not exist
-        mapspath=os.path.join(engine.mainpath, mapobject.mapname)
-        if not os.path.isdir(mapspath):
-            os.mkdir(mapspath)
-        mapfile=os.path.join(mapspath,"world.yaml")
-        try:
-            datafile=open(mapfile,"w")
-        except:return
-        args={}
-        args["daytime"]=engine.environment.DAYTIME.daytime
-        args["mapseed"]=engine.seed
-        yaml.dump(args,datafile)
-
-    def loadmapdata(self,mapobject):
-        """Load map data from file"""
-        worldpath=os.path.join(engine.mainpath, mapobject.mapname)
-        mapfile=os.path.join(worldpath,"world.yaml")
-        try:
-            data=yaml.load(open(mapfile))
-        except:return
-        engine.environment.DAYTIME.daytime=data["daytime"]
-        engine.seed=data["mapseed"]

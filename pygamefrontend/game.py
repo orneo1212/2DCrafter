@@ -10,10 +10,10 @@ class Game:
     def __init__(self, screen):
         self.screen=screen
         self.mapo=engine.map.Map()
+        self.mapo.loadmapdata()
         self.player=engine.player.Player("test", self.mapo)
         self.imageloader=imageloader.ImageLoader()
         self.mapviewer=mapviewer.MapViever()
-        self.mapviewer.loadmapdata(self.mapo)
         #Sounds
         self.minesound=pygame.mixer.Sound("data/sounds/pickaxe.ogg")
         #Font
@@ -201,7 +201,7 @@ class Game:
 
     def onexit(self):
         """On exit"""
-        self.mapviewer.savemapdata(self.mapo)
+        self.mapo.savemapdata()
         self.mapo.unloadsectors()
         self.player.unloadplayer()
         sys.exit()

@@ -1,3 +1,5 @@
+import os
+import yaml
 import Engine2d as engine
 
 class Map:
@@ -69,3 +71,28 @@ class Map:
         locx=position[0]-secx*engine.Config['SS']
         locy=position[1]-secy*engine.Config['SS']
         return [[int(secx), int(secy)], [int(locx), int(locy)]]
+
+    def savemapdata(self):
+        """Save map data to file"""
+        #create world directory if not exist
+        mapspath=os.path.join(engine.mainpath, self.mapname)
+        if not os.path.isdir(mapspath):
+            os.mkdir(mapspath)
+        mapfile=os.path.join(mapspath,"world.yaml")
+        try:
+            datafile=open(mapfile,"w")
+        except:return
+        args={}
+        args["daytime"]=engine.environment.DAYTIME.daytime
+        args["mapseed"]=engine.seed
+        yaml.dump(args,datafile)
+
+    def loadmapdata(self):
+        """Load map data from file"""
+        worldpath=os.path.join(engine.mainpath, self.mapname)
+        mapfile=os.path.join(worldpath,"world.yaml")
+        try:
+            data=yaml.load(open(mapfile))
+        except:return
+        engine.environment.DAYTIME.daytime=data["daytime"]
+        engine.seed=data["mapseed"]
