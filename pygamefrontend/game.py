@@ -18,6 +18,7 @@ class Game:
         self.minesound=pygame.mixer.Sound("data/sounds/pickaxe.ogg")
         #Font
         self.font=pygame.font.SysFont("Sans", 18)
+        self.font1=pygame.font.SysFont("Sans", 14)
         #pages
         self.invscreen=inventoryscreen.InventoryScreen()
         self.invscreen.setinventory(self.player.inventory)
@@ -87,7 +88,8 @@ class Game:
                 engine.environment.DAYTIME.daytime+=5
             #Show FPS
             if event.key==pygame.K_SPACE:
-                print "FPS:", self.gametimer.get_fps()
+                txt="FPS: %s" % self.gametimer.get_fps()
+                engine.ui.msgbuffer.addtext(txt)
 
         #events tick
         if not self.eventtimer.timepassed(0.025):return
@@ -198,9 +200,19 @@ class Game:
         text=self.font.render("Recipe: %s" % str(self.currentrecipe),\
             1, (255,255,255))
         screen.blit(text,(0,4*18))
+        #Draw messages
+        msgs=engine.ui.msgbuffer.getlast(5)
+        msgs.reverse()
+        counter=0
+        for msg in msgs:
+            counter+=1
+            text=self.font1.render(str(msg),1, (255,255,255))
+            screen.blit(text,(20,480-counter*10-20))
 
     def onexit(self):
         """On exit"""
+        engine.ui.msgbuffer.addtext("Saveing data please wait...")
+        self.redraw()
         self.mapo.savemapdata()
         self.mapo.unloadsectors()
         self.player.unloadplayer()
