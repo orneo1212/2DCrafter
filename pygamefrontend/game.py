@@ -184,16 +184,20 @@ class Game:
         pos=self.player.getposition()
         text=self.font.render("Position: %s" % str(pos), 1, (255,255,255))
         screen.blit(text,(0,0))
+        #draw current day state
+        daystate=engine.environment.DAYTIME.daystate
+        text=self.font.render(str(daystate),1, (255,255,255))
+        screen.blit(text,(0,1*18))
         #draw selected block  name
         block=engine.map.Block(self.currenttile)
         if block:name=block.name
         else:name=""
         text=self.font.render("Selected: %s" % name, 1, (255,255,255))
-        screen.blit(text,(0,18))
+        screen.blit(text,(0,3*18))
         #draw current recipe
         text=self.font.render("Recipe: %s" % str(self.currentrecipe),\
             1, (255,255,255))
-        screen.blit(text,(0,2*18))
+        screen.blit(text,(0,4*18))
 
     def onexit(self):
         """On exit"""
