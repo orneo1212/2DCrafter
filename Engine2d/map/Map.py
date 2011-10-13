@@ -7,6 +7,7 @@ class Map:
         self.sectors=[] # loaded sectors
         self.entities=[]
         self.mapname="world"
+        self.itemloader=engine.items.ItemLoader(self)
 
     # SET
     def setblock(self, position, newblock):

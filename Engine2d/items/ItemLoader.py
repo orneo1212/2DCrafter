@@ -1,10 +1,10 @@
 import os
+import yaml
 import Engine2d as engine
 
 class ItemLoader(engine.dataobj.DataLoader):
-    def __init__(self,filename,mapobject):
-        engine.dataobj.DataLoader.__init__(self,filename)
-        self.filename=filename
+    def __init__(self,mapobject):
+        engine.dataobj.DataLoader.__init__(self,"")
         self.mapo=mapobject # Map Object
         self.loaded={} # example of item {"data":{"data":None},"changed":False}
 
@@ -12,11 +12,11 @@ class ItemLoader(engine.dataobj.DataLoader):
         """Get item by uid return item data"""
         if uid not in self.loaded.keys():
             item=self.loaditem(uid)
-            if item:self.loaded.append(item)
-            else:return {}
+            if not item:return {"data":{},"changed":False}
             #add loaded item and return it
             self.loaded[uid]=item
             return item
+        else:return self.loaded[uid]
 
     def unloaditems(self):
         """Unload changed items"""
