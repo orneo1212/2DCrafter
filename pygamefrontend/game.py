@@ -69,10 +69,13 @@ class Game:
         if event.type==pygame.QUIT:self.onexit()
         if event.type==pygame.KEYDOWN:
             if event.key==pygame.K_e:
-                 #toggle inventory
+                #toggle inventory
                 if self.invscreen.visible:
                     self.invscreen.visible=False
                 else:self.invscreen.visible=True
+            if event.key==pygame.K_ESCAPE:self.onexit()
+            if event.key==pygame.K_F11:
+                pygame.display.toggle_fullscreen()
             #Next Recipe
             if event.key==pygame.K_PAGEDOWN:self.nextrecipe()
             if event.key==pygame.K_PAGEUP:self.nextrecipe(True)
