@@ -7,8 +7,11 @@ import pygame
 
 """Game """
 class Game:
-    def __init__(self, screen):
-        self.screen=screen
+    def __init__(self):
+        #init application
+        self.screen=pygame.display.set_mode((640, 480), pygame.DOUBLEBUF)
+        pygame.display.set_caption("2D Building Game")
+        #define variables
         self.mapo=engine.map.Map()
         self.mapo.loadmapdata()
         self.player=engine.player.Player("test", self.mapo)
@@ -59,72 +62,70 @@ class Game:
         keys=pygame.key.get_pressed()
         mousekeys=pygame.mouse.get_pressed()
 
-        self.gametimer.tick(self.imageloader.config["maxfps"])
-
         #get event from queue
         pygame.event.clear(pygame.MOUSEMOTION)
-        for event in pygame.event.get():
-            #event loop
-            if event.type==pygame.QUIT:self.onexit()
-            if event.type==pygame.KEYDOWN:
-                if event.key==pygame.K_e:
-                     #toggle inventory
-                    if self.invscreen.visible:
-                        self.invscreen.visible=False
-                    else:self.invscreen.visible=True
-                #Next Recipe
-                if event.key==pygame.K_PAGEDOWN:self.nextrecipe()
-                if event.key==pygame.K_PAGEUP:self.nextrecipe(True)
-                #Craft
-                if event.key==pygame.K_RETURN:
-                    engine.crafting.craft(self.player,self.currentrecipe)
-                #Sort inventory
-                if event.key==pygame.K_BACKSPACE:
-                    self.player.sortinventory()
-                #time change
-                if event.key==pygame.K_F3:
-                    engine.environment.DAYTIME.daytime-=5
-                if event.key==pygame.K_F4:
-                    engine.environment.DAYTIME.daytime+=5
-                #Show FPS
-                if event.key==pygame.K_SPACE:
-                    txt="FPS: %s" % self.gametimer.get_fps()
-                    engine.ui.msgbuffer.addtext(txt)
-            #events tick
-            if not self.eventtimer.timepassed(0.025):return
-            self.eventtimer.tick()
-            self.minetimer.tick()
+        event=pygame.event.poll()
 
-            #ALL LINES BELOW WILL BE CALLED ONE PER EVENT TICK
+        if event.type==pygame.QUIT:self.onexit()
+        if event.type==pygame.KEYDOWN:
+            if event.key==pygame.K_e:
+                 #toggle inventory
+                if self.invscreen.visible:
+                    self.invscreen.visible=False
+                else:self.invscreen.visible=True
+            #Next Recipe
+            if event.key==pygame.K_PAGEDOWN:self.nextrecipe()
+            if event.key==pygame.K_PAGEUP:self.nextrecipe(True)
+            #Craft
+            if event.key==pygame.K_RETURN:
+                engine.crafting.craft(self.player,self.currentrecipe)
+            #Sort inventory
+            if event.key==pygame.K_BACKSPACE:
+                self.player.sortinventory()
+            #time change
+            if event.key==pygame.K_F3:
+                engine.environment.DAYTIME.daytime-=5
+            if event.key==pygame.K_F4:
+                engine.environment.DAYTIME.daytime+=5
+            #Show FPS
+            if event.key==pygame.K_SPACE:
+                txt="FPS: %s" % self.gametimer.get_fps()
+                engine.ui.msgbuffer.addtext(txt)
+        #events tick
+        if not self.eventtimer.timepassed(0.025):return
+        self.eventtimer.tick()
+        self.minetimer.tick()
 
-            #get mouse pos and calculate block position
-            plpos=self.player.getposition()
-            mx, my=pygame.mouse.get_pos()
-            mtx, mty=self.mapviewer.getglobalfromscreen(plpos, (mx, my))
+        #ALL LINES BELOW WILL BE CALLED ONE PER EVENT TICK
 
-            #directions
-            if keys[pygame.K_d]:
-                self.player.move("e", self.movespeed)
-            if keys[pygame.K_a]:
-                self.player.move("w", self.movespeed)
-            if keys[pygame.K_w]:
-                self.player.move("n", self.movespeed)
-            if keys[pygame.K_s]:
-                self.player.move("s", self.movespeed)
-            #mine block
-            if mousekeys[0]==1:
-                self.mineblock((mtx,mty))
-            #get block under cursor
-            if mousekeys[1]==1:
-                block=self.mapo.getblock((mtx, mty))
-                if block:self.currenttile=block.id
-                else:self.currenttile=None
-                self.invscreen.setselected(self.currenttile)
-            #put block
-            if mousekeys[2]==1:
-                self.putblock((mtx,mty))
-            #Send events to pages
-            self.invscreen.events(event)
+        #get mouse pos and calculate block position
+        plpos=self.player.getposition()
+        mx, my=pygame.mouse.get_pos()
+        mtx, mty=self.mapviewer.getglobalfromscreen(plpos, (mx, my))
+
+        #directions
+        if keys[pygame.K_d]:
+            self.player.move("e", self.movespeed)
+        if keys[pygame.K_a]:
+            self.player.move("w", self.movespeed)
+        if keys[pygame.K_w]:
+            self.player.move("n", self.movespeed)
+        if keys[pygame.K_s]:
+            self.player.move("s", self.movespeed)
+        #mine block
+        if mousekeys[0]==1:
+            self.mineblock((mtx,mty))
+        #get block under cursor
+        if mousekeys[1]==1:
+            block=self.mapo.getblock((mtx, mty))
+            if block:self.currenttile=block.id
+            else:self.currenttile=None
+            self.invscreen.setselected(self.currenttile)
+        #put block
+        if mousekeys[2]==1:
+            self.putblock((mtx,mty))
+        #Send events to pages
+        self.invscreen.events(event)
 
     def actioninrange(self,actionpos):
         plpos=self.player.getposition()
@@ -215,3 +216,10 @@ class Game:
         self.mapo.unloadsectors()
         self.player.unloadplayer()
         sys.exit()
+
+    def mainloop(self):
+        while 1:
+            self.gametimer.tick(self.imageloader.config["maxfps"])
+            self.events()
+            self.update()
+            self.redraw()
