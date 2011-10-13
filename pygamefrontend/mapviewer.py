@@ -45,11 +45,10 @@ class MapViever:
                 lx,ly=drawposx+self.lightoffset,\
                     drawposy+self.lightoffset
 
-                drawoffset=(0,0,tilesize,tilesize)
                 #draw block only if there is one
                 if drawblock:
                     blockimg=imageloader.loadimage(block.id)
-                    surface.blit(blockimg, drawpos, drawoffset)
+                    surface.blit(blockimg, drawpos)
                     #draw light emited by block
                     if block.lightradius:
                         radius=block.lightradius
@@ -57,11 +56,11 @@ class MapViever:
                 #if not draw background image
                 else:
                     backimg=imageloader.loadimage("backimg")
-                    surface.blit(backimg, drawpos, drawoffset)
+                    surface.blit(backimg, drawpos)
                 #render player image on center position
                 if xx==cx and yy==cy:
                     playerimg=imageloader.loadimage("player")
-                    surface.blit(playerimg, drawpos, drawoffset)
+                    surface.blit(playerimg, drawpos)
                     #draw light emited by player
                     #functions.drawlight(self.lightsurface,(lx,ly),4)
         #blit light mask

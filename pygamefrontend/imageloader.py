@@ -11,6 +11,8 @@ class ImageLoader(engine.dataobj.DataLoader):
         self.config={}
         self.loaded={}
 
+        #empty image
+        self.empty=pygame.Surface((mapviewer.TILESIZE, mapviewer.TILESIZE))
         #load config
         self.loadconfig()
 
@@ -27,14 +29,14 @@ class ImageLoader(engine.dataobj.DataLoader):
 
     def loadimage(self, name):
         """Load image by name"""
-        empty=pygame.Surface((mapviewer.TILESIZE, mapviewer.TILESIZE))
+
         #check images option in yaml loaded
         if 'images' not in self.config.keys():
             print "Wrong config file for images. There no 'images' section"
-            return empty.copy()
+            return self.empty.copy()
         #wrong name
         if name not in self.config['images'].keys():
-            return empty.copy()
+            return self.empty.copy()
         #check loaded images
         if name in self.loaded.keys():
             return self.loaded[name]
@@ -53,6 +55,6 @@ class ImageLoader(engine.dataobj.DataLoader):
                     mapviewer.TILESIZE))
         except Exception, e:
             print e
-            img=empty.copy()
+            img=self.empty.copy()
         self.loaded[name]=img
         return img
