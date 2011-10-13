@@ -99,3 +99,8 @@
     name: Sapling
     blocked: false
     ongrow: 7
+
+21:
+    name: Black marble
+    blocked: false
+    
