@@ -2,6 +2,7 @@
 
 smoothscale: true
 maxfps: 0
+circlelight: true
 
 images:
     #Format

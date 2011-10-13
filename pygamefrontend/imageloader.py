@@ -24,7 +24,10 @@ class ImageLoader(engine.dataobj.DataLoader):
 
         except Exception, e:
             print e
-            self.config={"smoothscale":True, "maxfps":30}
+            self.config={
+                "smoothscale":True,
+                "maxfps":30,
+                "circlelight":False}
             return
 
     def loadimage(self, name):
