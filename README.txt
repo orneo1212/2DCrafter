@@ -1,5 +1,8 @@
 2D Building game in python with pygame
 
+Wiki: https://bitbucket.org/orneo1212/2dbuildinggame/wiki
+Forum: https://groups.google.com/forum/#!forum/2dbuildinggame
+
 Required libraries:
     python 2.5 >
     pygame
@@ -17,3 +20,5 @@ Controls:
     PAGE UP: Previous recipe to craft
     PAGE DOWN: Next recipe to craft
     ENTER: Do craft selected recipe
+
+Author: orneo1212 <orneo1212@gmail.com>
