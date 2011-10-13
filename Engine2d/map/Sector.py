@@ -74,7 +74,7 @@ class Sector:
                 ndetail=self.makenoise(nx,ny,2,869)
                 ndetail2=self.makenoise(nx,ny,2,7965)
                 ngravel=self.makenoise(nx,ny,8,8496)
-                nstone=self.makenoise(nx,ny,16,9865)
+                nstone=self.makenoise(nx,ny,64,9865)
                 nwater=self.makenoise(nx,ny,12,1045)
 
                 #
@@ -82,8 +82,10 @@ class Sector:
                 coalore=ndetail>0.4 and ndetail2>0.2
                 ironore=ndetail>0.4 and ndetail2>0.4
                 gravel=ngravel>0.6
-                stone=nstone>0.5
+                stone=nstone>0.2
                 water=nwater>0.4
+                lava=nwater and gravel
+                blackmarble=stone and ndetail2>0.2
 
                 #water level
                 if h<128:
@@ -103,8 +105,10 @@ class Sector:
                     if h>=128+45:blockid=1 #stone
                     if h>=128+45 and coalore:blockid=13 #coal ore
                     if h>=128+45 and ironore:blockid=14 #Iron ore
+                    if h>=128+60 and blackmarble:blockid=21 #Blk marble
                     #
                     if h>=128 and water:blockid=3 #lakes
+                    if h>=128 and lava:blockid=5 #lava lakes
 
                 block=engine.map.Block(blockid)
                 self.setblock([xx,yy],block)
