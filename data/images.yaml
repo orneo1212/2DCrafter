@@ -1,6 +1,7 @@
 #Images file for frontends
 
 smoothscale: true
+maxfps: 30
 
 images:
     #Format

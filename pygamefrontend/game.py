@@ -59,7 +59,7 @@ class Game:
         keys=pygame.key.get_pressed()
         mousekeys=pygame.mouse.get_pressed()
 
-        self.gametimer.tick()
+        self.gametimer.tick(self.imageloader.config["maxfps"])
 
         #get event from queue
         pygame.event.clear(pygame.MOUSEMOTION)

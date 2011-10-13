@@ -18,16 +18,11 @@ class ImageLoader(engine.dataobj.DataLoader):
         """Load config file (YAML file)"""
         try:
             conf=open(self.filename)
-        except IOError, e:
-            print e
-            self.config={"smoothscale":True}
-            return
-        #load data
-        try:
             self.config=yaml.load(conf.read())
+
         except Exception, e:
             print e
-            self.config={}
+            self.config={"smoothscale":True, "maxfps":30}
             return
 
     def loadimage(self, name):
