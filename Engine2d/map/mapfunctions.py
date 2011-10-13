@@ -12,7 +12,7 @@ def loadsector(mapname, sectorposition):
         return 1 # sector not loaded (not exist)
 
     sectordata=yaml.load(data)
-    newsector=engine.map.Sector(sectorposition, generate=False)
+    newsector=engine.map.Sector(sectorposition)
 
     size=engine.Config['SS']
     for yy in range(size+1):
@@ -73,3 +73,121 @@ def randomgrow(sector):
         if block.ongrow:
             sector.setblock((nx, ny), None)
             sector.setblock((nx, ny), engine.map.Block(block.ongrow))
+
+def generate_outdoor(sector):
+    """Generate new sector (outdoor)"""
+    x,y=sector.position
+    print "Generating sector %s" % sector.position
+
+    size=engine.Config['SS']
+
+    #fill
+    for yy in range(size+1):
+        for xx in range(size+1):
+            blockid=0 # air
+
+            #global position
+            nx=x*size+xx+1
+            ny=y*size+yy+1
+            #noises
+            h=sector.makenoise(nx,ny,512)*128 -\
+                sector.makenoise(nx,ny,8,276)*8
+            h=int(128+h)
+
+            #others
+            ndetail=sector.makenoise(nx,ny,2,869)
+            ndetail2=sector.makenoise(nx,ny,2,7965)
+            ngravel=sector.makenoise(nx,ny,8,8496)
+            nstone=sector.makenoise(nx,ny,64,9865)
+            nwater=sector.makenoise(nx,ny,12,1045)
+
+            #
+            trees=ndetail>0.4 and ndetail2>0.1
+            coalore=ndetail>0.4 and ndetail2>0.2
+            ironore=ndetail>0.4 and ndetail2>0.4
+            gravel=ngravel>0.6
+            stone=nstone>0.2
+            water=nwater>0.4
+            lava=nwater and gravel
+            blackmarble=stone and ndetail2>0.2
+
+            #water level
+            if h<128:
+                blockid=3
+            #ground level h>128
+            else:
+                #coast layer
+                if h>=128:blockid=4 #sand
+                #mud layer
+                if h>=128+8:blockid=9 #grass
+                if h>=128+8 and trees:blockid=7 #tree
+                if h>=128+8 and gravel:blockid=16 #gravel
+                if h>=128+8 and stone:blockid=1 #stone
+                if h>=128+8 and stone and coalore:blockid=13 #coal ore
+                if h>=128+8 and stone and ironore:blockid=14 #Iron ore
+                #stone layer
+                if h>=128+45:blockid=1 #stone
+                if h>=128+45 and coalore:blockid=13 #coal ore
+                if h>=128+45 and ironore:blockid=14 #Iron ore
+                if h>=128+60 and blackmarble:blockid=21 #Blk marble
+                #
+                if h>=128 and water:blockid=3 #lakes
+                if h>=128 and lava:blockid=5 #lava lakes
+            #create block and put on sector
+            block=engine.map.Block(blockid)
+            sector.setblock([xx,yy],block)
+
+def generate_underground(sector):
+    """Generate new sector (underground)"""
+    x,y=sector.position
+    print "Generating sector %s" % sector.position
+
+    size=engine.Config['SS']
+
+    #fill
+    for yy in range(size+1):
+        for xx in range(size+1):
+            blockid=0 # air
+
+            #global position
+            nx=x*size+xx+1
+            ny=y*size+yy+1
+            #noises
+            h=sector.makenoise(nx,ny,512)*128
+            h=int(128+h)
+
+            #others
+            ndetail=sector.makenoise(nx,ny,2,869)
+            ndetail2=sector.makenoise(nx,ny,2,7965)
+            ngravel=sector.makenoise(nx,ny,8,8496)
+            nstone=sector.makenoise(nx,ny,64,9865)
+            nwater=sector.makenoise(nx,ny,12,1045)
+
+            coalore=ndetail>0.4 and ndetail2>0.2
+            ironore=ndetail>0.4 and ndetail2>0.4
+            gravel=ngravel>0.6
+            stone=nstone>0.2
+            water=nwater>0.4
+            lava=nwater and gravel
+            blackmarble=stone and ndetail2>0.2
+
+            #water level (stone underground)
+            if h<128:
+                blockid=1 #underground stone
+            #ground level h>128
+            else:
+                if h>=128+8 and gravel:blockid=16 #gravel
+                if h>=128+8 and stone:blockid=1 #stone
+                if h>=128+8 and stone and coalore:blockid=13 #coal ore
+                if h>=128+8 and stone and ironore:blockid=14 #Iron ore
+                #stone layer
+                if h>=128+45:blockid=1 #stone
+                if h>=128+45 and coalore:blockid=13 #coal ore
+                if h>=128+45 and ironore:blockid=14 #Iron ore
+                if h>=128+60 and blackmarble:blockid=21 #Blk marble
+                #
+                if h>=128 and water:blockid=3 #lakes
+                if h>=128 and lava:blockid=5 #lava lakes
+            #create block and put on sector
+            block=engine.map.Block(blockid)
+            sector.setblock([xx,yy],block)

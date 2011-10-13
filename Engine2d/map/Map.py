@@ -7,6 +7,7 @@ class Map:
         self.sectors=[] # loaded sectors
         self.entities=[]
         self.mapname="world"
+        self.maptype=0 # 0-outdoor 1-underground
         self.itemloader=engine.items.ItemLoader(self)
 
     # SET
@@ -40,7 +41,13 @@ class Map:
         sector=engine.map.loadsector(self.mapname, sectorposition)
         if sector==1:
             #not found loaded sector create new sector
-            sector=engine.map.Sector(sectorposition)
+            #Select correct map generator
+            if self.maptype==0:
+                sector=engine.map.Sector(sectorposition)
+                engine.map.generate_outdoor(sector)
+            elif self.maptype==1:
+                sector=engine.map.Sector(sectorposition)
+                engine.map.generate_underground(sector)
             sector.markmodified()
 
         #add it to loaded
