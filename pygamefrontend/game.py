@@ -148,7 +148,6 @@ class Game:
                 err=self.player.mineblock(mousepos)
                 if not err:self.playsound(self.minesound)
 
-
     def playsound(self,sound):
         """Play sound"""
         if not pygame.mixer.get_busy():

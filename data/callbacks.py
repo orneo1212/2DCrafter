@@ -3,7 +3,6 @@ def OpenChest(player,position):
     mapo=player.currmap
     chestblock=mapo.getblock(position)
     #Generate unique ID when not exist
-    print chestblock.uid
     if chestblock.uid==0:
         chestblock.generateUID()
         #mark sector as modified to save block data
@@ -13,4 +12,4 @@ def OpenChest(player,position):
         sector.markmodified()
     #do openchest
     itemdata=mapo.itemloader.getitem(chestblock.uid)
-    print itemdata
+    chestblock.itemdata=itemdata

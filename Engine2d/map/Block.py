@@ -17,6 +17,7 @@ class Block:
         self.ongrow=0 # item id when block grow
         self.onput=0 # item id when block right click (action e.g.door)
         self.unique=False # Is unique object like chests, signs
+        self.itemdata=None
         #callbacks
         self.onputcall=None # when player put a block
         self.restorefromconfig()
