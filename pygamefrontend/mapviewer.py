@@ -2,6 +2,7 @@ import os
 import yaml
 import pygame
 import Engine2d as engine
+import pygamefrontend
 from pygamefrontend import functions
 
 TILESIZE=32
@@ -14,8 +15,11 @@ class MapViever:
         #light
         self.lightsurface=pygame.Surface((640,480),pygame.SRCALPHA)
         self.lightoffset=TILESIZE/2 # offset for blit lights circles
+        #player image
+        self.playerimg=pygamefrontend.imgloader.loadimage("player")
+        self.backimg=pygamefrontend.imgloader.loadimage("backimg")
 
-    def render(self, surface, center, imageloader, mapobject):
+    def render(self, surface, center, mapobject):
         """Render map on the surface. Map will be centered on center position (global)."""
         cx, cy=center
 
@@ -50,7 +54,7 @@ class MapViever:
 
                 #draw block only if there is one
                 if drawblock:
-                    blockimg=imageloader.loadimage(block.id)
+                    blockimg=pygamefrontend.imgloader.loadimage(block.id)
                     surface.blit(blockimg, drawpos)
                     #draw light emited by block
                     if block.lightradius:
@@ -58,12 +62,10 @@ class MapViever:
                         functions.drawlight(self.lightsurface,(lx,ly),radius)
                 #if not draw background image
                 else:
-                    backimg=imageloader.loadimage("backimg")
-                    surface.blit(backimg, drawpos)
+                    surface.blit(self.backimg, drawpos)
                 #render player image on center position
                 if xx==cx and yy==cy:
-                    playerimg=imageloader.loadimage("player")
-                    surface.blit(playerimg, drawpos)
+                    surface.blit(self.playerimg, drawpos)
                     #draw light emited by player
                     #functions.drawlight(self.lightsurface,(lx,ly),4)
         #blit light mask
@@ -79,6 +81,6 @@ class MapViever:
         gy=self.viewH/2+centerpos[1]-screentiley
         return [gx,gy]
 
-    def renderatplayer(self,surface,player,imageloader,mapobject):
+    def renderatplayer(self,surface,player,mapobject):
         """Render map centered on given player"""
-        self.render(surface, player.getposition(), imageloader, mapobject)
+        self.render(surface, player.getposition(), mapobject)

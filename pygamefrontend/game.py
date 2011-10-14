@@ -177,7 +177,7 @@ class Game:
         #clean the screen
         self.screen.fill((117,101,50))
         #render
-        self.mapviewer.renderatplayer(self.screen, self.player, self.imageloader, self.mapo)
+        self.mapviewer.renderatplayer(self.screen, self.player, self.mapo)
         #Draw on screen text
         self.drawosd(self.screen)
         #redraw pages
