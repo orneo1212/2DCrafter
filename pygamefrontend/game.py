@@ -13,7 +13,7 @@ class Game:
     def __init__(self):
         #init application
         self.screen=pygame.display.set_mode((SW, SH), pygame.DOUBLEBUF)
-        pygame.display.set_caption("2D Building Game")
+        pygame.display.set_caption("2DCrafter")
         #define variables
         self.mapo=engine.map.Map()
         self.mapo.loadmapdata()

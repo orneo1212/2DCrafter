@@ -81,7 +81,7 @@ class InventoryScreen:
             return px+self.invsize[0]*py
         return None
 
-    def redraw(self, screen):
+    def redraw(self, screen, drawselected=True):
         if not self.visible:return
 
         #pygame.draw.rect(screen, (128, 128, 128), \
@@ -90,7 +90,6 @@ class InventoryScreen:
             self.invpos[1]-self.imgoffset[1]))
         xx=0 #current slot
 
-        drawselected=True
         #Skip draw when there no inventory
         if not self.inventory:return
         for item in self.inventory.slots:
