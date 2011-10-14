@@ -16,7 +16,8 @@ class InventoryScreen:
         self.imgoffset=(6,27)
         #
         self.ts=pygamefrontend.TILESIZE+4 # tilesize
-        self.invsoffset=(0,0)
+        #inventory offset (with image)
+        self.invsoffset=(0,220)
         self.invsize=(8, 4) # width, height
         self.invsizepix=(self.invsize[0]*self.ts,self.invsize[1]*self.ts)
         self.invpos=(SW/2-self.imgsize[0]/2, SH/2-self.imgsize[1]/2)
@@ -97,8 +98,9 @@ class InventoryScreen:
 
         #pygame.draw.rect(screen, (128, 128, 128), \
         #    (self.invpos,self.invsizepix), 0)
-        screen.blit(self.image,(self.invpos[0]-self.imgoffset[0],\
-            self.invpos[1]-self.imgoffset[1]))
+        screen.blit(self.image,(self.invpos[0]-\
+            self.imgoffset[0]+self.invsoffset[0], \
+            self.invpos[1]-self.imgoffset[1]+self.invsoffset[1]))
         xx=0 #current slot
 
         #Skip draw when there no inventory

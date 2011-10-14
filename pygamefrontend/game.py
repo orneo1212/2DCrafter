@@ -188,6 +188,7 @@ class Game:
         if not actiondata:return
         if actiondata.id==18: # Chest
             self.chestinventory=inventoryscreen.InventoryScreen("chestframe")
+            self.chestinventory.invsoffset=(0,-180)
             inventory=engine.player.Inventory()
             inventory.slots=actiondata.itemdata["data"]
             self.chestinventory.setinventory(inventory)
@@ -203,7 +204,7 @@ class Game:
         self.invscreen.tradeinventory=None
         if self.chestinventory:
             self.chestinventory.visible=False
-            self.invscreen.visible=False
+            #self.invscreen.visible=False
             self.chestinventory.tradeinventory=None
 
     def playsound(self,sound):
