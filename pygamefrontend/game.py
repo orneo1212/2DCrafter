@@ -48,7 +48,6 @@ class Game:
         if daydelta>1:
             self.starttime=time.time()
             engine.environment.DAYTIME.updatedaytime()
-            self.needredraw=True
         #Grow
         if self.minetimer.tickpassed(1000):
             secp=self.mapo.convertposition(self.player.getposition())
@@ -62,7 +61,6 @@ class Game:
     def events(self):
         keys=pygame.key.get_pressed()
         mousekeys=pygame.mouse.get_pressed()
-        self.needredraw=False
         #get event from queue
         pygame.event.clear(pygame.MOUSEMOTION)
         event=pygame.event.poll()
@@ -175,13 +173,13 @@ class Game:
         self.currentrecipe=recipelist[self.currentrecipeID]
 
     def redraw(self):
-        if self.needredraw:
-            #clean the screen
-            self.screen.fill((117,101,50))
-            #render
-            self.mapviewer.renderatplayer(self.screen, self.player, self.imageloader, self.mapo)
-            #Draw on screen text
-            self.drawosd(self.screen)
+        if not self.eventtimer.tickpassed(3):return
+        #clean the screen
+        self.screen.fill((117,101,50))
+        #render
+        self.mapviewer.renderatplayer(self.screen, self.player, self.imageloader, self.mapo)
+        #Draw on screen text
+        self.drawosd(self.screen)
         #redraw pages
         self.invscreen.redraw(self.screen)
         pygame.display.update()
