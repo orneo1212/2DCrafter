@@ -66,6 +66,14 @@ class Game:
 
         self.currenttile=self.invscreen.getselected()
 
+    def isunderpages(self):
+        """return false if mouse is not under pages"""
+        mx,my=pygame.mouse.get_pos()
+        if self.chestinventory:
+            ch=self.chestinventory.isunder((mx,my))
+        else:ch=False
+        return self.invscreen.isunder((mx,my)) or ch
+
     def events(self):
         keys=pygame.key.get_pressed()
         mousekeys=pygame.mouse.get_pressed()
@@ -136,10 +144,10 @@ class Game:
             self.player.move("s", self.movespeed)
             self.hidechest()
         #mine block
-        if mousekeys[0]==1 and not self.invscreen.isunder((mx,my)):
+        if mousekeys[0]==1 and not self.isunderpages():
             self.mineblock((mtx,mty))
         #get block under cursor
-        if mousekeys[1]==1 and not self.invscreen.isunder((mx,my)):
+        if mousekeys[1]==1 and not self.isunderpages():
             block=self.mapo.getblock((mtx, mty))
             if block:self.currenttile=block.id
             else:self.currenttile=None
