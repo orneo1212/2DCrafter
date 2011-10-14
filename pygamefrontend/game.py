@@ -158,8 +158,7 @@ class Game:
         #Send events to pages
         self.invscreen.events(event)
         if self.chestinventory:
-            if not self.invscreen.visible:
-                self.chestinventory.events(event)
+            self.chestinventory.events(event)
 
     def actioninrange(self,actionpos,distance=0):
         plpos=self.player.getposition()
@@ -180,6 +179,7 @@ class Game:
         plpos=self.player.getposition()
         if self.actioninrange(mousepos,1):
             if self.minetimer.tickpassed(self.mineticks):
+                self.hidechest()
                 err=self.player.mineblock(mousepos)
                 if not err:self.playsound(self.minesound)
 
