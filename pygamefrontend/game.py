@@ -37,7 +37,7 @@ class Game:
         self.eventtimer=engine.tools.Timer()
         self.gametimer=pygame.time.Clock()
         #Action Distance
-        self.actiondistance=4
+        self.actiondistance=1
 
         self.starttime=0
 
@@ -71,8 +71,8 @@ class Game:
         mx,my=pygame.mouse.get_pos()
         if self.chestinventory:
             ch=self.chestinventory.isunder((mx,my))
-        else:ch=False
-        return self.invscreen.isunder((mx,my)) or ch
+            return True
+        return self.invscreen.isunder((mx,my))
 
     def events(self):
         keys=pygame.key.get_pressed()
