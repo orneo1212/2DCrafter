@@ -15,4 +15,5 @@ def drawlight(surface,position,radius,delta=3,color=(128,128,0)):
                 pygame.draw.rect(surface,(c1,c2,c3,alpha),pp,0)
     else:
         #draw circle lights
-        pygame.draw.circle(surface,(c1,c2,c3,alpha),position,radius*16)
+        pygame.draw.circle(surface,(c1,c2,c3,alpha),position,radius*\
+            pygamefrontend.TILESIZE)

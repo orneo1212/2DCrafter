@@ -1,6 +1,7 @@
 import time
 import math
 import sys
+import pygamefrontend
 from pygamefrontend import imageloader, mapviewer,inventoryscreen
 import Engine2d as engine
 import pygame
@@ -73,9 +74,17 @@ class Game:
                 if self.invscreen.visible:
                     self.invscreen.visible=False
                 else:self.invscreen.visible=True
+            #QUIT
             if event.key==pygame.K_ESCAPE:self.onexit()
+            #Toggle fullscreen
             if event.key==pygame.K_F11:
                 pygame.display.toggle_fullscreen()
+            #Toggle light circle
+            if event.key==pygame.K_F10:
+                conf=pygamefrontend.imgloader.config
+                light=conf["circlelight"]
+                if light:conf["circlelight"]=False
+                else: conf["circlelight"]=True
             #Next Recipe
             if event.key==pygame.K_PAGEDOWN:self.nextrecipe()
             if event.key==pygame.K_PAGEUP:self.nextrecipe(True)

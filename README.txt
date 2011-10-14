@@ -20,5 +20,7 @@ Controls:
     PAGE UP: Previous recipe to craft
     PAGE DOWN: Next recipe to craft
     ENTER: Do craft selected recipe
+    F10: Toggle rounded lights
+    F11: Toggle fullscreen
 
 Author: orneo1212 <orneo1212@gmail.com>
