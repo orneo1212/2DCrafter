@@ -4,6 +4,8 @@ import pygame
 import time
 import pygamefrontend
 
+SW,SH=pygamefrontend.SW,pygamefrontend.SH
+
 """Inventory screen (show content of Inventory object)"""
 class InventoryScreen:
     def __init__(self,image="inventoryframe"):
@@ -17,7 +19,7 @@ class InventoryScreen:
         self.invsoffset=(0,0)
         self.invsize=(8, 4) # width, height
         self.invsizepix=(self.invsize[0]*self.ts,self.invsize[1]*self.ts)
-        self.invpos=(320-self.imgsize[0]/2, 240-self.imgsize[1]/2)
+        self.invpos=(SW/2-self.imgsize[0]/2, SH/2-self.imgsize[1]/2)
         #
         self.visible=False
         self.inventory=None

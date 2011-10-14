@@ -6,11 +6,13 @@ from pygamefrontend import imageloader, mapviewer,inventoryscreen
 import Engine2d as engine
 import pygame
 
+SW,SH=pygamefrontend.SW,pygamefrontend.SH
+
 """Game """
 class Game:
     def __init__(self):
         #init application
-        self.screen=pygame.display.set_mode((640, 480), pygame.DOUBLEBUF)
+        self.screen=pygame.display.set_mode((SW, SH), pygame.DOUBLEBUF)
         pygame.display.set_caption("2D Building Game")
         #define variables
         self.mapo=engine.map.Map()
@@ -248,7 +250,7 @@ class Game:
         for msg in msgs:
             counter+=1
             text=self.font1.render(str(msg),1, (255,255,255))
-            screen.blit(text,(20,480-counter*10-20))
+            screen.blit(text,(20,SH-counter*10-20))
 
     def onexit(self):
         """On exit"""

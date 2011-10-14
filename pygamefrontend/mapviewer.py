@@ -8,11 +8,12 @@ from pygamefrontend import functions
 class MapViever:
     """Map Viewer for pygame frontend"""
     def __init__(self):
-        self.viewW=20
-        self.viewH=15
+        SW,SH=pygamefrontend.SW,pygamefrontend.SH
+        self.viewW=25
+        self.viewH=18
         self.tilesize=pygamefrontend.TILESIZE
         #light
-        self.lightsurface=pygame.Surface((640,480),pygame.SRCALPHA)
+        self.lightsurface=pygame.Surface((SW,SH),pygame.SRCALPHA)
         self.lightoffset=self.tilesize/2 # offset for blit lights circles
         #player image
         self.playerimg=pygamefrontend.imgloader.loadimage("player")
