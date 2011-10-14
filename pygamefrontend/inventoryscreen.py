@@ -24,6 +24,7 @@ class InventoryScreen:
         self.visible=False
         self.inventory=None
         self.selected=0
+        self.tradeinventory=None # trade inventory
 
     def setinventory(self, inventory):
         """Set inventory to display"""
@@ -52,8 +53,19 @@ class InventoryScreen:
             mx, my=pygame.mouse.get_pos()
             slotpos=self.getslotunderpoint((mx, my))
             if slotpos!=None and self.inventory:
+                slot=self.inventory.getslot(slotpos)
+                if slot!=None:self.selected=slotpos
+        #right mouse button
+        if pygame.mouse.get_pressed()[2]==1:
+            if self.tradeinventory:
+                mx, my=pygame.mouse.get_pos()
+                slotpos=self.getslotunderpoint((mx, my))
+                if slotpos!=None and self.inventory:
                     slot=self.inventory.getslot(slotpos)
-                    if slot!=None:self.selected=slotpos
+                    if slot!=None:
+                        for x in range(slot[1]):
+                            self.inventory.removeitem(slot[0])
+                            self.tradeinventory.additem(slot[0])
 
     def getinvpos(self):
         """get position of the top left corner of area to display

@@ -13,7 +13,7 @@ class ItemLoader(engine.dataobj.DataLoader):
         if uid not in self.loaded.keys():
             item=self.loaditem(uid)
             if not item:
-                newitemdata={"data":[],"changed":False}
+                newitemdata={"data":[None]*32,"changed":False}
                 self.loaded[uid]=newitemdata
                 return newitemdata
             #add loaded item and return it

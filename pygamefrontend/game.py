@@ -158,7 +158,9 @@ class Game:
             self.setupaction() # setupaction if any
         #Send events to pages
         self.invscreen.events(event)
-        if self.chestinventory:self.chestinventory.events(event)
+        if self.chestinventory:
+            if not self.invscreen.visible:
+                self.chestinventory.events(event)
 
     def actioninrange(self,actionpos,distance=0):
         plpos=self.player.getposition()
@@ -194,12 +196,16 @@ class Game:
             self.mapo.itemloader.setchanged(actiondata.uid)
             #
             self.player.actiondata=None
+            self.invscreen.tradeinventory=inventory
+            self.chestinventory.tradeinventory=self.player.inventory
 
     def hidechest(self):
         """hide chest view with inventory"""
+        self.invscreen.tradeinventory=None
         if self.chestinventory:
             self.chestinventory.visible=False
             self.invscreen.visible=False
+            self.chestinventory.tradeinventory=None
 
     def playsound(self,sound):
         """Play sound"""

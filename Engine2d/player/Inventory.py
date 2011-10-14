@@ -38,6 +38,9 @@ class Inventory:
         if freeslots>0:return True
         else:return False
 
+    def isempty(self):
+        return self.slots.count(None)==32
+
     def isfull(self):
         """Is inventory full?"""
         return self.slots.count(None)==0
