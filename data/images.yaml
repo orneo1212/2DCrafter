@@ -1,7 +1,7 @@
 #Images file for frontends
 
 smoothscale: true
-maxfps: 0
+maxfps: 30
 circlelight: true
 
 images:
