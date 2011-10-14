@@ -26,9 +26,10 @@ class MapViever:
         self.lightsurface.fill((0,0,0,lightlevel))
         #render tiles
         for yy in range(cy-self.viewH/2, cy+self.viewH/2+1):
+            locy=(self.viewH/2)+cy-yy
+            drawposy=locy*tilesize
             for xx in range(cx-self.viewW/2, cx+self.viewW/2+1):
                 locx=(self.viewW/2)+cx-xx
-                locy=(self.viewH/2)+cy-yy
 
                 drawblock=True
 
@@ -39,7 +40,7 @@ class MapViever:
                 elif block.id==0:drawblock=False # skip block with id 0
 
                 drawposx=locx*tilesize
-                drawposy=locy*tilesize
+
                 drawpos=(drawposx,drawposy)
                 #light position
                 lx,ly=drawposx+self.lightoffset,\
