@@ -120,20 +120,16 @@ class Game:
         #directions
         if keys[pygame.K_d]:
             self.player.move("e", self.movespeed)
-            if self.chestinventory:
-                self.chestinventory.visible=False
+            self.hidechest()
         if keys[pygame.K_a]:
             self.player.move("w", self.movespeed)
-            if self.chestinventory:
-                self.chestinventory.visible=False
+            self.hidechest()
         if keys[pygame.K_w]:
             self.player.move("n", self.movespeed)
-            if self.chestinventory:
-                self.chestinventory.visible=False
+            self.hidechest()
         if keys[pygame.K_s]:
             self.player.move("s", self.movespeed)
-            if self.chestinventory:
-                self.chestinventory.visible=False
+            self.hidechest()
         #mine block
         if mousekeys[0]==1 and not self.invscreen.isunder((mx,my)):
             self.mineblock((mtx,mty))
@@ -176,7 +172,7 @@ class Game:
         actiondata=self.player.actiondata # get action block
         if not actiondata:return
         if actiondata.id==18: # Chest
-            self.chestinventory=inventoryscreen.InventoryScreen()
+            self.chestinventory=inventoryscreen.InventoryScreen("chestframe")
             inventory=engine.player.Inventory()
             inventory.slots=actiondata.itemdata["data"]
             self.chestinventory.setinventory(inventory)
@@ -184,6 +180,12 @@ class Game:
             self.mapo.itemloader.setchanged(actiondata.uid)
             #
             self.player.actiondata=None
+
+    def hidechest(self):
+        """hide chest view with inventory"""
+        if self.chestinventory:
+            self.chestinventory.visible=False
+            self.invscreen.visible=False
 
     def playsound(self,sound):
         """Play sound"""
@@ -215,8 +217,8 @@ class Game:
         #Draw on screen text
         self.drawosd(self.screen)
         #redraw pages
-        self.invscreen.redraw(self.screen)
         if self.chestinventory:self.chestinventory.redraw(self.screen)
+        self.invscreen.redraw(self.screen)
         #redraw screen
         pygame.display.update()
 

@@ -6,9 +6,9 @@ import pygamefrontend
 
 """Inventory screen (show content of Inventory object)"""
 class InventoryScreen:
-    def __init__(self):
+    def __init__(self,image="inventoryframe"):
         self.imgloader=imageloader.ImageLoader("data/images.yaml")
-        self.image=self.imgloader.loadimage("inventoryframe", False)
+        self.image=self.imgloader.loadimage(image, False)
         self.imgsize=self.image.get_size()
         self.font=pygame.font.SysFont("Sans", 14)
         self.imgoffset=(6,27)
@@ -103,6 +103,6 @@ class InventoryScreen:
                 #draw selection
                 if xx==self.selected and drawselected:
                     pygame.draw.rect(screen, (255, 255, 0), \
-                        (nx-1, ny-1, self.ts-3, self.ts-3), 1)
+                        (nx-1, ny-1, self.ts-2, self.ts-2), 1)
                     drawselected=False
             xx+=1
