@@ -17,6 +17,7 @@ class MapViever:
         #player image
         self.playerimg=pygamefrontend.imgloader.loadimage("player")
         self.backimg=pygamefrontend.imgloader.loadimage("backimg")
+        self.blockimages=pygamefrontend.imgloader.loadimages()
 
     def render(self, surface, center, mapobject):
         """Render map on the surface. Map will be centered on center position (global)."""
@@ -53,8 +54,7 @@ class MapViever:
 
                 #draw block only if there is one
                 if drawblock:
-                    blockimg=pygamefrontend.imgloader.loadimage(block.id)
-                    surface.blit(blockimg, drawpos)
+                    surface.blit(self.blockimages[block.id], drawpos)
                     #draw light emited by block
                     if block.lightradius:
                         radius=block.lightradius

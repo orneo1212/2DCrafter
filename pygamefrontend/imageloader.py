@@ -31,6 +31,12 @@ class ImageLoader(engine.dataobj.DataLoader):
                 "circlelight":False}
             return
 
+    def loadimages(self):
+        """Load all images"""
+        for item in self.config["images"].keys():
+            self.loadimage(item)
+        return self.loaded
+
     def loadimage(self, name):
         """Load image by name"""
 
