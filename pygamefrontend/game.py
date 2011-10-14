@@ -173,7 +173,7 @@ class Game:
         self.currentrecipe=recipelist[self.currentrecipeID]
 
     def redraw(self):
-        if not self.eventtimer.tickpassed(3):return
+        if not self.eventtimer.tickpassed(2):return
         #clean the screen
         self.screen.fill((117,101,50))
         #render

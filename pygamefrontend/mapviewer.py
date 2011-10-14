@@ -24,12 +24,14 @@ class MapViever:
         lightlevel=engine.environment.DAYTIME.getlightlevel()
         #fill mask layer
         self.lightsurface.fill((0,0,0,lightlevel))
+        hW=self.viewW/2
+        hH=self.viewH/2
         #render tiles
-        for yy in range(cy-self.viewH/2, cy+self.viewH/2+1):
-            locy=(self.viewH/2)+cy-yy
+        for yy in range(cy-hH, cy+hH+1):
+            locy=hH+cy-yy
             drawposy=locy*tilesize
-            for xx in range(cx-self.viewW/2, cx+self.viewW/2+1):
-                locx=(self.viewW/2)+cx-xx
+            for xx in range(cx-hW, cx+hW+1):
+                locx=hW+cx-xx
 
                 drawblock=True
 
