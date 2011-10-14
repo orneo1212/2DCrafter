@@ -1,5 +1,5 @@
 import sys
-
+import time
 import Engine2d as engine
 from data import callbacks
 
@@ -24,7 +24,7 @@ class Block:
 
     def generateUID(self):
         """Generate unique id"""
-        self.uid=id(self)
+        self.uid=id(self)+int(time.time())
 
     def getcallfunction(self,functionname):
         """Return function object by name to call or None"""

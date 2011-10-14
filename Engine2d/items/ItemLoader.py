@@ -21,6 +21,16 @@ class ItemLoader(engine.dataobj.DataLoader):
             return item
         else:return self.loaded[uid]
 
+    def delitem(self,uid):
+        if uid in self.loaded.keys():
+            #create world directory if not exist
+            mappath=os.path.join(engine.mainpath, self.mapo.mapname)
+            if not os.path.isdir(mappath):os.mkdir(mappath)
+            itemfilepath=os.path.join(mappath, str(uid)+".yaml")
+            try:os.remove(itemfilepath)
+            except Exception:pass
+            self.loaded.pop(uid)
+
     def setchanged(self, uid):
         """Set item as changed"""
         if uid not in self.loaded.keys():return

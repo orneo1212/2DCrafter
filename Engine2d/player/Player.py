@@ -72,6 +72,15 @@ class Player:
         if block:
             if not block.obstacle:return 3 # Block is not an obstacle
             #add self item or items definied in mineitems
+            if block.id==18:
+                #if chest have itemdata
+                if block.itemdata:
+                    # if not empty dont mine it
+                    if not block.itemdata["data"].count(None)==32:
+                        return 4 #Cannot remoeve non empty chest
+                    #is empty remove item file
+                    else:
+                        self.currmap.itemloader.delitem(block.uid)
             if not block.mineitems:
                 err=self.inventory.additem(block.id)
                 self.addpickupmsg(block.id)

@@ -70,8 +70,7 @@ class Game:
         """return false if mouse is not under pages"""
         mx,my=pygame.mouse.get_pos()
         if self.chestinventory:
-            ch=self.chestinventory.isunder((mx,my))
-            return True
+            return self.chestinventory.isunder((mx,my))
         return self.invscreen.isunder((mx,my))
 
     def events(self):

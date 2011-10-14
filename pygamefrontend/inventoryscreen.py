@@ -63,9 +63,8 @@ class InventoryScreen:
                 if slotpos!=None and self.inventory:
                     slot=self.inventory.getslot(slotpos)
                     if slot!=None:
-                        for x in range(slot[1]):
-                            self.inventory.removeitem(slot[0])
-                            self.tradeinventory.additem(slot[0])
+                        self.inventory.removeitem(slot[0])
+                        self.tradeinventory.additem(slot[0])
 
     def getinvpos(self):
         """get position of the top left corner of area to display
