@@ -93,11 +93,14 @@ class InventoryScreen:
             return px+self.invsize[0]*py
         return None
 
+    def setimage(self,imagename):
+        """Set image for inventory background"""
+        self.image=self.imgloader.loadfile(imagename)
+
     def redraw(self, screen, drawselected=True):
         if not self.visible:return
 
-        #pygame.draw.rect(screen, (128, 128, 128), \
-        #    (self.invpos,self.invsizepix), 0)
+        #Draw inventory background
         screen.blit(self.image,(self.invpos[0]-\
             self.imgoffset[0]+self.invsoffset[0], \
             self.invpos[1]-self.imgoffset[1]+self.invsoffset[1]))

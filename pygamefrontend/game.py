@@ -47,7 +47,7 @@ class Game:
         self.currentrecipeID=0
 
     def update(self):
-        """Update"""
+        """Update game"""
         daydelta=time.time()-self.starttime
         if daydelta>1:
             self.starttime=time.time()
@@ -73,7 +73,45 @@ class Game:
             return self.chestinventory.isunder((mx,my))
         return self.invscreen.isunder((mx,my))
 
+    def handlekeydown(self, event):
+        """handle all keydown events"""
+        if event.key==pygame.K_e:
+            #toggle inventory
+            if self.invscreen.visible:
+                self.invscreen.visible=False
+            else:self.invscreen.visible=True
+        #QUIT
+        if event.key==pygame.K_ESCAPE:self.onexit()
+        #Toggle fullscreen
+        if event.key==pygame.K_F11:
+            pygame.display.toggle_fullscreen()
+        #Toggle light circle
+        if event.key==pygame.K_F10:
+            conf=pygamefrontend.imgloader.config
+            light=conf["circlelight"]
+            if light:conf["circlelight"]=False
+            else: conf["circlelight"]=True
+        #Next Recipe
+        if event.key==pygame.K_PAGEDOWN:self.nextrecipe()
+        if event.key==pygame.K_PAGEUP:self.nextrecipe(True)
+        #Craft
+        if event.key==pygame.K_RETURN:
+            engine.crafting.craft(self.player,self.currentrecipe)
+        #Sort inventory
+        if event.key==pygame.K_BACKSPACE:
+            self.player.sortinventory()
+        #time change
+        if event.key==pygame.K_F3:
+            engine.environment.DAYTIME.daytime-=5
+        if event.key==pygame.K_F4:
+            engine.environment.DAYTIME.daytime+=5
+        #Show FPS
+        if event.key==pygame.K_SPACE:
+            txt="FPS: %s" % self.gametimer.get_fps()
+            engine.ui.msgbuffer.addtext(txt)
+
     def events(self):
+        """handle events"""
         keys=pygame.key.get_pressed()
         mousekeys=pygame.mouse.get_pressed()
         #get event from queue
@@ -81,42 +119,8 @@ class Game:
         event=pygame.event.poll()
 
         if event.type==pygame.QUIT:self.onexit()
-        if event.type==pygame.KEYDOWN:
-            self.needredraw=True
-            if event.key==pygame.K_e:
-                #toggle inventory
-                if self.invscreen.visible:
-                    self.invscreen.visible=False
-                else:self.invscreen.visible=True
-            #QUIT
-            if event.key==pygame.K_ESCAPE:self.onexit()
-            #Toggle fullscreen
-            if event.key==pygame.K_F11:
-                pygame.display.toggle_fullscreen()
-            #Toggle light circle
-            if event.key==pygame.K_F10:
-                conf=pygamefrontend.imgloader.config
-                light=conf["circlelight"]
-                if light:conf["circlelight"]=False
-                else: conf["circlelight"]=True
-            #Next Recipe
-            if event.key==pygame.K_PAGEDOWN:self.nextrecipe()
-            if event.key==pygame.K_PAGEUP:self.nextrecipe(True)
-            #Craft
-            if event.key==pygame.K_RETURN:
-                engine.crafting.craft(self.player,self.currentrecipe)
-            #Sort inventory
-            if event.key==pygame.K_BACKSPACE:
-                self.player.sortinventory()
-            #time change
-            if event.key==pygame.K_F3:
-                engine.environment.DAYTIME.daytime-=5
-            if event.key==pygame.K_F4:
-                engine.environment.DAYTIME.daytime+=5
-            #Show FPS
-            if event.key==pygame.K_SPACE:
-                txt="FPS: %s" % self.gametimer.get_fps()
-                engine.ui.msgbuffer.addtext(txt)
+        if event.type==pygame.KEYDOWN:self.handlekeydown(event)
+
         #events tick
         if not self.eventtimer.timepassed(0.025):return
         self.eventtimer.tick()
@@ -161,6 +165,8 @@ class Game:
             self.chestinventory.events(event)
 
     def actioninrange(self,actionpos,distance=0):
+        """Check if the action is in range.
+        If distance=0 then will be used self.actiondistance"""
         plpos=self.player.getposition()
         if not distance:distance=self.actiondistance
         if math.fabs(actionpos[0]-plpos[0])<=distance and \
@@ -169,6 +175,7 @@ class Game:
         else:return False
 
     def putblock(self,mousepos):
+        """Put block on the ground"""
         #avoid putblock on player position
         if mousepos!=self.player.getposition():
             if self.minetimer.tickpassed(5):
@@ -176,26 +183,33 @@ class Game:
                     err=self.player.putblock(mousepos, self.currenttile)
 
     def mineblock(self,mousepos):
+        """Collect block"""
         plpos=self.player.getposition()
-        if self.actioninrange(mousepos,1):
+        if self.actioninrange(mousepos, 2):
             if self.minetimer.tickpassed(self.mineticks):
                 self.hidechest()
                 err=self.player.mineblock(mousepos)
                 if not err:self.playsound(self.minesound)
 
     def setupaction(self):
+        """Setup action. like open chests"""
         actiondata=self.player.actiondata # get action block
         if not actiondata:return
         if actiondata.id==18: # Chest
+            #create inventoryscreen object for chest content
             self.chestinventory=inventoryscreen.InventoryScreen("chestframe")
             self.chestinventory.invsoffset=(0,-180)
+            #create inventory object to store items
             inventory=engine.player.Inventory()
             inventory.slots=actiondata.itemdata["data"]
+            #set inventory to show in inventoryscreen
             self.chestinventory.setinventory(inventory)
             self.chestinventory.visible=True
+            #mark item as a changed
             self.mapo.itemloader.setchanged(actiondata.uid)
-            #
+            # set player actiondata to None. avoid run this code again
             self.player.actiondata=None
+            #setup trade (player>chest and chest>player)
             self.invscreen.tradeinventory=inventory
             self.chestinventory.tradeinventory=self.player.inventory
 
@@ -243,6 +257,7 @@ class Game:
         pygame.display.update()
 
     def drawosd(self,screen):
+        """Draw on screen texts"""
         #draw position
         pos=self.player.getposition()
         text=self.font.render("Position: %s" % str(pos), 1, (255,255,255))
@@ -281,6 +296,7 @@ class Game:
         sys.exit()
 
     def mainloop(self):
+        """Main Game Loop"""
         while 1:
             self.gametimer.tick(self.imageloader.config["maxfps"])
             self.events()
