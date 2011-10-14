@@ -8,6 +8,7 @@ import pygamefrontend
 class InventoryScreen:
     def __init__(self):
         self.imgloader=imageloader.ImageLoader("data/images.yaml")
+        self.image=self.imgloader.loadimage("inventoryframe", False)
         self.font=pygame.font.SysFont("Sans", 14)
         #
         self.ts=pygamefrontend.TILESIZE+2 # tilesize
@@ -79,9 +80,9 @@ class InventoryScreen:
     def redraw(self, screen):
         if not self.visible:return
 
-        pygame.draw.rect(screen, (128, 128, 128), \
-            (self.invpos,self.invsizepix), 0)
-
+        #pygame.draw.rect(screen, (128, 128, 128), \
+        #    (self.invpos,self.invsizepix), 0)
+        screen.blit(self.image,(self.invsizepix[0]-93, self.invsizepix[1]+13))
         xx=0 #current slot
 
         drawselected=True

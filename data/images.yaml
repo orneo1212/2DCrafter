@@ -10,6 +10,7 @@ images:
     #0: air
     player: data/images/player.png
     backimg: data/images/backimg.png
+    inventoryframe: data/images/inventory_frame.png
     1: data/images/stone.png
     2: data/images/mud.png
     3: data/images/water.png

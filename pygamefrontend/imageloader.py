@@ -37,7 +37,7 @@ class ImageLoader(engine.dataobj.DataLoader):
             self.loadimage(item)
         return self.loaded
 
-    def loadimage(self, name):
+    def loadimage(self, name,scale=True):
         """Load image by name"""
 
         #check images option in yaml loaded
@@ -57,10 +57,11 @@ class ImageLoader(engine.dataobj.DataLoader):
             img=pygame.image.load(filename)
             img.set_colorkey((255, 0, 255))
             img=img.convert_alpha()
-            if self.config["smoothscale"]:
-                img=pygame.transform.smoothscale(img, (self.ts,self.ts))
-            else:
-                img=pygame.transform.scale(img,(self.ts,self.ts))
+            if scale:
+                if self.config["smoothscale"]:
+                    img=pygame.transform.smoothscale(img, (self.ts,self.ts))
+                else:
+                    img=pygame.transform.scale(img,(self.ts,self.ts))
         except Exception, e:
             print e
             img=self.empty.copy()
