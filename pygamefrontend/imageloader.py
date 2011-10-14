@@ -1,7 +1,7 @@
 import pygame
 import yaml
 import Engine2d as engine
-
+import pygamefrontend
 from pygamefrontend import mapviewer
 
 class ImageLoader(engine.dataobj.DataLoader):
@@ -12,7 +12,8 @@ class ImageLoader(engine.dataobj.DataLoader):
         self.loaded={}
 
         #empty image
-        self.empty=pygame.Surface((mapviewer.TILESIZE, mapviewer.TILESIZE))
+        self.ts=pygamefrontend.TILESIZE
+        self.empty=pygame.Surface((self.ts, self.ts))
         #load config
         self.loadconfig()
 
@@ -51,11 +52,9 @@ class ImageLoader(engine.dataobj.DataLoader):
             img.set_colorkey((255, 0, 255))
             img=img.convert_alpha()
             if self.config["smoothscale"]:
-                img=pygame.transform.smoothscale(img, (mapviewer.TILESIZE, \
-                    mapviewer.TILESIZE))
+                img=pygame.transform.smoothscale(img, (self.ts,self.ts))
             else:
-                img=pygame.transform.scale(img, (mapviewer.TILESIZE, \
-                    mapviewer.TILESIZE))
+                img=pygame.transform.scale(img,(self.ts,self.ts))
         except Exception, e:
             print e
             img=self.empty.copy()

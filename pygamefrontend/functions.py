@@ -16,4 +16,3 @@ def drawlight(surface,position,radius,delta=3,color=(128,128,0)):
     else:
         #draw circle lights
         pygame.draw.circle(surface,(c1,c2,c3,alpha),position,radius*16)
-

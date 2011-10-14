@@ -5,16 +5,15 @@ import Engine2d as engine
 import pygamefrontend
 from pygamefrontend import functions
 
-TILESIZE=32
-
 class MapViever:
+    """Map Viewer for pygame frontend"""
     def __init__(self):
         self.viewW=20
         self.viewH=15
-        self.tilesize=TILESIZE
+        self.tilesize=pygamefrontend.TILESIZE
         #light
         self.lightsurface=pygame.Surface((640,480),pygame.SRCALPHA)
-        self.lightoffset=TILESIZE/2 # offset for blit lights circles
+        self.lightoffset=self.tilesize/2 # offset for blit lights circles
         #player image
         self.playerimg=pygamefrontend.imgloader.loadimage("player")
         self.backimg=pygamefrontend.imgloader.loadimage("backimg")

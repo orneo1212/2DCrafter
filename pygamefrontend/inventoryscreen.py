@@ -2,6 +2,7 @@ from pygamefrontend import imageloader, mapviewer
 import Engine2d as engine
 import pygame
 import time
+import pygamefrontend
 
 """Inventory screen (show content of Inventory object)"""
 class InventoryScreen:
@@ -9,7 +10,7 @@ class InventoryScreen:
         self.imgloader=imageloader.ImageLoader("data/images.yaml")
         self.font=pygame.font.SysFont("Sans", 14)
         #
-        self.ts=mapviewer.TILESIZE+2 # tilesize
+        self.ts=pygamefrontend.TILESIZE+2 # tilesize
         self.inventorypos=(640-4*self.ts, 480-5*self.ts)
         self.itemsoffset=(2, 2)
         self.invsize=(4*self.ts, 5*self.ts)
