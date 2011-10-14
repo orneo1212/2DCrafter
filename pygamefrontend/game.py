@@ -37,7 +37,7 @@ class Game:
         self.eventtimer=engine.tools.Timer()
         self.gametimer=pygame.time.Clock()
         #Action Distance
-        self.actiondistance=1
+        self.actiondistance=4
 
         self.starttime=0
 
@@ -160,10 +160,11 @@ class Game:
         self.invscreen.events(event)
         if self.chestinventory:self.chestinventory.events(event)
 
-    def actioninrange(self,actionpos):
+    def actioninrange(self,actionpos,distance=0):
         plpos=self.player.getposition()
-        if math.fabs(actionpos[0]-plpos[0])<=self.actiondistance and \
-            math.fabs(actionpos[1]-plpos[1])<=self.actiondistance:
+        if not distance:distance=self.actiondistance
+        if math.fabs(actionpos[0]-plpos[0])<=distance and \
+            math.fabs(actionpos[1]-plpos[1])<=distance:
             return True
         else:return False
 
@@ -176,7 +177,7 @@ class Game:
 
     def mineblock(self,mousepos):
         plpos=self.player.getposition()
-        if self.actioninrange(mousepos):
+        if self.actioninrange(mousepos,1):
             if self.minetimer.tickpassed(self.mineticks):
                 err=self.player.mineblock(mousepos)
                 if not err:self.playsound(self.minesound)
