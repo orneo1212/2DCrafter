@@ -11,9 +11,10 @@ class InventoryScreen:
         self.font=pygame.font.SysFont("Sans", 14)
         #
         self.ts=pygamefrontend.TILESIZE+2 # tilesize
-        self.inventorypos=(640-4*self.ts, 480-5*self.ts)
         self.itemsoffset=(2, 2)
-        self.invsize=(4*self.ts, 5*self.ts)
+        self.invsize=(8, 4) # width, height
+        self.invsizepix=(self.invsize[0]*self.ts,self.invsize[1]*self.ts)
+        self.invpos=(320-self.invsizepix[0]/2, 240-self.invsizepix[1]/2)
         #
         self.visible=False
         self.inventory=None
@@ -52,26 +53,34 @@ class InventoryScreen:
     def getinvpos(self):
         """get position of the top left corner of area to display
         inventory items"""
-        nx=self.inventorypos[0]+self.itemsoffset[0]
-        ny=self.inventorypos[1]+self.itemsoffset[1]
+        nx=self.invpos[0]+self.itemsoffset[0]
+        ny=self.invpos[1]+self.itemsoffset[1]
         return (nx, ny)
+
+    def isunder(self, (mx,my)):
+        """Return True if point is under inventory"""
+        if not self.visible:return False
+        nx, ny=self.getinvpos()
+        if mx>nx and mx<nx+self.invsizepix[0]:
+            if my>ny and my<ny+self.invsizepix[1]:
+                return True
+        return False
 
     def getslotunderpoint(self, (mx, my)):
         """Return None if the point (mx, my) is not in
         inventory area, otherwise return index of slot"""
         nx, ny=self.getinvpos()
-        if mx>nx and mx<nx+self.invsize[0]:
-            if my>ny and my<ny+self.invsize[1]:
-                px=(mx-nx)/self.ts
-                py=(my-ny)/self.ts
-                return px+4*py
+        if self.isunder((mx,my)):
+            px=(mx-nx)/self.ts
+            py=(my-ny)/self.ts
+            return px+self.invsize[0]*py
         return None
 
     def redraw(self, screen):
         if not self.visible:return
 
         pygame.draw.rect(screen, (128, 128, 128), \
-            (self.inventorypos, self.invsize), 0)
+            (self.invpos,self.invsizepix), 0)
 
         xx=0 #current slot
 
@@ -81,8 +90,8 @@ class InventoryScreen:
         for item in self.inventory.slots:
             if item!=None:
                 img=self.imgloader.loadimage(item[0])
-                nx=xx%4*self.ts+self.getinvpos()[0]
-                ny=xx/4*self.ts+self.getinvpos()[1]
+                nx=xx%self.invsize[0]*self.ts+self.getinvpos()[0]
+                ny=xx/self.invsize[0]*self.ts+self.getinvpos()[1]
                 screen.blit(img, (nx, ny))
                 #draw count
                 txt=self.font.render(str(item[1]), 1, (255, 255, 0))

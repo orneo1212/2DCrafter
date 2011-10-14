@@ -125,16 +125,16 @@ class Game:
         if keys[pygame.K_s]:
             self.player.move("s", self.movespeed)
         #mine block
-        if mousekeys[0]==1:
+        if mousekeys[0]==1 and not self.invscreen.isunder((mx,my)):
             self.mineblock((mtx,mty))
         #get block under cursor
-        if mousekeys[1]==1:
+        if mousekeys[1]==1 and not self.invscreen.isunder((mx,my)):
             block=self.mapo.getblock((mtx, mty))
             if block:self.currenttile=block.id
             else:self.currenttile=None
             self.invscreen.setselected(self.currenttile)
         #put block
-        if mousekeys[2]==1:
+        if mousekeys[2]==1 and not self.invscreen.isunder((mx,my)):
             self.putblock((mtx,mty))
         #Send events to pages
         self.invscreen.events(event)

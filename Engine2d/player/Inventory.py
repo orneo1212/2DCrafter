@@ -3,7 +3,7 @@ class Inventory:
     """Inventory. All items are stored by ID only."""
     def __init__(self):
         #slot=[itemid,count]
-        self.slots=[None]*20 # number of slots in inventory
+        self.slots=[None]*32 # number of slots in inventory
         self.maxstack=99
 
     def additem(self,itemid,simulate=False):
@@ -73,6 +73,6 @@ class Inventory:
         return False
 
     def clear(self):
-        self.slots=[None]*20
+        self.slots=[None]*32
 
 
