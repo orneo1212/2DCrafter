@@ -26,7 +26,6 @@ class ImageLoader(engine.dataobj.DataLoader):
         except Exception, e:
             print e
             self.config={
-                "smoothscale":True,
                 "maxfps":30,
                 "circlelight":False}
             return
@@ -57,11 +56,6 @@ class ImageLoader(engine.dataobj.DataLoader):
             img=pygame.image.load(filename)
             img.set_colorkey((255, 0, 255))
             img=img.convert_alpha()
-            if scale:
-                if self.config["smoothscale"]:
-                    img=pygame.transform.smoothscale(img, (self.ts,self.ts))
-                else:
-                    img=pygame.transform.scale(img,(self.ts,self.ts))
         except Exception, e:
             print e
             img=self.empty.copy()
