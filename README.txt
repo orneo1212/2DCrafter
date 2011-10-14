@@ -24,3 +24,4 @@ Controls:
     F11: Toggle fullscreen
 
 Author: orneo1212 <orneo1212@gmail.com>
+Contributor: logic <logic@vim.pl>
