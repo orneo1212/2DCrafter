@@ -82,7 +82,7 @@ class InventoryScreen:
 
         #pygame.draw.rect(screen, (128, 128, 128), \
         #    (self.invpos,self.invsizepix), 0)
-        screen.blit(self.image,(self.invsizepix[0]-93, self.invsizepix[1]+13))
+        screen.blit(self.image,(self.invsizepix[0]-92, self.invsizepix[1]+13))
         xx=0 #current slot
 
         drawselected=True
