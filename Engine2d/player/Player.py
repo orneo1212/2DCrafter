@@ -59,6 +59,12 @@ class Player:
         self.position[0]+=mv[direction][0]*speed
         self.position[1]+=mv[direction][1]*speed
 
+    def addpickupmsg(self,itemid):
+        """Add pickup message"""
+        block=engine.map.Block(itemid)
+        txt="You got %s" % block.name
+        engine.ui.msgbuffer.addtext(txt)
+
     def mineblock(self,blockposition):
         """Mine Block and put into inventory"""
         if not self.currmap:return 1 #Err: Map not assigned
@@ -68,6 +74,7 @@ class Player:
             #add self item or items definied in mineitems
             if not block.mineitems:
                 err=self.inventory.additem(block.id)
+                self.addpickupmsg(block.id)
             else:
                 #simulate add item
                 for itemid in block.mineitems:
@@ -79,6 +86,7 @@ class Player:
             #remove block only when added to invetory
             else:
                 for itemid in block.mineitems:
+                    self.addpickupmsg(itemid)
                     err=self.inventory.additem(itemid,False)
                 self.currmap.setblock(blockposition,None)
             return 0 # Done

@@ -57,6 +57,9 @@ class Game:
             secp=self.mapo.convertposition(self.player.getposition())
             sector=self.mapo.getsector(secp[0])
             engine.map.randomgrow(sector)
+        #move msg texts up
+        if self.minetimer.tickpassed(50):
+            engine.ui.msgbuffer.addtext("")
         #update pages
         self.invscreen.update()
         if self.chestinventory:self.chestinventory.update()
@@ -244,13 +247,13 @@ class Game:
             1, (255,255,255))
         screen.blit(text,(0,4*18))
         #Draw messages
-        msgs=engine.ui.msgbuffer.getlast(5)
+        msgs=engine.ui.msgbuffer.getlast(10)
         msgs.reverse()
         counter=0
         for msg in msgs:
             counter+=1
             text=self.font1.render(str(msg),1, (255,255,255))
-            screen.blit(text,(20,SH-counter*10-20))
+            screen.blit(text,(20,SH-counter*10-40))
 
     def onexit(self):
         """On exit"""

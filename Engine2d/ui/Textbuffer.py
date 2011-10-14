@@ -4,6 +4,7 @@ class TextBuffer:
         self.tbuffer=[]
 
     def addtext(self, text):
+        if len(self.tbuffer)>1024:self.clear()
         self.tbuffer.append(text)
 
     def getlast(self,n=1):
