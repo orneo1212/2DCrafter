@@ -12,27 +12,36 @@ class ItemLoader(engine.dataobj.DataLoader):
         """Get item by uid return item data"""
         if uid not in self.loaded.keys():
             item=self.loaditem(uid)
-            if not item:return {"data":{},"changed":False}
+            if not item:
+                newitemdata={"data":[],"changed":False}
+                self.loaded[uid]=newitemdata
+                return newitemdata
             #add loaded item and return it
             self.loaded[uid]=item
             return item
         else:return self.loaded[uid]
+
+    def setchanged(self, uid):
+        """Set item as changed"""
+        if uid not in self.loaded.keys():return
+        self.loaded[uid]["changed"]=True
 
     def unloaditems(self):
         """Unload changed items"""
         for loaded in self.loaded.keys():
             #save only chnaged
             if self.loaded[loaded]["changed"]:
-                self.saveitem(self.loaded[loaded])
+                self.saveitem(loaded)
 
     def saveitem(self,uid):
         """Save item by uid"""
-        if uid not in self.loaded:return 1 #item with UIS not exist
+        print "Saving itemdata UID:%s" % uid
+        if uid not in self.loaded.keys():return 1 #item with UID not exist
         #create world directory if not exist
         mappath=os.path.join(engine.mainpath, self.mapo.mapname)
         if not os.path.isdir(mappath):os.mkdir(mappath)
         newfile=os.path.join(mappath, str(uid)+".yaml")
-        yaml.dump(self.loaded[uid], newfile)
+        yaml.dump(self.loaded[uid], open(newfile,"w"))
         return 0 # Done
 
     def loaditem(self,uid):

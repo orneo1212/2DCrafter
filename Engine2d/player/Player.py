@@ -8,6 +8,7 @@ class Player:
         self.position=[0, 0]
         self.currmap=currmap
         self.inventory=engine.player.Inventory()
+        self.actiondata=None # action data like chest data
         self.tryloadplayer()
 
     def tryloadplayer(self):

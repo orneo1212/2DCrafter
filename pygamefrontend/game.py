@@ -26,6 +26,7 @@ class Game:
         #pages
         self.invscreen=inventoryscreen.InventoryScreen()
         self.invscreen.setinventory(self.player.inventory)
+        self.chestinventory=None #chest content if selected
         #speeds
         self.movespeed=0.25
         self.mineticks=10 # number of ticks to mine
@@ -56,6 +57,7 @@ class Game:
             engine.map.randomgrow(sector)
         #update pages
         self.invscreen.update()
+        if self.chestinventory:self.chestinventory.update()
 
         self.currenttile=self.invscreen.getselected()
 
@@ -118,12 +120,20 @@ class Game:
         #directions
         if keys[pygame.K_d]:
             self.player.move("e", self.movespeed)
+            if self.chestinventory:
+                self.chestinventory.visible=False
         if keys[pygame.K_a]:
             self.player.move("w", self.movespeed)
+            if self.chestinventory:
+                self.chestinventory.visible=False
         if keys[pygame.K_w]:
             self.player.move("n", self.movespeed)
+            if self.chestinventory:
+                self.chestinventory.visible=False
         if keys[pygame.K_s]:
             self.player.move("s", self.movespeed)
+            if self.chestinventory:
+                self.chestinventory.visible=False
         #mine block
         if mousekeys[0]==1 and not self.invscreen.isunder((mx,my)):
             self.mineblock((mtx,mty))
@@ -136,8 +146,10 @@ class Game:
         #put block
         if mousekeys[2]==1 and not self.invscreen.isunder((mx,my)):
             self.putblock((mtx,mty))
+            self.setupaction() # setupaction if any
         #Send events to pages
         self.invscreen.events(event)
+        if self.chestinventory:self.chestinventory.events(event)
 
     def actioninrange(self,actionpos):
         plpos=self.player.getposition()
@@ -159,6 +171,19 @@ class Game:
             if self.minetimer.tickpassed(self.mineticks):
                 err=self.player.mineblock(mousepos)
                 if not err:self.playsound(self.minesound)
+
+    def setupaction(self):
+        actiondata=self.player.actiondata # get action block
+        if not actiondata:return
+        if actiondata.id==18: # Chest
+            self.chestinventory=inventoryscreen.InventoryScreen()
+            inventory=engine.player.Inventory()
+            inventory.slots=actiondata.itemdata["data"]
+            self.chestinventory.setinventory(inventory)
+            self.chestinventory.visible=True
+            self.mapo.itemloader.setchanged(actiondata.uid)
+            #
+            self.player.actiondata=None
 
     def playsound(self,sound):
         """Play sound"""
@@ -191,6 +216,8 @@ class Game:
         self.drawosd(self.screen)
         #redraw pages
         self.invscreen.redraw(self.screen)
+        if self.chestinventory:self.chestinventory.redraw(self.screen)
+        #redraw screen
         pygame.display.update()
 
     def drawosd(self,screen):
@@ -228,6 +255,7 @@ class Game:
         self.mapo.savemapdata()
         self.mapo.unloadsectors()
         self.player.unloadplayer()
+        self.mapo.itemloader.unloaditems()
         sys.exit()
 
     def mainloop(self):

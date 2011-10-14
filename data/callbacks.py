@@ -13,3 +13,5 @@ def OpenChest(player,position):
     #do openchest
     itemdata=mapo.itemloader.getitem(chestblock.uid)
     chestblock.itemdata=itemdata
+    #set player action data
+    player.actiondata=chestblock
