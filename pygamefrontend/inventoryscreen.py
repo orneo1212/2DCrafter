@@ -11,7 +11,7 @@ class InventoryScreen:
         self.image=self.imgloader.loadimage("inventoryframe", False)
         self.imgsize=self.image.get_size()
         self.font=pygame.font.SysFont("Sans", 14)
-        self.imgoffset=(6,25)
+        self.imgoffset=(6,27)
         #
         self.ts=pygamefrontend.TILESIZE+4 # tilesize
         self.invsoffset=(0,0)
