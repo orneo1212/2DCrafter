@@ -32,7 +32,7 @@ class Game:
         #images
         self.actionbarimage=pygamefrontend.imgloader.loadimage("slotsframe")
         #speeds
-        self.movespeed=0.5
+        self.movespeed=0.25
         self.mineticks=10 # number of ticks to mine
         #timers
         self.minetimer=engine.tools.Timer()
