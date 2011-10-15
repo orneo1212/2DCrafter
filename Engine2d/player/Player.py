@@ -104,9 +104,10 @@ class Player:
                     #is empty remove item file
                     else:
                         self.currmap.itemloader.delitem(block.uid)
+            #add mined block to inventory
             if not block.mineitems:
                 err=self.inventory.additem(block.id)
-                self.addpickupmsg(block.id)
+                if not err:self.addpickupmsg(block.id)
             else:
                 #simulate add item
                 for itemid in block.mineitems:

@@ -179,11 +179,9 @@ class Game:
 
     def putblock(self, mousepos):
         """Put block on the ground"""
-        #avoid putblock on player position
-        if mousepos!=self.player.getposition():
-            if self.minetimer.tickpassed(5):
-                if self.actioninrange(mousepos):
-                    err=self.player.putblock(mousepos, self.currenttile)
+        if self.minetimer.tickpassed(5):
+            if self.actioninrange(mousepos):
+                err=self.player.putblock(mousepos, self.currenttile)
 
     def mineblock(self, mousepos):
         """Collect block"""

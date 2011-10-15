@@ -104,3 +104,7 @@
     name: Black marble
     blocked: false
     
+22:
+    name: DownStairs
+    blocked: true
+    
