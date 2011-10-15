@@ -35,13 +35,16 @@ class MapViever:
 
     def render(self, surface, center, mapobject):
         """Render map on the surface. Map will be centered on center position (global)."""
-        cx, cy=center
+        cx, cy=int(center[0]), int(center[1])
 
         tilesize=self.tilesize
         #light level
         lightlevel=engine.environment.DAYTIME.getlightlevel()
         #fill mask layer
         self.lightsurface.fill((0,0,0,lightlevel))
+        #calculate map move offset
+        mmox=int((cx-center[0])*tilesize)
+        mmoy=int((cy-center[1])*tilesize)
         #render tiles
         for yy in range(cy-self.center[1], cy+self.center[1]+1):
             for xx in range(cx-self.center[0], cx+self.center[0]+1):
@@ -53,6 +56,9 @@ class MapViever:
                 elif block.id==0:drawblock=False # skip block with id 0
 
                 drawpos=self.calculate_drawpos((xx,yy),(cx,cy))
+
+                #apply map move offset
+                drawpos=(drawpos[0]-mmox, drawpos[1]-mmoy)
 
                 #draw block only if there is one
                 if drawblock:
@@ -88,5 +94,5 @@ class MapViever:
 
     def renderatplayer(self,surface,player,mapobject):
         """Render map centered on given player"""
-        self.render(surface, player.getposition(), mapobject)
+        self.render(surface, player.position, mapobject)
         self.drawplayer(surface)
