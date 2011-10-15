@@ -11,6 +11,7 @@ images:
     backimg: data/images/backimg.png
     inventoryframe: data/images/inventory_frame.png
     chestframe: data/images/chest_frame.png
+    slotsframe: data/images/slotsframe.png
     1: data/images/stone.png
     2: data/images/mud.png
     3: data/images/water.png

@@ -2,11 +2,11 @@ import time
 import math
 import sys
 import pygamefrontend
-from pygamefrontend import imageloader, mapviewer,inventoryscreen
+from pygamefrontend import imageloader, mapviewer, inventoryscreen
 import Engine2d as engine
 import pygame
 
-SW,SH=pygamefrontend.SW,pygamefrontend.SH
+SW, SH=pygamefrontend.SW, pygamefrontend.SH
 
 """Game """
 class Game:
@@ -29,6 +29,8 @@ class Game:
         self.invscreen=inventoryscreen.InventoryScreen()
         self.invscreen.setinventory(self.player.inventory)
         self.chestinventory=None #chest content if selected
+        #images
+        self.actionbarimage=pygamefrontend.imgloader.loadimage("slotsframe")
         #speeds
         self.movespeed=0.5
         self.mineticks=10 # number of ticks to mine
@@ -68,10 +70,10 @@ class Game:
 
     def isunderpages(self):
         """return false if mouse is not under pages"""
-        mx,my=pygame.mouse.get_pos()
+        mx, my=pygame.mouse.get_pos()
         if self.chestinventory:
-            return self.chestinventory.isunder((mx,my))
-        return self.invscreen.isunder((mx,my))
+            return self.chestinventory.isunder((mx, my))
+        return self.invscreen.isunder((mx, my))
 
     def handlekeydown(self, event):
         """handle all keydown events"""
@@ -96,7 +98,7 @@ class Game:
         if event.key==pygame.K_PAGEUP:self.nextrecipe(True)
         #Craft
         if event.key==pygame.K_RETURN:
-            engine.crafting.craft(self.player,self.currentrecipe)
+            engine.crafting.craft(self.player, self.currentrecipe)
             self.nextrecipe(update=True)
         #Sort inventory
         if event.key==pygame.K_BACKSPACE:
@@ -149,7 +151,7 @@ class Game:
             self.hidechest()
         #mine block
         if mousekeys[0]==1 and not self.isunderpages():
-            self.mineblock((mtx,mty))
+            self.mineblock((mtx, mty))
         #get block under cursor
         if mousekeys[1]==1 and not self.isunderpages():
             block=self.mapo.getblock((mtx, mty))
@@ -157,15 +159,15 @@ class Game:
             else:self.currenttile=None
             self.invscreen.setselected(self.currenttile)
         #put block
-        if mousekeys[2]==1 and not self.invscreen.isunder((mx,my)):
-            self.putblock((mtx,mty))
+        if mousekeys[2]==1 and not self.invscreen.isunder((mx, my)):
+            self.putblock((mtx, mty))
             self.setupaction() # setupaction if any
         #Send events to pages
         self.invscreen.events(event)
         if self.chestinventory:
             self.chestinventory.events(event)
 
-    def actioninrange(self,actionpos,distance=0):
+    def actioninrange(self, actionpos, distance=0):
         """Check if the action is in range.
         If distance=0 then will be used self.actiondistance"""
         plpos=self.player.getposition()
@@ -175,7 +177,7 @@ class Game:
             return True
         else:return False
 
-    def putblock(self,mousepos):
+    def putblock(self, mousepos):
         """Put block on the ground"""
         #avoid putblock on player position
         if mousepos!=self.player.getposition():
@@ -183,7 +185,7 @@ class Game:
                 if self.actioninrange(mousepos):
                     err=self.player.putblock(mousepos, self.currenttile)
 
-    def mineblock(self,mousepos):
+    def mineblock(self, mousepos):
         """Collect block"""
         plpos=self.player.getposition()
         if self.actioninrange(mousepos, 2):
@@ -199,7 +201,7 @@ class Game:
         if actiondata.id==18: # Chest
             #create inventoryscreen object for chest content
             self.chestinventory=inventoryscreen.InventoryScreen("chestframe")
-            self.chestinventory.invsoffset=(0,-180)
+            self.chestinventory.invsoffset=(10, -180)
             #create inventory object to store items
             inventory=engine.player.Inventory()
             inventory.slots=actiondata.itemdata["data"]
@@ -222,12 +224,12 @@ class Game:
             #self.invscreen.visible=False
             self.chestinventory.tradeinventory=None
 
-    def playsound(self,sound):
+    def playsound(self, sound):
         """Play sound"""
         if not pygame.mixer.get_busy():
             if sound:sound.play()
 
-    def nextrecipe(self,reverse=False,update=False):
+    def nextrecipe(self, reverse=False, update=False):
         """Toggle recipe"""
         if not update:
             if reverse:self.currentrecipeID-=1
@@ -247,7 +249,7 @@ class Game:
     def redraw(self):
         if not self.eventtimer.tickpassed(2):return
         #clean the screen
-        self.screen.fill((117,101,50))
+        self.screen.fill((117, 101, 50))
         #render
         self.mapviewer.renderatplayer(self.screen, self.player, self.mapo)
         #Draw on screen text
@@ -258,34 +260,43 @@ class Game:
         #redraw screen
         pygame.display.update()
 
-    def drawosd(self,screen):
+    def drawosd(self, screen):
         """Draw on screen texts"""
         #draw position
         pos=self.player.getposition()
-        text=self.font.render("Position: %s" % str(pos), 1, (255,255,255))
-        screen.blit(text,(0,0))
+        text=self.font.render("Position: %s" % str(pos), 1, (255, 255, 255))
+        screen.blit(text, (0, 0))
         #draw current day state
         daystate=engine.environment.DAYTIME.daystate
-        text=self.font.render(str(daystate),1, (255,255,255))
-        screen.blit(text,(0,1*18))
+        text=self.font.render(str(daystate), 1, (255, 255, 255))
+        screen.blit(text, (0, 1*18))
         #draw selected block  name
         block=engine.map.Block(self.currenttile)
         if block:name=block.name
         else:name=""
-        text=self.font.render("Selected: %s" % name, 1, (255,255,255))
-        screen.blit(text,(0,3*18))
+        text=self.font.render("Selected: %s" % name, 1, (255, 255, 255))
+        screen.blit(text, (0, 3*18))
         #draw current recipe
-        text=self.font.render("Recipe: %s" % str(self.currentrecipe),\
-            1, (255,255,255))
-        screen.blit(text,(0,4*18))
+        text=self.font.render("Recipe: %s" % str(self.currentrecipe), \
+            1, (255, 255, 255))
+        screen.blit(text, (0, 4*18))
         #Draw messages
         msgs=engine.ui.msgbuffer.getlast(10)
         msgs.reverse()
         counter=0
         for msg in msgs:
             counter+=1
-            text=self.font1.render(str(msg),1, (255,255,255))
-            screen.blit(text,(20,SH-counter*10-40))
+            text=self.font1.render(str(msg), 1, (255, 255, 255))
+            screen.blit(text, (20, SH-counter*10-40))
+        #draw actionbar
+        screen.blit(self.actionbarimage,(400-148,600-45))
+        #Draw first row from inventory
+        slotid=0
+        for slot in self.player.inventory.getfirstrow():
+            if not slot:continue
+            img=pygamefrontend.imgloader.loadimage(slot[0])
+            screen.blit(img, (400-148+6+slotid*36, 600-45+6))
+            slotid+=1
 
     def onexit(self):
         """On exit"""

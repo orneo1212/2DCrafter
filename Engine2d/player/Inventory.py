@@ -22,6 +22,11 @@ class Inventory:
                 if not simulate:self.slots[slot]=[itemid,1]
                 return 0 # Done
 
+    def getfirstrow(self):
+        """Return first 8 slots"""
+        if len(self.slots)>=8:return self.slots[:7]
+        else:return []
+
     def getslot(self,slotid):
         if not slotid in range(0,len(self.slots)):return None
         return self.slots[slotid]

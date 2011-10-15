@@ -4,22 +4,22 @@ import pygame
 import time
 import pygamefrontend
 
-SW,SH=pygamefrontend.SW,pygamefrontend.SH
+SW, SH=pygamefrontend.SW, pygamefrontend.SH
 
 """Inventory screen (show content of Inventory object)"""
 class InventoryScreen:
-    def __init__(self,image="inventoryframe"):
+    def __init__(self, image="inventoryframe"):
         self.imgloader=imageloader.ImageLoader("data/images.yaml")
         self.image=self.imgloader.loadimage(image, False)
         self.imgsize=self.image.get_size()
         self.font=pygame.font.SysFont("Sans", 14)
-        self.imgoffset=(6,27)
+        self.imgoffset=(6, 27) #Dont touch
         #
         self.ts=pygamefrontend.TILESIZE+4 # tilesize
         #inventory offset (with image)
-        self.invsoffset=(0,220)
+        self.invsoffset=(6, 190)
         self.invsize=(8, 4) # width, height
-        self.invsizepix=(self.invsize[0]*self.ts,self.invsize[1]*self.ts)
+        self.invsizepix=(self.invsize[0]*self.ts, self.invsize[1]*self.ts)
         self.invpos=(SW/2-self.imgsize[0]/2, SH/2-self.imgsize[1]/2)
         #
         self.visible=False
@@ -39,7 +39,7 @@ class InventoryScreen:
             if slot:return slot[0]
         return 0
 
-    def setselected(self,selecteditemid):
+    def setselected(self, selecteditemid):
         """Set selected item"""
         self.selected=self.inventory.getslotid(selecteditemid)
 
@@ -74,7 +74,7 @@ class InventoryScreen:
         ny=self.invpos[1]+self.invsoffset[1]
         return (nx, ny)
 
-    def isunder(self, (mx,my)):
+    def isunder(self, (mx, my)):
         """Return True if point is under inventory"""
         if not self.visible:return False
         nx, ny=self.getinvpos()
@@ -87,13 +87,13 @@ class InventoryScreen:
         """Return None if the point (mx, my) is not in
         inventory area, otherwise return index of slot"""
         nx, ny=self.getinvpos()
-        if self.isunder((mx,my)):
+        if self.isunder((mx, my)):
             px=(mx-nx)/self.ts
             py=(my-ny)/self.ts
             return px+self.invsize[0]*py
         return None
 
-    def setimage(self,imagename):
+    def setimage(self, imagename):
         """Set image for inventory background"""
         self.image=self.imgloader.loadfile(imagename)
 
@@ -101,7 +101,7 @@ class InventoryScreen:
         if not self.visible:return
 
         #Draw inventory background
-        screen.blit(self.image,(self.invpos[0]-\
+        screen.blit(self.image, (self.invpos[0]-\
             self.imgoffset[0]+self.invsoffset[0], \
             self.invpos[1]-self.imgoffset[1]+self.invsoffset[1]))
         xx=0 #current slot
