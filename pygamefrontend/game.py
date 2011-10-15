@@ -202,12 +202,11 @@ class Game:
             self.chestinventory.invsoffset=(10, -180)
             #create inventory object to store items
             inventory=engine.player.Inventory()
-            inventory.slots=actiondata.itemdata["data"]
+            if actiondata.itemdata:
+                inventory.slots=actiondata.itemdata["data"]
             #set inventory to show in inventoryscreen
             self.chestinventory.setinventory(inventory)
             self.chestinventory.visible=True
-            #mark item as a changed
-            self.mapo.itemloader.setchanged(actiondata.uid)
             # set player actiondata to None. avoid run this code again
             self.player.actiondata=None
             #setup trade (player>chest and chest>player)
@@ -303,7 +302,6 @@ class Game:
         self.mapo.savemapdata()
         self.mapo.unloadsectors()
         self.player.unloadplayer()
-        self.mapo.itemloader.unloaditems()
         sys.exit()
 
     def mainloop(self):

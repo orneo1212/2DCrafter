@@ -8,7 +8,6 @@ import player
 import tools
 import ui
 import dataobj
-import items
 
 #Main path
 mainpath=""

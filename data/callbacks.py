@@ -5,13 +5,14 @@ def OpenChest(player,position):
     #Generate unique ID when not exist
     if chestblock.uid==0:
         chestblock.generateUID()
-        #mark sector as modified to save block data
-        positions=mapo.convertposition(position)
-        sectorposition=positions[0]
-        sector=mapo.getsector(sectorposition)
-        sector.markmodified()
-    #do openchest
-    itemdata=mapo.itemloader.getitem(chestblock.uid)
-    chestblock.itemdata=itemdata
+    #mark sector as modified to save block data
+    positions=mapo.convertposition(position)
+    sectorposition=positions[0]
+    sector=mapo.getsector(sectorposition)
+    sector.markmodified()
+    #init new chest if needed
+    if not chestblock.itemdata:
+        chestblock.itemdata={}
+        chestblock.itemdata["data"]=[None]*32
     #set player action data
     player.actiondata=chestblock

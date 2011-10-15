@@ -29,6 +29,8 @@ def loadsector(mapname, sectorposition):
                     #load metadata
                     if blockdata.has_key("uid"):
                         block.uid=blockdata["uid"]
+                    if blockdata.has_key("itemdata"):
+                        block.itemdata=blockdata["itemdata"]
                     #If not block
                     if block.id==None:block=None
                 else:block=None
@@ -56,7 +58,8 @@ def savesector(mapname, sector):
             if block:
                 data["id"]=block.id
                 if block.uid!=0:data["uid"]=block.uid
-            else:data["id"]=None
+                if block.itemdata!=None:data["itemdata"]=block.itemdata
+            else:continue
 
             sectorfile["%iX%i" % (xx, yy)]=data
     dfile=open("%s/%iX%i" % (mapname, pos[0], pos[1]), "w")

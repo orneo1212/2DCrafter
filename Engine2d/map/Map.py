@@ -8,7 +8,6 @@ class Map:
         self.entities=[]
         self.mapname="world"
         self.maptype=0 # 0-outdoor 1-underground
-        self.itemloader=engine.items.ItemLoader(self)
 
     # SET
     def setblock(self, position, newblock):

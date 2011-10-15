@@ -100,12 +100,11 @@ class Player:
             if block.id==18:
                 #if chest have itemdata
                 if block.itemdata:
-                    # if not empty dont mine it
+                    #dont mine non empty chests
                     if not block.itemdata["data"].count(None)==32:
+                        engine.ui.msgbuffer.addtext("You can't mine non empty"\
+                                                    " chests")
                         return 4 #Cannot remoeve non empty chest
-                    #is empty remove item file
-                    else:
-                        self.currmap.itemloader.delitem(block.uid)
             #add mined block to inventory
             if not block.mineitems:
                 err=self.inventory.additem(block.id)
