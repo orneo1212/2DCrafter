@@ -105,6 +105,11 @@
     blocked: false
     
 22:
-    name: DownStairs
+    name: Downstairs
     blocked: false
-    
+    onputcall: "MoveDown"
+
+23:
+    name: Upstairs
+    blocked: false
+    onputcall: "MoveUp"

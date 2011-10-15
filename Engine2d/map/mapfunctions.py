@@ -33,6 +33,7 @@ def loadsector(mapname, sectorposition):
                         block.itemdata=blockdata["itemdata"]
                     #If not block
                     if block.id==None:block=None
+                    if block.id==0:block=None
                 else:block=None
                 newsector.setblock((xx, yy), block)
     newsector.marknotmodified()

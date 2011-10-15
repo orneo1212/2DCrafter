@@ -15,8 +15,7 @@ class Game:
         self.screen=pygame.display.set_mode((SW, SH), pygame.DOUBLEBUF)
         pygame.display.set_caption("2DCrafter")
         #define variables
-        self.mapo=engine.map.Map()
-        self.mapo.loadmapdata()
+        self.mapo=engine.map.mapstack.getmapbyindex(0)
         self.player=engine.player.Player("test", self.mapo)
         self.imageloader=imageloader.ImageLoader("data/images.yaml")
         self.mapviewer=mapviewer.MapViever()
@@ -248,7 +247,8 @@ class Game:
         #clean the screen
         self.screen.fill((117, 101, 50))
         #render
-        self.mapviewer.renderatplayer(self.screen, self.player, self.mapo)
+        self.mapviewer.renderatplayer(self.screen, self.player,\
+            self.player.currmap)
         #Draw on screen text
         self.drawosd(self.screen)
         #redraw pages
@@ -299,8 +299,7 @@ class Game:
         """On exit"""
         engine.ui.msgbuffer.addtext("Saveing data please wait...")
         self.redraw()
-        self.mapo.savemapdata()
-        self.mapo.unloadsectors()
+        engine.map.mapstack.unloadall()
         self.player.unloadplayer()
         sys.exit()
 

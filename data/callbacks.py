@@ -16,3 +16,11 @@ def OpenChest(player,position):
         chestblock.itemdata["data"]=[None]*32
     #set player action data
     player.actiondata=chestblock
+
+def MoveDown(player,position):
+    """Move down"""
+    player.movedown()
+
+def MoveUp(player,position):
+    """Move up"""
+    player.moveup()

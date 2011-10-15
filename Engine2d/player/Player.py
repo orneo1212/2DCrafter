@@ -8,7 +8,10 @@ class Player:
         self.name=name
         self.position=[0.0, 0.0]
         self.respawnpos=[0,0]
+        #map
         self.currmap=currmap
+        self.mapindex=0 # 0-outdoor 1+ undergrounds
+
         self.inventory=engine.player.Inventory()
         self.actiondata=None # action data like chest data
         self.tryloadplayer()
@@ -29,6 +32,21 @@ class Player:
             #try next random position
             tries-=1
 
+    def movedown(self):
+        """Move to bottom layer"""
+        index=self.currmap.index
+        index+=1
+        self.currmap=engine.map.mapstack.getmapbyindex(index)
+
+    def moveup(self):
+        """Move to upper layer"""
+        index=self.currmap.index
+        index-=1
+        if index<0:index=0
+        self.currmap=engine.map.mapstack.getmapbyindex(index)
+
+    def movetomap(self,mapindex):
+        self.currmap=engine.map.mapstack.getmapbyindex(mapindex)
 
     def tryloadplayer(self):
         """Try load player"""
@@ -48,6 +66,8 @@ class Player:
             self.position=playerdata["player"]["position"]
         if playerdata.has_key("inventory"):
             self.inventory.slots=playerdata["inventory"]
+        if playerdata.has_key("mapindex"):
+            self.movetomap(playerdata["mapindex"])
 
     def unloadplayer(self):
         """unload player data"""
@@ -61,6 +81,7 @@ class Player:
         data["player"]={}
         data["player"]["position"]=self.position
         data["inventory"]=self.inventory.slots
+        data["mapindex"]=self.currmap.index
         yaml.dump(data,playerfile)
         return 0 # done
 
