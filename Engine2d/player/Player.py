@@ -1,25 +1,48 @@
 import os
+import random
 import yaml
 import Engine2d as engine
 
 class Player:
-    def __init__(self, name, currmap=None):
+    def __init__(self, name, currmap):
         self.name=name
         self.position=[0, 0]
+        self.respawnpos=[0,0]
         self.currmap=currmap
         self.inventory=engine.player.Inventory()
         self.actiondata=None # action data like chest data
         self.tryloadplayer()
 
+    def find_spawn_position(self):
+        """Find new non blocked spawn position"""
+        tries=2000
+        print "Finding respawn..."
+        while tries>0:
+            nx=random.randint(-500,500)
+            ny=random.randint(-500,500)
+            block=self.currmap.getblock((nx,ny))
+            if block:
+                if not block.blocked and block.obstacle:
+                    self.position=[nx,ny]
+                    self.respawnpos=[nx,ny]
+                    return
+            #try next random position
+            tries-=1
+
+
     def tryloadplayer(self):
         """Try load player"""
         playerspath=os.path.join(engine.mainpath,"players")
         playerfile=os.path.join(playerspath,"%s.yaml" % self.name)
-        try:playerdata=open(playerfile,"r")
-        except IOError:return
-        #file exist load player data
-        playerdata=yaml.load(playerdata)
-        if not playerdata:return
+        try:
+            playerdata=open(playerfile,"r")
+            playerdata=yaml.load(playerdata)
+            if not playerdata:return
+        except:
+            #find new player spawn point
+            self.find_spawn_position()
+            return
+
         #parse data fropm file
         if playerdata.has_key("player"):
             self.position=playerdata["player"]["position"]
