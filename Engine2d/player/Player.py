@@ -78,7 +78,7 @@ class Player:
             xx=int(self.position[0]+mv[direction][0])
             yy=int(self.position[1]+mv[direction][1])
             if collisions and self.currmap.isblocked((xx, yy)):
-                #self.position=[int(self.position[0]),int(self.position[1])]
+                self.position=[int(self.position[0]),int(self.position[1])]
                 return
         #update position
         self.position[0]+=mv[direction][0]
