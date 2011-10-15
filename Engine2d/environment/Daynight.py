@@ -1,6 +1,6 @@
 class Daytime:
     def __init__(self):
-        self.daylength=10*60 # day+night length in secs
+        self.daylength=40*60 # day+night length in secs
         self.daytime=self.daylength*0.1# time in secs
         self.lightlevel=255 # light level 0-255
         #time to change from day to night
