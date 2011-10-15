@@ -6,7 +6,7 @@ import Engine2d as engine
 class Player:
     def __init__(self, name, currmap):
         self.name=name
-        self.position=[0, 0]
+        self.position=[0.0, 0.0]
         self.respawnpos=[0,0]
         self.currmap=currmap
         self.inventory=engine.player.Inventory()
@@ -75,9 +75,11 @@ class Player:
 
         #can't go through a blocked block
         if self.currmap:
-            xx=int(self.position[0]+mv[direction][0]*speed)
-            yy=int(self.position[1]+mv[direction][1]*speed)
-            if collisions and self.currmap.isblocked((xx, yy)):return
+            xx=int(self.position[0]+mv[direction][0])
+            yy=int(self.position[1]+mv[direction][1])
+            if collisions and self.currmap.isblocked((xx, yy)):
+                #self.position=[int(self.position[0]),int(self.position[1])]
+                return
         #update position
         self.position[0]+=mv[direction][0]*speed
         self.position[1]+=mv[direction][1]*speed

@@ -24,7 +24,7 @@ class Inventory:
 
     def getfirstrow(self):
         """Return first 8 slots"""
-        if len(self.slots)>=8:return self.slots[:7]
+        if len(self.slots)>=8:return self.slots[:8]
         else:return []
 
     def getslot(self,slotid):

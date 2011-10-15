@@ -291,9 +291,9 @@ class Game:
         #Draw first row from inventory
         slotid=0
         for slot in self.player.inventory.getfirstrow():
-            if not slot:continue
-            img=pygamefrontend.imgloader.loadimage(slot[0])
-            screen.blit(img, (400-148+6+slotid*36, 600-45+6))
+            if slot:
+                img=pygamefrontend.imgloader.loadimage(slot[0])
+                screen.blit(img, (400-148+6+slotid*36, 600-45+6))
             slotid+=1
 
     def onexit(self):
