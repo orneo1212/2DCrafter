@@ -97,6 +97,7 @@ class Game:
         #Craft
         if event.key==pygame.K_RETURN:
             engine.crafting.craft(self.player,self.currentrecipe)
+            self.nextrecipe(update=True)
         #Sort inventory
         if event.key==pygame.K_BACKSPACE:
             self.player.sortinventory()
@@ -186,10 +187,10 @@ class Game:
         """Collect block"""
         plpos=self.player.getposition()
         if self.actioninrange(mousepos, 2):
-            if self.minetimer.tickpassed(self.mineticks):
-                self.hidechest()
-                err=self.player.mineblock(mousepos)
-                if not err:self.playsound(self.minesound)
+            if not self.minetimer.tickpassed(self.mineticks):return
+            self.hidechest()
+            err=self.player.mineblock(mousepos)
+            if not err:self.playsound(self.minesound)
 
     def setupaction(self):
         """Setup action. like open chests"""
@@ -226,10 +227,11 @@ class Game:
         if not pygame.mixer.get_busy():
             if sound:sound.play()
 
-    def nextrecipe(self,reverse=False):
+    def nextrecipe(self,reverse=False,update=False):
         """Toggle recipe"""
-        if reverse:self.currentrecipeID-=1
-        else:self.currentrecipeID+=1
+        if not update:
+            if reverse:self.currentrecipeID-=1
+            else:self.currentrecipeID+=1
 
         items=self.player.inventory.getitems()
         recipelist=engine.crafting.getpossiblerecipes(items)
