@@ -70,7 +70,7 @@ class Player:
     def move(self, direction, speed,collisions=True):
         """Move player to a given direction"""
         #north east west south up down
-        mv={"n":(0, 1), "s":(0, -1), "e":(-1, 0), "w":(1, 0)}
+        mv={"n":(0, speed), "s":(0, -speed), "e":(-speed, 0), "w":(speed, 0)}
         if direction not in mv.keys():return
 
         #can't go through a blocked block
@@ -81,8 +81,8 @@ class Player:
                 #self.position=[int(self.position[0]),int(self.position[1])]
                 return
         #update position
-        self.position[0]+=mv[direction][0]*speed
-        self.position[1]+=mv[direction][1]*speed
+        self.position[0]+=mv[direction][0]
+        self.position[1]+=mv[direction][1]
 
     def addpickupmsg(self,itemid):
         """Add pickup message"""
