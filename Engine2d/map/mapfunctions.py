@@ -57,6 +57,7 @@ def savesector(mapname, sector):
             block=sector.getblock((xx, yy))
             #new format
             if block:
+                if block.id==0:continue
                 data["id"]=block.id
                 if block.uid!=0:data["uid"]=block.uid
                 if block.itemdata!=None:data["itemdata"]=block.itemdata
@@ -138,7 +139,8 @@ def generate_outdoor(sector):
                 if h>=128 and water:blockid=3 #lakes
                 if h>=128 and lava:blockid=5 #lava lakes
             #create block and put on sector
-            block=engine.map.Block(blockid)
+            if blockid:block=engine.map.Block(blockid)
+            else:block=None
             sector.setblock([xx,yy],block)
 
 def generate_underground(sector):
@@ -193,5 +195,6 @@ def generate_underground(sector):
                 if h>=128 and water:blockid=3 #lakes
                 if h>=128 and lava:blockid=5 #lava lakes
             #create block and put on sector
-            block=engine.map.Block(blockid)
+            if blockid:block=engine.map.Block(blockid)
+            else:block=None
             sector.setblock([xx,yy],block)
