@@ -30,7 +30,7 @@ class Game:
         self.invscreen.setinventory(self.player.inventory)
         self.chestinventory=None #chest content if selected
         #speeds
-        self.movespeed=0.25
+        self.movespeed=0.5
         self.mineticks=10 # number of ticks to mine
         #timers
         self.minetimer=engine.tools.Timer()
