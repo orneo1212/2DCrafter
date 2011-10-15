@@ -24,3 +24,8 @@ Chest:
     req: [10,10,10,10,10,10,10,10]
     result: 18
     count: 1
+
+Downstairs:
+    req: [17,17,17,17,17,17,14,14]
+    result: 22
+    count: 1

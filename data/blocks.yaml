@@ -106,5 +106,5 @@
     
 22:
     name: DownStairs
-    blocked: true
+    blocked: false
     
