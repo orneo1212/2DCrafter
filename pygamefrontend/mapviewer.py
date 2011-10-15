@@ -5,10 +5,11 @@ import Engine2d as engine
 import pygamefrontend
 from pygamefrontend import functions
 
+SW,SH=pygamefrontend.SW,pygamefrontend.SH
+
 class MapViever:
     """Map Viewer for pygame frontend"""
     def __init__(self):
-        SW,SH=pygamefrontend.SW,pygamefrontend.SH
         #View Width and height (in tiles)
         self.viewW=25
         self.viewH=18
@@ -17,7 +18,6 @@ class MapViever:
         self.tilesize=pygamefrontend.TILESIZE
         #light
         self.lightsurface=pygame.Surface((SW,SH),pygame.SRCALPHA)
-        self.lightoffset=self.tilesize/2 # offset for blit lights circles
         #player image
         self.playerimg=pygamefrontend.imgloader.loadimage("player")
         self.backimg=pygamefrontend.imgloader.loadimage("backimg")
@@ -54,11 +54,6 @@ class MapViever:
 
                 drawpos=self.calculate_drawpos((xx,yy),(cx,cy))
 
-                #light position
-                #TODO: move to functions.py
-                lx,ly=drawpos[0]+self.lightoffset,\
-                    drawpos[1]+self.lightoffset
-
                 #draw block only if there is one
                 if drawblock:
                     surface.blit(self.backimg, drawpos)
@@ -66,7 +61,7 @@ class MapViever:
                     #draw light emited by block
                     if block.lightradius:
                         radius=block.lightradius
-                        functions.drawlight(self.lightsurface,(lx,ly),radius)
+                        functions.drawlight(self.lightsurface,drawpos,radius)
                 #if not draw background image
                 else:
                     surface.blit(self.backimg, drawpos)
