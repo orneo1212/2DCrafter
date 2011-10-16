@@ -1,3 +1,4 @@
+import os
 import pygame
 import pygamefrontend
 
@@ -12,6 +13,8 @@ class Button:
         self.label=label
         self.labelcolor=(255,255,255)
         self.labelimg=self.font.render(self.label,1,self.labelcolor)
+        self.clicksound=pygame.mixer.Sound("data/sounds/click.ogg")
+        self.clicksound.get_buffer()
         #top-left corner of button
         self.posx=0
         self.posy=0
@@ -54,5 +57,6 @@ class Button:
             #left mouse button
             if event.button==1:
                 if self.isunder(event.pos):
+                    self.clicksound.play()
                     if self.clickcallback:
                         self.clickcallback(*self.clickcallbackargs)
