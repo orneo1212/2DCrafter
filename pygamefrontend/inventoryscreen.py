@@ -24,7 +24,7 @@ class InventoryScreen:
         #
         self.visible=False
         self.inventory=None
-        self.selected=0
+        self.selected=None
         self.tradeinventory=None # trade inventory
 
     def setinventory(self, inventory):
@@ -38,7 +38,7 @@ class InventoryScreen:
             if self.selected is None:return None
             slot=self.inventory.slots[self.selected]
             if slot:return slot[0]
-        return 0
+        return None
 
     def setselected(self, selecteditemid):
         """Set selected item"""
@@ -48,8 +48,12 @@ class InventoryScreen:
         pass
 
     def events(self, event):
-        if not self.visible:return
-        #left mouse button
+        #if not visible unselect slot
+        if not self.visible:
+            self.selected=None
+            return
+
+        #left mouse button (select)
         if pygame.mouse.get_pressed()[0]==1:
             #select block
             mx, my=pygame.mouse.get_pos()
@@ -57,7 +61,16 @@ class InventoryScreen:
             if slotpos!=None and self.inventory:
                 slot=self.inventory.getslot(slotpos)
                 if slot!=None:self.selected=slotpos
-        #right mouse button
+                #rearrange slots
+                else:
+                    #only reaareng when slot is selected
+                    if self.selected is not None:
+                        data=self.inventory.getslot(self.selected)
+                        self.inventory.slots[slotpos]=data
+                        self.inventory.slots[self.selected]=None
+                        self.selected=None
+
+        #right mouse button (Trade)
         if pygame.mouse.get_pressed()[2]==1:
             if self.tradeinventory:
                 mx, my=pygame.mouse.get_pos()
