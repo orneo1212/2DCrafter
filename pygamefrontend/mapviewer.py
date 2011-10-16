@@ -53,7 +53,7 @@ class MapViever:
         self.mmoy=int((center[1]-cy)*tilesize)
         #render tiles
         for yy in range(cy-self.center[1]-1, cy+self.center[1]+2):
-            for xx in range(cx-self.center[0]-1, cx+self.center[0]+1):
+            for xx in range(cx-self.center[0]-1, cx+self.center[0]+2):
                 drawblock=True
                 #get block and blit it
                 block=mapobject.getblock((xx, yy))
