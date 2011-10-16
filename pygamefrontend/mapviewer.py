@@ -42,7 +42,10 @@ class MapViever:
 
         tilesize=self.tilesize
         #light level
-        lightlevel=engine.environment.DAYTIME.getlightlevel()
+        if mapobject.index>0:
+            lightlevel=255-16
+        else:
+            lightlevel=engine.environment.DAYTIME.getlightlevel()
         #fill mask layer
         self.lightsurface.fill((0, 0, 0, lightlevel))
         #calculate map move offset

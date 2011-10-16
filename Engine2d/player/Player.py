@@ -37,6 +37,7 @@ class Player:
         index=self.currmap.index
         index+=1
         self.currmap=engine.map.mapstack.getmapbyindex(index)
+        engine.ui.msgbuffer.addtext("Go below floor")
 
     def moveup(self):
         """Move to upper layer"""
@@ -44,6 +45,7 @@ class Player:
         index-=1
         if index<0:index=0
         self.currmap=engine.map.mapstack.getmapbyindex(index)
+        engine.ui.msgbuffer.addtext("Go above floor")
 
     def movetomap(self,mapindex):
         self.currmap=engine.map.mapstack.getmapbyindex(mapindex)
