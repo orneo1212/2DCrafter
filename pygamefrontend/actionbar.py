@@ -52,6 +52,6 @@ class Actionbar:
         if pygame.mouse.get_pressed()[0]:
             if self.isunder((mx,my)):
                 #get slotid under cursor
-                sx=(mx-(400-148+6))/pygamefrontend.TILESIZE
+                sx=(mx-(400-148+6))/(pygamefrontend.TILESIZE+4)
                 #sy=(my-(600-45+6))/pygamefrontend.TILESIZE
                 self.selected=sx
