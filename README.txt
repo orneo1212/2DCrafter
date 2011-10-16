@@ -23,5 +23,12 @@ Controls:
     F10: Toggle rounded lights
     F11: Toggle fullscreen
 
-Author: orneo1212 <orneo1212@gmail.com>
-Contributor: logic <logic@vim.pl>
+Licence:
+    Licensed under GPLv3 
+    for more informations see gpl-3.0.txt file included with game
+    
+Author:
+    orneo1212 <orneo1212@gmail.com>
+    
+Contributor and Graphics Designer:
+    logic <logic@vim.pl>
