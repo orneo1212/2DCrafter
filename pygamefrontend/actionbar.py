@@ -10,6 +10,10 @@ class Actionbar:
         self.offset=(6,6)
         self.font=pygame.font.SysFont("Sans", 12)
 
+    def update(self):
+        if self.selected>7:self.selected=0
+        if self.selected<0:self.selected=7
+
     def redraw(self,screen):
         #draw actionbar
         screen.blit(self.image, self.position)

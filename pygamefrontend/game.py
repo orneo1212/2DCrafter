@@ -61,6 +61,7 @@ class Game:
         #update pages
         self.invscreen.update()
         if self.chestinventory:self.chestinventory.update()
+        self.actionbar.update()
         #set current tile
         self.currenttile=self.actionbar.getselected()
 
@@ -80,6 +81,15 @@ class Game:
             else:self.invscreen.visible=True
         #QUIT
         if event.key==pygame.K_ESCAPE:self.onexit()
+        #Actionbar selection
+        if event.key==pygame.K_1:self.actionbar.selected=0
+        if event.key==pygame.K_2:self.actionbar.selected=1
+        if event.key==pygame.K_3:self.actionbar.selected=2
+        if event.key==pygame.K_4:self.actionbar.selected=3
+        if event.key==pygame.K_5:self.actionbar.selected=4
+        if event.key==pygame.K_6:self.actionbar.selected=5
+        if event.key==pygame.K_7:self.actionbar.selected=6
+        if event.key==pygame.K_8:self.actionbar.selected=7
         #Toggle fullscreen
         if event.key==pygame.K_F11:
             pygame.display.toggle_fullscreen()
@@ -119,6 +129,10 @@ class Game:
 
         if event.type==pygame.QUIT:self.onexit()
         if event.type==pygame.KEYDOWN:self.handlekeydown(event)
+        if event.type==pygame.MOUSEBUTTONDOWN:
+            if self.actionbar.selected is  not None:
+                if event.button==4:self.actionbar.selected-=1
+                if event.button==5:self.actionbar.selected+=1
 
         #events tick
         if not self.eventtimer.timepassed(0.025):return
@@ -148,12 +162,6 @@ class Game:
         #mine block
         if mousekeys[0]==1 and not self.isunderpages():
             self.mineblock((mtx, mty))
-        #get block under cursor
-        if mousekeys[1]==1 and not self.isunderpages():
-            block=self.mapo.getblock((mtx, mty))
-            if block:self.currenttile=block.id
-            else:self.currenttile=None
-            self.invscreen.setselected(self.currenttile)
         #put block
         if mousekeys[2]==1 and not self.invscreen.isunder((mx, my)):
             self.putblock((mtx, mty))
