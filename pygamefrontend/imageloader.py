@@ -45,8 +45,10 @@ class ImageLoader(engine.dataobj.DataLoader):
         if name not in self.config['images'].keys():
             return self.empty.copy()
         #check loaded images
-        if name in self.loaded.keys():
+        try:
             return self.loaded[name]
+        except KeyError:pass
+
         #load file
         filename=self.config['images'][name]
         try:

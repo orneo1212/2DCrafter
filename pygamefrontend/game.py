@@ -114,10 +114,6 @@ class Game:
             engine.environment.DAYTIME.daytime-=5
         if event.key==pygame.K_F4:
             engine.environment.DAYTIME.daytime+=5
-        #Show FPS
-        if event.key==pygame.K_SPACE:
-            txt="FPS: %s" % self.gametimer.get_fps()
-            engine.ui.msgbuffer.addtext(txt)
 
     def events(self):
         """handle events"""
