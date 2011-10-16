@@ -20,6 +20,7 @@ Controls:
     PAGE UP: Previous recipe to craft
     PAGE DOWN: Next recipe to craft
     ENTER: Do craft selected recipe
+    BACKSPACE: Sort inventory content
     F10: Toggle rounded lights
     F11: Toggle fullscreen
 
