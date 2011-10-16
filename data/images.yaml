@@ -13,6 +13,7 @@ images:
     chestframe: data/images/gui/chest_frame.png
     slotsframe: data/images/gui/slotsframe.png
     button: data/images/gui/button.png
+    mainmenubackground: data/images/gui/mainmenubackground.png
     1: data/images/stone.png
     2: data/images/mud.png
     3: data/images/water.png

@@ -17,10 +17,12 @@ class Button:
         self.posy=0
         #Callback
         self.clickcallback=None
+        self.clickcallbackargs={}
 
-    def connect(self,function):
+    def connect(self,function,args={}):
         """Connect button callback on click to function."""
         self.clickcallback=function
+        self.clickcallbackargs=args
 
     def setlabel(self, newlabel):
         """Set new label"""
@@ -30,13 +32,13 @@ class Button:
     def draw(self,surface):
         """Draw buttton on surface"""
         #recalculate top left corner
-        self.posx=self.position[0]-self.size[0]
-        self.posy=self.position[1]-self.size[1]
+        self.posx=self.position[0]-self.size[0]/2
+        self.posy=self.position[1]-self.size[1]/2
         #draw button image
         surface.blit(self.image,(self.posx, self.posy))
         #draw label
-        posx=self.position[0]-self.labelimg.getsize[0]
-        posy=self.position[1]-self.labelimg.getsize[1]
+        posx=self.position[0]-self.labelimg.get_size()[0]/2
+        posy=self.position[1]-self.labelimg.get_size()[1]/2
         surface.blit(self.labelimg, (posx, posy))
 
     def isunder(self, (mx,my)):
@@ -50,7 +52,7 @@ class Button:
         """Handle button events"""
         if event.type==pygame.MOUSEBUTTONDOWN:
             #left mouse button
-            if event.button==0:
+            if event.button==1:
                 if self.isunder(event.pos):
                     if self.clickcallback:
-                        self.clickcallback()
+                        self.clickcallback(*self.clickcallbackargs)

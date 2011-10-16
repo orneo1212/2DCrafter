@@ -11,10 +11,8 @@ SW, SH=pygamefrontend.SW, pygamefrontend.SH
 
 """Game """
 class Game:
-    def __init__(self):
-        #init application
-        self.screen=pygame.display.set_mode((SW, SH), pygame.DOUBLEBUF)
-        pygame.display.set_caption("2DCrafter")
+    def __init__(self, screen):
+        self.screen=screen
         #define variables
         self.mapo=engine.map.mapstack.getmapbyindex(0)
         self.player=engine.player.Player("test", self.mapo)
@@ -243,21 +241,19 @@ class Game:
             return
         self.currentrecipe=recipelist[self.currentrecipeID]
 
-    def redraw(self):
+    def redraw(self,screen):
         if not self.eventtimer.tickpassed(2):return
         #clean the screen
-        self.screen.fill((117, 101, 50))
+        screen.fill((117, 101, 50))
         #render
-        self.mapviewer.renderatplayer(self.screen, self.player,\
+        self.mapviewer.renderatplayer(screen, self.player,\
             self.player.currmap)
         #Draw on screen text
-        self.drawosd(self.screen)
+        self.drawosd(screen)
         #redraw pages
-        if self.chestinventory:self.chestinventory.redraw(self.screen)
-        self.invscreen.redraw(self.screen)
-        self.actionbar.redraw(self.screen)
-        #redraw screen
-        pygame.display.update()
+        if self.chestinventory:self.chestinventory.redraw(screen)
+        self.invscreen.redraw(screen)
+        self.actionbar.redraw(screen)
 
     def drawosd(self, screen):
         """Draw on screen texts"""
@@ -291,15 +287,7 @@ class Game:
     def onexit(self):
         """On exit"""
         engine.ui.msgbuffer.addtext("Saveing data please wait...")
-        self.redraw()
+        self.redraw(self.screen)
         engine.map.mapstack.unloadall()
         self.player.unloadplayer()
         sys.exit()
-
-    def mainloop(self):
-        """Main Game Loop"""
-        while 1:
-            self.gametimer.tick(self.imageloader.config["maxfps"])
-            self.events()
-            self.update()
-            self.redraw()
