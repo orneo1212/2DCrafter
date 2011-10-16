@@ -42,11 +42,10 @@ class ImageLoader(engine.dataobj.DataLoader):
             print "Wrong config file for images. There no 'images' section"
             return self.empty.copy()
         #wrong name
-        if name not in self.config['images'].keys():
-            return self.empty.copy()
+        try:self.config['images'][name]
+        except KeyError:return empty.copy()
         #check loaded images
-        try:
-            return self.loaded[name]
+        try: return self.loaded[name]
         except KeyError:pass
 
         #load file
