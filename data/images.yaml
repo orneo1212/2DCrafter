@@ -1,7 +1,5 @@
 #Images file for frontends
 
-maxfps: 30
-circlelight: true
 
 images:
     #Format

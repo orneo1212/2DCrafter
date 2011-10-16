@@ -1,5 +1,6 @@
 import math
 import pygame
+import Engine2d as engine
 import pygamefrontend
 
 lightoffset=pygamefrontend.TILESIZE/2 # offset for blit lights circles
@@ -7,7 +8,7 @@ lightoffset=pygamefrontend.TILESIZE/2 # offset for blit lights circles
 def drawlight(surface,position,radius,delta=3,color=(128,128,0)):
     c1,c2,c3=color
     alpha=16
-    lightcircle=pygamefrontend.imgloader.config["circlelight"]
+    lightcircle=engine.Config["circlelight"]
     position=(position[0]+lightoffset, position[1]+lightoffset)
     #draw square light
     if not lightcircle:

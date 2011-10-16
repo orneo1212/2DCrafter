@@ -36,10 +36,12 @@ class MainApp:
         self.screen=pygame.display.set_mode((SW, SH), pygame.DOUBLEBUF)
         pygame.display.set_caption("2DCrafter")
         self.page=mainmenu.MainMenu(self.screen)
+        self.gametimer=pygame.time.Clock()
 
     def mainloop(self):
         while 1:
             if self.page:
+                self.gametimer.tick(engine.Config["maxfps"])
                 self.page.events()
                 page=self.page.update()
                 if page:self.page=page

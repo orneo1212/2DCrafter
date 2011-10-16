@@ -34,7 +34,6 @@ class Game:
         #timers
         self.minetimer=engine.tools.Timer()
         self.eventtimer=engine.tools.Timer()
-        self.gametimer=pygame.time.Clock()
         #Action Distance
         self.actiondistance=4
 
@@ -86,7 +85,7 @@ class Game:
             pygame.display.toggle_fullscreen()
         #Toggle light circle
         if event.key==pygame.K_F10:
-            conf=pygamefrontend.imgloader.config
+            conf=engine.Config
             light=conf["circlelight"]
             if light:conf["circlelight"]=False
             else: conf["circlelight"]=True

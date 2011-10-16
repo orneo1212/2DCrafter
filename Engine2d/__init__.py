@@ -26,7 +26,7 @@ if fp != None:
     Config=yaml.load(fp)
 else:
     #make temp config
-    Config={"SS":32,seed:0}
+    Config={"SS":32,"seed":0,"maxfps":30,"circlelight":True}
 
 #update seed
 import time
