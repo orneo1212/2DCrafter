@@ -3,6 +3,7 @@ import math
 import sys
 import pygamefrontend
 from pygamefrontend import imageloader, mapviewer, inventoryscreen
+from pygamefrontend import actionbar
 import Engine2d as engine
 import pygame
 
@@ -22,14 +23,13 @@ class Game:
         #Sounds
         self.minesound=pygame.mixer.Sound("data/sounds/pickaxe.ogg")
         #Font
-        self.font=pygame.font.SysFont("Sans", 18)
-        self.font1=pygame.font.SysFont("Sans", 14)
+        self.font=pygame.font.SysFont("Sans", 16)
+        self.font1=pygame.font.SysFont("Sans", 12)
         #pages
         self.invscreen=inventoryscreen.InventoryScreen()
         self.invscreen.setinventory(self.player.inventory)
         self.chestinventory=None #chest content if selected
-        #images
-        self.actionbarimage=pygamefrontend.imgloader.loadimage("slotsframe")
+        self.actionbar=actionbar.Actionbar(self.player.inventory)
         #speeds
         self.movespeed=0.25
         self.mineticks=10 # number of ticks to mine
@@ -64,8 +64,8 @@ class Game:
         #update pages
         self.invscreen.update()
         if self.chestinventory:self.chestinventory.update()
-
-        self.currenttile=self.invscreen.getselected()
+        #set current tile
+        self.currenttile=self.actionbar.getselected()
 
     def isunderpages(self):
         """return false if mouse is not under pages"""
@@ -165,6 +165,7 @@ class Game:
         self.invscreen.events(event)
         if self.chestinventory:
             self.chestinventory.events(event)
+        self.actionbar.events(event)
 
     def actioninrange(self, actionpos, distance=0):
         """Check if the action is in range.
@@ -254,6 +255,7 @@ class Game:
         #redraw pages
         if self.chestinventory:self.chestinventory.redraw(self.screen)
         self.invscreen.redraw(self.screen)
+        self.actionbar.redraw(self.screen)
         #redraw screen
         pygame.display.update()
 
@@ -285,15 +287,6 @@ class Game:
             counter+=1
             text=self.font1.render(str(msg), 1, (255, 255, 255))
             screen.blit(text, (20, SH-counter*10-40))
-        #draw actionbar
-        screen.blit(self.actionbarimage,(400-148,600-45))
-        #Draw first row from inventory
-        slotid=0
-        for slot in self.player.inventory.getfirstrow():
-            if slot:
-                img=pygamefrontend.imgloader.loadimage(slot[0])
-                screen.blit(img, (400-148+6+slotid*36, 600-45+6))
-            slotid+=1
 
     def onexit(self):
         """On exit"""

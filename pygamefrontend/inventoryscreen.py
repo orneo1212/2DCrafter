@@ -12,7 +12,7 @@ class InventoryScreen:
         self.imgloader=imageloader.ImageLoader("data/images.yaml")
         self.image=self.imgloader.loadimage(image, False)
         self.imgsize=self.image.get_size()
-        self.font=pygame.font.SysFont("Sans", 14)
+        self.font=pygame.font.SysFont("Sans", 12)
         self.imgoffset=(6, 27) #Dont touch
         #
         self.ts=pygamefrontend.TILESIZE+4 # tilesize
@@ -35,6 +35,7 @@ class InventoryScreen:
     def getselected(self):
         """Get selected item id"""
         if self.inventory:
+            if self.selected is None:return None
             slot=self.inventory.slots[self.selected]
             if slot:return slot[0]
         return 0
