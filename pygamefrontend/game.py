@@ -251,8 +251,9 @@ class Game:
             return
         self.currentrecipe=recipelist[self.currentrecipeID]
 
-    def redraw(self, screen):
-        if not self.eventtimer.tickpassed(2):return
+    def redraw(self, screen,force=False):
+        if not force:
+            if not self.eventtimer.tickpassed(2):return
         #clean the screen
         screen.fill((117, 101, 50))
         #render
@@ -296,8 +297,10 @@ class Game:
     def onexit(self):
         """On exit"""
         engine.ui.msgbuffer.addtext("Saveing data please wait...")
-        self.redraw(self.screen)
+        self.redraw(self.screen, force=True)
+        pygame.display.update()
         engine.map.mapstack.unloadall()
         self.player.unloadplayer()
+        time.sleep(3)
         from pygamefrontend import mainmenu
         pygamefrontend.CURRPAGE=mainmenu.MainMenu(self.screen)
