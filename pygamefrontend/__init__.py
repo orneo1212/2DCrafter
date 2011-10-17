@@ -1,6 +1,4 @@
-TILESIZE=32
-SW=800
-SH=600
+from constant import *
 
 import gui
 import imageloader
