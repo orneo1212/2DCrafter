@@ -43,6 +43,8 @@ class Game:
         self.currenttile=0
         self.currentrecipe=""
         self.currentrecipeID=0
+        #prepare game
+        engine.ui.msgbuffer.clear()
 
     def update(self):
         """Update game"""
@@ -299,4 +301,5 @@ class Game:
         self.redraw(self.screen)
         engine.map.mapstack.unloadall()
         self.player.unloadplayer()
-        sys.exit()
+        from pygamefrontend import mainmenu
+        pygamefrontend.CURRPAGE=mainmenu.MainMenu(self.screen)

@@ -15,7 +15,7 @@ class MainMenu:
         self.page=None
 
     def update(self):
-        if self.page:return self.page
+        pass
 
     def events(self):
         event=pygame.event.poll()
@@ -33,6 +33,6 @@ class MainMenu:
 
     #
     def newgame(self):
-        self.page=game.Game(self.screen)
+        pygamefrontend.CURRPAGE=game.Game(self.screen)
         #clear pygame events
         pygame.event.clear()
