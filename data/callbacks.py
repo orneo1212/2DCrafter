@@ -35,9 +35,11 @@ def MineUpstairs(player,block,blockposition):
 
 def PutUpstairs(player, block, blockposition):
     if player.mapindex==0:return 1 # Error. can place stairs up
-    nmap=engine.map.mapstack.getmapbyindex(player.mapindex+1)
+    nmap=engine.map.mapstack.getmapbyindex(player.mapindex-1)
     nmap.setblock(blockposition,engine.map.Block(22))
     return 0
 
 def PutDownstairs(player, block, blockposition):
-    print "Put stairs down"
+    nmap=engine.map.mapstack.getmapbyindex(player.mapindex+1)
+    nmap.setblock(blockposition,engine.map.Block(23))
+    return 0
