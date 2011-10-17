@@ -102,7 +102,7 @@ class Game:
                 self.invscreen.visible=False
             else:self.invscreen.visible=True
         #QUIT
-        if event.key==pygame.K_ESCAPE:self.onexit()
+        if event.key==pygame.K_ESCAPE:self.onexit(True)
         #Actionbar selection
         if event.key==pygame.K_1:self.actionbar.selected=0
         if event.key==pygame.K_2:self.actionbar.selected=1
@@ -300,13 +300,15 @@ class Game:
             text=self.font1.render(str(msg), 1, (255, 255, 255))
             screen.blit(text, (20, SH-counter*10-40))
 
-    def onexit(self):
+    def onexit(self,backtomenu=False):
         """On exit"""
         engine.ui.msgbuffer.addtext("Saveing data please wait...")
         self.redraw(self.screen, force=True)
         pygame.display.update()
         engine.map.mapstack.unloadall()
         self.player.unloadplayer()
-        time.sleep(3)
-        from pygamefrontend import mainmenu
-        pygamefrontend.CURRPAGE=mainmenu.MainMenu(self.screen)
+        time.sleep(1)
+        if backtomenu:
+            from pygamefrontend import mainmenu
+            pygamefrontend.CURRPAGE=mainmenu.MainMenu(self.screen)
+        else:exit()
