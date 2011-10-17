@@ -136,6 +136,7 @@ class Player:
                         engine.ui.msgbuffer.addtext("You can't mine non empty"\
                                                     " chests")
                         return 4 #Cannot remoeve non empty chest
+            err=0
             #add mined block to inventory
             if not block.mineitems:
                 err=self.inventory.additem(block.id)
@@ -143,6 +144,7 @@ class Player:
             else:
                 #simulate add item
                 for itemid in block.mineitems:
+                    if itemid==None:continue # skip None
                     err=self.inventory.additem(itemid,True)
                     if err:break
 
@@ -153,9 +155,13 @@ class Player:
                 #call on mine callback
                 if block.onminecall:
                     block.onminecall(self,block,blockposition)
+                #add item to inventory
                 for itemid in block.mineitems:
+                    print "I",itemid
+                    if itemid==None:continue # skip None
                     self.addpickupmsg(itemid)
                     err=self.inventory.additem(itemid,False)
+                #remove item from map (taken)
                 self.currmap.setblock(blockposition,None)
             return 0 # Done
         else:return 2 # Err: Can't mine air (or empty block)

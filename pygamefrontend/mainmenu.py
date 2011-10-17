@@ -20,6 +20,8 @@ class MainMenu:
     def events(self):
         event=pygame.event.poll()
         if event.type==pygame.QUIT:self.onexit()
+        if event.type==pygame.KEYDOWN:
+            if event.key==pygame.K_ESCAPE:self.onexit()
         self.ngbtn.events(event)
         self.qbtn.events(event)
 

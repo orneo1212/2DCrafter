@@ -42,7 +42,7 @@ class ImageLoader(engine.dataobj.DataLoader):
             return self.empty.copy()
         #wrong name
         try:self.config['images'][name]
-        except KeyError:return empty.copy()
+        except KeyError:return self.empty.copy()
         #check loaded images
         try: return self.loaded[name]
         except KeyError:pass

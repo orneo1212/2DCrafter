@@ -110,6 +110,7 @@
     onputcall: "MoveDown"
     onminecall: "MineDownStairs"
     onputemptycall: "PutDownstairs"
+    mineitems: [null]
 
 23:
     name: Upstairs
@@ -117,3 +118,4 @@
     onputcall: "MoveUp"
     onminecall: "MineUpstairs"
     onputemptycall: "PutUpstairs"
+    mineitems: [null]
