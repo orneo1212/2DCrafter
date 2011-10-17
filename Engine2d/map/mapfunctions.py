@@ -79,7 +79,7 @@ def randomgrow(map):
             block=sector.getblock((xx, yy))
             if not block:continue
             if block.ongrow:
-                if block.startgrowtime+block.growtime>time.time():
+                if time.time()-block.startgrowtime>block.growtime:
                     sector.setblock((xx, yy), None)
                     sector.setblock((xx, yy), engine.map.Block(block.ongrow))
 

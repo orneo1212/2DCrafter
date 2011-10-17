@@ -24,6 +24,7 @@ class Block:
         self.onputcall=None # when player put a block
         self.onminecall=None
         self.onputemptycall=None
+        #restore default values from config
         self.restorefromconfig()
 
     def generateUID(self):
@@ -39,7 +40,7 @@ class Block:
     def restorefromconfig(self):
         """restore settings from blocks.yaml if possible """
         blocks=engine.blocks
-        if not self.id in blocks.keys():return
+        if self.id not in blocks.keys():return
         #
         bldata=blocks[self.id] # block data
         if bldata.has_key("name"):

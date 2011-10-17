@@ -56,8 +56,8 @@ class Game:
         if self.minetimer.tickpassed(200):
             engine.map.randomgrow(self.player.currmap)
         #Unload sectors
-        if self.minetimer.tickpassed(1000):
-            print "Unloading all sectors on the fly"
+        if self.minetimer.tickpassed(5000):
+            #print "Unloading all sectors on the fly"
             engine.map.mapstack.unloadall()
 
         #move msg texts up
