@@ -141,17 +141,10 @@ class Game:
         """Handle mouse events"""
         mousekeys=pygame.mouse.get_pressed()
         #get mouse pos and calculate block position
-        plpos=self.player.getposition()
-        mx, my=pygame.mouse.get_pos()
-        mtx, mty=self.maprender.getglobalfromscreen(plpos, (mx, my))
 
         #mine block
         if mousekeys[0]==1 and not self.isunderpages():
-            self.mineblock((mtx, mty))
-        #put block
-        if mousekeys[2]==1 and not self.invscreen.isunder((mx, my)):
-            self.putblock((mtx, mty))
-            self.setupaction() # setupaction if any
+            self.mineblock((self.mtx, self.mty))
 
     def events(self):
         """handle events"""
@@ -159,7 +152,11 @@ class Game:
         #events tick
         self.eventtimer.tick()
         self.minetimer.tick()
-
+        #Some global variables
+        self.plpos=self.player.getposition()
+        self.mx, self.my=pygame.mouse.get_pos()
+        self.mtx, self.mty=self.maprender.getglobalfromscreen( \
+            self.plpos, (self.mx, self.my))
         #get event from queue
         pygame.event.clear(pygame.MOUSEMOTION)
         event=pygame.event.poll()
@@ -170,6 +167,11 @@ class Game:
             if self.actionbar.selected is  not None:
                 if event.button==4:self.actionbar.selected-=1
                 if event.button==5:self.actionbar.selected+=1
+            if event.button==3:
+                #put block
+                if not self.invscreen.isunder((self.mx, self.my)):
+                    self.putblock((self.mtx, self.mty))
+                    self.setupaction() # setupaction if any
         #playermove
         self.movekeys_events()
         #mouse events
@@ -192,9 +194,8 @@ class Game:
 
     def putblock(self, mousepos):
         """Put block on the ground"""
-        if self.minetimer.tickpassed(5):
-            if self.actioninrange(mousepos):
-                err=self.player.putblock(mousepos, self.currenttile)
+        if self.actioninrange(mousepos):
+            err=self.player.putblock(mousepos, self.currenttile)
 
     def mineblock(self, mousepos):
         """Collect block"""
