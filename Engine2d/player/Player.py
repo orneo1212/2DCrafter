@@ -157,7 +157,6 @@ class Player:
                     block.onminecall(self,block,blockposition)
                 #add item to inventory
                 for itemid in block.mineitems:
-                    print "I",itemid
                     if itemid==None:continue # skip None
                     self.addpickupmsg(itemid)
                     err=self.inventory.additem(itemid,False)

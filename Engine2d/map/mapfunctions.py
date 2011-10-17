@@ -1,5 +1,6 @@
 import random
 import os
+import time
 import yaml
 import Engine2d as engine
 
@@ -73,14 +74,14 @@ def randomgrow(map):
     try:
         sector=random.choice(map.sectors)
     except:return
-    for xx in range(6):
-        nx=random.randint(0, engine.Config['SS'])
-        ny=random.randint(0, engine.Config['SS'])
-        block=sector.getblock((nx, ny))
-        if not block:continue
-        if block.ongrow:
-            sector.setblock((nx, ny), None)
-            sector.setblock((nx, ny), engine.map.Block(block.ongrow))
+    for yy in range(engine.Config['SS']):
+        for xx in range(engine.Config['SS']):
+            block=sector.getblock((xx, yy))
+            if not block:continue
+            if block.ongrow:
+                if block.startgrowtime+block.growtime>time.time():
+                    sector.setblock((xx, yy), None)
+                    sector.setblock((xx, yy), engine.map.Block(block.ongrow))
 
 def generate_outdoor(sector):
     """Generate new sector (outdoor)"""

@@ -53,8 +53,13 @@ class Game:
             self.starttime=time.time()
             engine.environment.DAYTIME.updatedaytime()
         #Grow
-        if self.minetimer.tickpassed(1000):
+        if self.minetimer.tickpassed(200):
             engine.map.randomgrow(self.player.currmap)
+        #Unload sectors
+        if self.minetimer.tickpassed(1000):
+            print "Unloading all sectors on the fly"
+            engine.map.mapstack.unloadall()
+
         #move msg texts up
         if self.minetimer.tickpassed(50):
             engine.ui.msgbuffer.addtext("")

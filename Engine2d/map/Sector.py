@@ -9,6 +9,9 @@ class Sector:
         self.blocks=self.makearray()
         self.modified=True
 
+    def __str__(self):
+        return "Sector at position %i,%i" % (self.position[0],self.position[1])
+
     def getblock(self, localposition):
         """get block from local position"""
         posx=int(localposition[0])
