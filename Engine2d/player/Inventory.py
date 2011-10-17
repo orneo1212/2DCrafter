@@ -28,10 +28,12 @@ class Inventory:
         else:return []
 
     def getslot(self,slotid):
+        """Return slot content or None"""
         if not slotid in range(0,len(self.slots)):return None
         return self.slots[slotid]
 
     def getslotid(self,itemid):
+        """Return first slotid with given itemid"""
         for slot in range(len(self.slots)):
             if self.slots[slot]:
                 if self.slots[slot][0]==itemid:return slot
@@ -72,6 +74,15 @@ class Inventory:
                     else:
                         if not simulate:self.slots[slot][1]-=1
                     return 0 # Done
+
+    def removeitem_fromslot(self,slotid,itemid):
+        """Remove item from given slot. Item must exist in that slot"""
+        slot=self.getslot(slotid)
+        if not slot:return 1 # cant remove item/ slot empty
+        if slot[0]!=itemid:return 2 # Item with given id not in this slot
+        #if not last item in stack
+        if slot[1]>1:slot[1]-=1
+        else:self.slots[slotid]=None # Clear the slot after last item remove
 
     def haveitem(self,itemid):
         """Check if there is a item in inventory"""

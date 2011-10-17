@@ -79,7 +79,9 @@ class InventoryScreen:
                     slot=self.inventory.getslot(slotpos)
                     if slot!=None:
                         err=self.tradeinventory.additem(slot[0])
-                        if not err:self.inventory.removeitem(slot[0])
+                        #if adding success
+                        if not err:
+                            self.inventory.removeitem_fromslot(slotpos, slot[0])
                     else:self.selected=None
 
     def getinvpos(self):
