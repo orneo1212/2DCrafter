@@ -20,6 +20,7 @@ class Block:
         self.itemdata=None
         #callbacks
         self.onputcall=None # when player put a block
+        self.onminecall=None
         self.restorefromconfig()
 
     def generateUID(self):
@@ -56,3 +57,6 @@ class Block:
             if bldata.has_key("onputcall"):
                 fn=engine.blocks[self.id]["onputcall"]
                 self.onputcall=self.getcallfunction(fn)
+            if bldata.has_key("onminecall"):
+                fn=engine.blocks[self.id]["onminecall"]
+                self.onminecall=self.getcallfunction(fn)

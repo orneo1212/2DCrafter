@@ -24,3 +24,9 @@ def MoveDown(player,position):
 def MoveUp(player,position):
     """Move up"""
     player.moveup(position)
+
+def MineDownStairs(player,block,blockposition):
+    print "Mine down stairs"
+
+def MineUpstairs(player,block,blockposition):
+    print "Mine down stairs"

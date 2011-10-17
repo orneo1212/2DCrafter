@@ -103,8 +103,8 @@ class Player:
 
         #can't go through a blocked block
         if self.currmap:
-            xx=int(self.position[0]+mv[direction][0]+2*speed)
-            yy=int(self.position[1]+mv[direction][1]-2*speed)
+            xx=int(self.position[0]+mv[direction][0])
+            yy=int(self.position[1]+mv[direction][1])
             if collisions and self.currmap.isblocked((xx, yy)):
                 #self.position=[int(self.position[0]),int(self.position[1])]
                 return
@@ -147,6 +147,9 @@ class Player:
             if err:print "Additem error code:",err
             #remove block only when added to invetory
             else:
+                #call on mine callback
+                if block.onminecall:
+                    block.onminecall(self,block,blockposition)
                 for itemid in block.mineitems:
                     self.addpickupmsg(itemid)
                     err=self.inventory.additem(itemid,False)

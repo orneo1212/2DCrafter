@@ -103,13 +103,15 @@
 21:
     name: Black marble
     blocked: false
-    
+
 22:
     name: Downstairs
     blocked: false
     onputcall: "MoveDown"
+    onminecall: "MineDownStairs"
 
 23:
     name: Upstairs
     blocked: false
     onputcall: "MoveUp"
+    onminecall: "MineUpstairs"
