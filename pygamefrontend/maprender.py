@@ -7,7 +7,7 @@ from pygamefrontend import functions
 
 SW, SH=pygamefrontend.SW, pygamefrontend.SH
 
-class MapViever:
+class MapRender:
     """Map Viewer for pygame frontend"""
     def __init__(self):
         #View Width and height (in tiles)

@@ -1,4 +1,4 @@
-from pygamefrontend import imageloader, mapviewer
+from pygamefrontend import imageloader
 import Engine2d as engine
 import pygame
 import time

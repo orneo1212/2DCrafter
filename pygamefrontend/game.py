@@ -2,7 +2,7 @@ import time
 import math
 import sys
 import pygamefrontend
-from pygamefrontend import imageloader, mapviewer, inventoryscreen
+from pygamefrontend import imageloader, maprender, inventoryscreen
 from pygamefrontend import actionbar
 import Engine2d as engine
 import pygame
@@ -16,8 +16,8 @@ class Game:
         #define variables
         self.mapo=engine.map.mapstack.getmapbyindex(0)
         self.player=engine.player.Player("test", self.mapo)
-        self.imageloader=imageloader.ImageLoader("data/images.yaml")
-        self.mapviewer=mapviewer.MapViever()
+        self.imageloader=pygamefrontend.imgloader # alias for main image loader
+        self.maprender=maprender.MapRender()
         #Sounds
         self.minesound=pygame.mixer.Sound("data/sounds/pickaxe.ogg")
         #Font
@@ -72,6 +72,23 @@ class Game:
             return self.chestinventory.isunder((mx, my))
         return self.invscreen.isunder((mx, my))
 
+    def movekeys_events(self):
+        """Handle player move"""
+        keys=pygame.key.get_pressed()
+        #directions
+        if keys[pygame.K_d]:
+            self.player.move("e", self.movespeed)
+            self.hidechest()
+        if keys[pygame.K_a]:
+            self.player.move("w", self.movespeed)
+            self.hidechest()
+        if keys[pygame.K_w]:
+            self.player.move("n", self.movespeed)
+            self.hidechest()
+        if keys[pygame.K_s]:
+            self.player.move("s", self.movespeed)
+            self.hidechest()
+
     def handlekeydown(self, event):
         """handle all keydown events"""
         if event.key==pygame.K_e:
@@ -115,10 +132,29 @@ class Game:
         if event.key==pygame.K_F4:
             engine.environment.DAYTIME.daytime+=5
 
+    def handlemouseevents(self):
+        """Handle mouse events"""
+        mousekeys=pygame.mouse.get_pressed()
+        #get mouse pos and calculate block position
+        plpos=self.player.getposition()
+        mx, my=pygame.mouse.get_pos()
+        mtx, mty=self.maprender.getglobalfromscreen(plpos, (mx, my))
+
+        #mine block
+        if mousekeys[0]==1 and not self.isunderpages():
+            self.mineblock((mtx, mty))
+        #put block
+        if mousekeys[2]==1 and not self.invscreen.isunder((mx, my)):
+            self.putblock((mtx, mty))
+            self.setupaction() # setupaction if any
+
     def events(self):
         """handle events"""
-        keys=pygame.key.get_pressed()
-        mousekeys=pygame.mouse.get_pressed()
+        #Tick timers
+        #events tick
+        self.eventtimer.tick()
+        self.minetimer.tick()
+
         #get event from queue
         pygame.event.clear(pygame.MOUSEMOTION)
         event=pygame.event.poll()
@@ -129,39 +165,10 @@ class Game:
             if self.actionbar.selected is  not None:
                 if event.button==4:self.actionbar.selected-=1
                 if event.button==5:self.actionbar.selected+=1
-
-        #events tick
-        if not self.eventtimer.timepassed(0.025):return
-        self.eventtimer.tick()
-        self.minetimer.tick()
-
-        #ALL LINES BELOW WILL BE CALLED ONE PER EVENT TICK
-
-        #get mouse pos and calculate block position
-        plpos=self.player.getposition()
-        mx, my=pygame.mouse.get_pos()
-        mtx, mty=self.mapviewer.getglobalfromscreen(plpos, (mx, my))
-
-        #directions
-        if keys[pygame.K_d]:
-            self.player.move("e", self.movespeed)
-            self.hidechest()
-        if keys[pygame.K_a]:
-            self.player.move("w", self.movespeed)
-            self.hidechest()
-        if keys[pygame.K_w]:
-            self.player.move("n", self.movespeed)
-            self.hidechest()
-        if keys[pygame.K_s]:
-            self.player.move("s", self.movespeed)
-            self.hidechest()
-        #mine block
-        if mousekeys[0]==1 and not self.isunderpages():
-            self.mineblock((mtx, mty))
-        #put block
-        if mousekeys[2]==1 and not self.invscreen.isunder((mx, my)):
-            self.putblock((mtx, mty))
-            self.setupaction() # setupaction if any
+        #playermove
+        self.movekeys_events()
+        #mouse events
+        self.handlemouseevents()
         #Send events to pages
         self.invscreen.events(event)
         if self.chestinventory:
@@ -244,13 +251,12 @@ class Game:
             return
         self.currentrecipe=recipelist[self.currentrecipeID]
 
-    def redraw(self,screen):
+    def redraw(self, screen):
         if not self.eventtimer.tickpassed(2):return
         #clean the screen
         screen.fill((117, 101, 50))
         #render
-        self.mapviewer.renderatplayer(screen, self.player,\
-            self.player.currmap)
+        self.maprender.renderatplayer(screen, self.player, self.player.currmap)
         #Draw on screen text
         self.drawosd(screen)
         #redraw pages
@@ -269,15 +275,15 @@ class Game:
         text=self.font.render(str(daystate), 1, (255, 255, 255))
         screen.blit(text, (0, 1*18))
         #draw selected block  name
-        block=engine.map.Block(self.currenttile)
-        if block:name=block.name
-        else:name=""
-        text=self.font.render("Selected: %s" % name, 1, (255, 255, 255))
-        screen.blit(text, (0, 3*18))
+        #lock=engine.map.Block(self.currenttile)
+        #f block:name=block.name
+        #lse:name=""
+        #ext=self.font.render("Selected: %s" % name, 1, (255, 255, 255))
+        #creen.blit(text, (0, 3*18))
         #draw current recipe
         text=self.font.render("Recipe: %s" % str(self.currentrecipe), \
             1, (255, 255, 255))
-        screen.blit(text, (0, 4*18))
+        screen.blit(text, (0, 3*18))
         #Draw messages
         msgs=engine.ui.msgbuffer.getlast(10)
         msgs.reverse()

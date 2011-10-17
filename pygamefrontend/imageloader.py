@@ -2,7 +2,6 @@ import pygame
 import yaml
 import Engine2d as engine
 import pygamefrontend
-from pygamefrontend import mapviewer
 
 class ImageLoader(engine.dataobj.DataLoader):
 
