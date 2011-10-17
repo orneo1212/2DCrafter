@@ -49,8 +49,8 @@ class MapRender:
         #fill mask layer
         self.lightsurface.fill((0, 0, 0, lightlevel))
         #calculate map move offset
-        self.mmox=int((center[0]-cx)*tilesize)
-        self.mmoy=int((center[1]-cy)*tilesize)
+        #self.mmox=int((center[0]-cx)*tilesize)
+        #self.mmoy=int((center[1]-cy)*tilesize)
         #render tiles
         for yy in range(cy-self.center[1]-1, cy+self.center[1]+2):
             for xx in range(cx-self.center[0]-1, cx+self.center[0]+2):

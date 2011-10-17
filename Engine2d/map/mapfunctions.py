@@ -182,6 +182,7 @@ def generate_underground(sector):
                 blockid=1 #underground stone
             #ground level h>128
             else:
+                if h>128:blockid=16
                 if h>=128+8 and gravel:blockid=16 #gravel
                 if h>=128+8 and stone:blockid=1 #stone
                 if h>=128+8 and stone and coalore:blockid=13 #coal ore
