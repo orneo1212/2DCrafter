@@ -8,14 +8,14 @@ class Inventory:
 
     def additem(self,itemid,simulate=False):
         """Add item to inventory"""
+        #check inventory capacity
+        if self.isfull():return 1 # inventory is full
         #check if there is a slot with item
         for slot in range(len(self.slots)):
             if self.slots[slot]:
                 if self.slots[slot][0]==itemid and self.slots[slot][1]<self.maxstack:
                     if not simulate:self.slots[slot][1]+=1
                     return 0 # Done
-        #check inventory capacity
-        if self.isfull():return 1 # inventory is full
         #find empty slot and add item
         for slot in range(len(self.slots)):
             if self.slots[slot]==None:
