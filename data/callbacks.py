@@ -28,18 +28,22 @@ def MoveUp(player,position):
     player.moveup(position)
 
 def MineDownStairs(player,block,blockposition):
-    pass
+    nmap=engine.map.mapstack.getmapbyindex(player.mapindex+1)
+    nmap.setblock(blockposition,None)
+    return 0
 
 def MineUpstairs(player,block,blockposition):
-    pass
-
-def PutUpstairs(player, block, blockposition):
-    if player.mapindex==0:return 1 # Error. can place stairs up
     nmap=engine.map.mapstack.getmapbyindex(player.mapindex-1)
-    nmap.setblock(blockposition,engine.map.Block(22))
+    nmap.setblock(blockposition,None)
     return 0
 
 def PutDownstairs(player, block, blockposition):
     nmap=engine.map.mapstack.getmapbyindex(player.mapindex+1)
     nmap.setblock(blockposition,engine.map.Block(23))
+    return 0
+
+def PutUpstairs(player, block, blockposition):
+    if player.mapindex==0:return 1 # Error. can place stairs up
+    nmap=engine.map.mapstack.getmapbyindex(player.mapindex-1)
+    nmap.setblock(blockposition,engine.map.Block(22))
     return 0
