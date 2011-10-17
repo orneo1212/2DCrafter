@@ -30,3 +30,9 @@ def MineDownStairs(player,block,blockposition):
 
 def MineUpstairs(player,block,blockposition):
     print "Mine down stairs"
+
+def PutUpstairs(player, block, blockposition):
+    print "Put stairs up"
+
+def PutDownstairs(player, block, blockposition):
+    print "Put stairs down"

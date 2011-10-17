@@ -109,9 +109,11 @@
     blocked: false
     onputcall: "MoveDown"
     onminecall: "MineDownStairs"
+    onputemptycall: "PutDownstairs"
 
 23:
     name: Upstairs
     blocked: false
     onputcall: "MoveUp"
     onminecall: "MineUpstairs"
+    onputemptycall: "PutUpstairs"

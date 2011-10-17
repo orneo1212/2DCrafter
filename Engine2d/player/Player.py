@@ -174,9 +174,15 @@ class Player:
 
         #put block on the empty field
         if self.inventory.haveitem(blockID):
+            newblock=engine.map.Block(blockID)
+
+            #call onputemptycall(player, block, blockposition)
+            if newblock.onputemptycall:
+                err=newblock.onputemptycall(self,block,blockposition)
+                if err:return 1 #can't place block
+
             err=self.inventory.removeitem(blockID)
             if err:print "Removeitem error code:",err
-            newblock=engine.map.Block(blockID)
             #TODO:check for unique. Generate uid
             #set block at position
             self.currmap.setblock(blockposition,newblock)
