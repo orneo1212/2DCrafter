@@ -22,7 +22,7 @@ class MapStack:
         """Unload all loaded maps"""
         for mapid in self.loaded.keys():
             mapo=self.loaded[mapid]
-            #print "Unloading MAP with index",mapo.mapname
+            #print "Unloading MAP with index",mapo.mapname, len(mapo.sectors)
             mapo.savemapdata()
             mapo.unloadsectors()
         return

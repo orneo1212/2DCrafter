@@ -64,7 +64,8 @@ class Map:
             if sector.modified:
                 print "Unloading sector.",sector
                 engine.map.savesector(self.mapname, sector)
-                self.sectors.remove(sector)
+        #clear momory used by sectors
+        self.sectors=[]
 
     def addentity(self, entity):
         if entity not in self.entities:
