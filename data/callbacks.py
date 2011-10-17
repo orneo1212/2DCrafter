@@ -19,8 +19,8 @@ def OpenChest(player,position):
 
 def MoveDown(player,position):
     """Move down"""
-    player.movedown()
+    player.movedown(position)
 
 def MoveUp(player,position):
     """Move up"""
-    player.moveup()
+    player.moveup(position)

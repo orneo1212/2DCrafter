@@ -32,15 +32,17 @@ class Player:
             #try next random position
             tries-=1
 
-    def movedown(self):
+    def movedown(self,fromposition):
         """Move to bottom layer"""
+        self.position=list(fromposition)
         index=self.currmap.index
         index+=1
         self.currmap=engine.map.mapstack.getmapbyindex(index)
         engine.ui.msgbuffer.addtext("Go below floor")
 
-    def moveup(self):
+    def moveup(self,fromposition):
         """Move to upper layer"""
+        self.position=list(fromposition)
         index=self.currmap.index
         index-=1
         if index<0:index=0
