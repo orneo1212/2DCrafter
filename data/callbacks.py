@@ -1,3 +1,5 @@
+import Engine2d as engine
+
 def OpenChest(player,position):
     """Open Chest"""
     mapo=player.currmap
@@ -26,13 +28,16 @@ def MoveUp(player,position):
     player.moveup(position)
 
 def MineDownStairs(player,block,blockposition):
-    print "Mine down stairs"
+    #print "Mine down stairs"
 
 def MineUpstairs(player,block,blockposition):
-    print "Mine down stairs"
+    #print "Mine down stairs"
 
 def PutUpstairs(player, block, blockposition):
-    print "Put stairs up"
+    #if player.mapindex==0:return 1 # Error. can place stairs up
+    nmap=engine.map.mapstack.getmapbyindex(player.mapindex+1)
+    nmap.setblock(blockposition,engine.map.Block(22))
+    return 0
 
 def PutDownstairs(player, block, blockposition):
     print "Put stairs down"
