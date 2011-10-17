@@ -54,9 +54,7 @@ class Game:
             engine.environment.DAYTIME.updatedaytime()
         #Grow
         if self.minetimer.tickpassed(1000):
-            secp=self.mapo.convertposition(self.player.getposition())
-            sector=self.mapo.getsector(secp[0])
-            engine.map.randomgrow(sector)
+            engine.map.randomgrow(self.player.currmap)
         #move msg texts up
         if self.minetimer.tickpassed(50):
             engine.ui.msgbuffer.addtext("")

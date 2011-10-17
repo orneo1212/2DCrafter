@@ -68,8 +68,11 @@ def savesector(mapname, sector):
     yaml.dump(sectorfile, dfile)
     return 0 # Done
 
-def randomgrow(sector):
-    """Randomly grow blocks in sector"""
+def randomgrow(map):
+    """Randomly grow blocks in map"""
+    try:
+        sector=random.choice(map.sectors)
+    except:return
     for xx in range(6):
         nx=random.randint(0, engine.Config['SS'])
         ny=random.randint(0, engine.Config['SS'])
