@@ -92,14 +92,17 @@ class Player:
 
     def move(self, direction, speed,collisions=True):
         """Move player to a given direction"""
-        #north east west south up down
-        mv={"n":(0, speed), "s":(0, -speed), "e":(-speed, 0), "w":(speed, 0)}
+        #north east west south
+        mv={"n":(0, speed),
+            "s":(0, -speed),
+            "e":(-speed, 0),
+            "w":(speed, 0)}
         if direction not in mv.keys():return
 
         #can't go through a blocked block
         if self.currmap:
-            xx=int(self.position[0]+mv[direction][0])
-            yy=int(self.position[1]+mv[direction][1])
+            xx=int(self.position[0]+mv[direction][0]+2*speed)
+            yy=int(self.position[1]+mv[direction][1]-2*speed)
             if collisions and self.currmap.isblocked((xx, yy)):
                 #self.position=[int(self.position[0]),int(self.position[1])]
                 return

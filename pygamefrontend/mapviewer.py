@@ -75,7 +75,6 @@ class MapViever:
                 #if not draw background image
                 else:
                     surface.blit(self.backimg, drawpos)
-
         #draw light emited by player
         #functions.drawlight(self.lightsurface,(lx,ly),4)
         #blit light mask
