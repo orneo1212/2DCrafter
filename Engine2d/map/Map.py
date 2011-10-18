@@ -1,5 +1,4 @@
 import os
-import yaml
 import Engine2d as engine
 
 class Map:
@@ -86,21 +85,26 @@ class Map:
         mapspath=os.path.join(engine.mainpath, self.mapname)
         if not os.path.isdir(mapspath):
             os.mkdir(mapspath)
-        mapfile=os.path.join(mapspath,"world.yaml")
+        mapfile=os.path.join(mapspath,"worlddata.txt")
         try:
             datafile=open(mapfile,"w")
         except:return
         args={}
         args["daytime"]=engine.environment.DAYTIME.daytime
         args["mapseed"]=engine.seed
-        yaml.dump(args,datafile)
+        datafile.write("worlddata=%s" % repr(args))
+        datafile.close()
 
     def loadmapdata(self):
         """Load map data from file"""
         worldpath=os.path.join(engine.mainpath, self.mapname)
-        mapfile=os.path.join(worldpath,"world.yaml")
+        mapfile=os.path.join(worldpath,"worlddata.txt")
         try:
-            data=yaml.load(open(mapfile))
+            data=open(mapfile).read()
         except:return
-        engine.environment.DAYTIME.daytime=data["daytime"]
-        engine.seed=data["mapseed"]
+
+        #TODO: INSECURE PLACE
+        exec(data) # exec file
+        engine.environment.DAYTIME.daytime=worlddata["daytime"]
+        print
+        engine.seed=worlddata["mapseed"]

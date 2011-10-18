@@ -1,4 +1,3 @@
-import yaml
 import random
 
 import environment
@@ -12,29 +11,22 @@ import dataobj
 #Main path
 mainpath=""
 
-#Load engine config
-try:
-    fp=open("data/engineconfig.yaml", "r")
-except IOError, e:
-    print "Cannot load config file.", e
-    fp=None
-
-#TODO: Defaults config
-
-#yaml load
-if fp != None:
-    Config=yaml.load(fp)
-else:
-    #make temp config
-    Config={"SS":32,"seed":0,"maxfps":30,"circlelight":True}
+#Default config
+Config={
+    "SS":32,
+    "seed":0,
+    "maxfps":30,
+    "circlelight":True
+    }
 
 #update seed
 import time
 if Config["seed"]==0:Config["seed"]=int(time.time())
 
+from data import ConfigBlocks, ConfigRecipes
 #blocks
-blocks=yaml.load(open("data/blocks.yaml"))
+blocks=ConfigBlocks.blocks
 #Recipes
-recipes=yaml.load(open("data/recipes.yaml"))
+recipes=ConfigRecipes.recipes
 
 seed=Config['seed']

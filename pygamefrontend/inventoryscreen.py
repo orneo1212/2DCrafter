@@ -9,7 +9,7 @@ SW, SH=pygamefrontend.SW, pygamefrontend.SH
 """Inventory screen (show content of Inventory object)"""
 class InventoryScreen:
     def __init__(self, image="inventoryframe"):
-        self.imgloader=imageloader.ImageLoader("data/images.yaml")
+        self.imgloader=pygamefrontend.imgloader
         self.image=self.imgloader.loadimage(image, False)
         self.imgsize=self.image.get_size()
         self.font=pygame.font.SysFont("Sans", 12)

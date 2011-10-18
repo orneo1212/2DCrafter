@@ -1,6 +1,5 @@
 import os
 import random
-import yaml
 import Engine2d as engine
 
 class Player:
@@ -58,16 +57,17 @@ class Player:
     def tryloadplayer(self):
         """Try load player"""
         playerspath=os.path.join(engine.mainpath,"players")
-        playerfile=os.path.join(playerspath,"%s.yaml" % self.name)
+        playerfile=os.path.join(playerspath,"%s.txt" % self.name)
         try:
-            playerdata=open(playerfile,"r")
-            playerdata=yaml.load(playerdata)
+            playerdata=open(playerfile,"r").read()
             if not playerdata:return
         except:
             #find new player spawn point
             self.find_spawn_position()
             return
 
+        #TODO: INSECURE PLACE
+        exec(playerdata) # exec file
         #parse data fropm file
         if playerdata.has_key("player"):
             self.position=playerdata["player"]["position"]
@@ -82,14 +82,15 @@ class Player:
         playerspath=os.path.join(engine.mainpath,"players")
         if not os.path.isdir(playerspath):
             os.mkdir(playerspath)
-        playerfile=os.path.join(playerspath,"%s.yaml" % self.name)
+        playerfile=os.path.join(playerspath,"%s.txt" % self.name)
         playerfile=open(playerfile,"w")
         data={}
         data["player"]={}
         data["player"]["position"]=self.position
         data["inventory"]=self.inventory.slots
         data["mapindex"]=self.currmap.index
-        yaml.dump(data,playerfile)
+        playerfile.write("playerdata=%s" % repr(data))
+        playerfile.close()
         return 0 # done
 
     def setmap(self, mapobject):

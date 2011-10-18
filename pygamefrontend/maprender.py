@@ -1,5 +1,4 @@
 import os
-import yaml
 import pygame
 import Engine2d as engine
 import pygamefrontend
