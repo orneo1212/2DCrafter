@@ -1,7 +1,7 @@
 import random
 import os
 import time
-import yaml
+import json
 import Engine2d as engine
 
 def loadsector(mapname, sectorposition):
@@ -12,7 +12,7 @@ def loadsector(mapname, sectorposition):
     except IOError:
         return 1 # sector not loaded (not exist)
 
-    sectordata=yaml.load(data)
+    sectordata=json.load(data)
     newsector=engine.map.Sector(sectorposition)
 
     size=engine.Config['SS']
@@ -66,7 +66,7 @@ def savesector(mapname, sector):
 
             sectorfile["%iX%i" % (xx, yy)]=data
     dfile=open("%s/%iX%i" % (mapname, pos[0], pos[1]), "w")
-    yaml.dump(sectorfile, dfile)
+    json.dump(sectorfile,dfile)
     return 0 # Done
 
 def randomgrow(map):
