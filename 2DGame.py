@@ -47,7 +47,7 @@ class MainApp:
                 pygamefrontend.CURRPAGE.update()
                 pygamefrontend.CURRPAGE.redraw(self.screen)
                 #redraw screen
-                pygame.display.update()
+                pygame.display.flip()
 
 if __name__=="__main__":
     m=MainApp()
