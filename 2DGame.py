@@ -33,7 +33,8 @@ SW, SH=pygamefrontend.SW, pygamefrontend.SH
 class MainApp:
     def __init__(self):
         #init application
-        self.screen=pygame.display.set_mode((SW, SH), pygame.DOUBLEBUF)
+        self.screen=pygame.display.set_mode((SW, SH),\
+            pygame.DOUBLEBUF&pygame.HWSURFACE&pygame.HWACCEL)
         pygame.display.set_caption("2DCrafter")
         #Set mainmenu as current page
         pygamefrontend.CURRPAGE=mainmenu.MainMenu(self.screen)
