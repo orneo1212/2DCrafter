@@ -52,33 +52,39 @@ class MapRender:
         #self.mmoy=int((center[1]-cy)*tilesize)
         #render tiles in each layer
         for layer in [0,1]: # layers 0=blocks 1=items
-            for yy in range(cy-self.center[1]-1, cy+self.center[1]+2):
-                for xx in range(cx-self.center[0]-1, cx+self.center[0]+2):
-                    drawblock=True
-                    #get block and blit it
+            for yy in xrange(cy-self.center[1]-1, cy+self.center[1]+2):
+                for xx in xrange(cx-self.center[0]-1, cx+self.center[0]+2):
+                    #get block
                     block=mapobject.getblock((xx, yy), layer)
-                    #check for air and empty blocks
-                    if not block:drawblock=False # skip empty places
-                    elif block.id==0:drawblock=False # skip block with id 0
-
+                    #calc position to blit
                     drawpos=self.calculate_drawpos((xx, yy), (cx, cy), \
-                                                   (self.mmox, self.mmoy))
-
-                    #draw block only if there is one
-                    if drawblock:
-                        if layer==0:surface.blit(self.backimg, drawpos)
-                        surface.blit(self.blockimages[block.id], drawpos)
-                        #draw light emited by block
-                        if block.lightradius:
-                            radius=block.lightradius
-                            functions.drawlight(self.lightsurface, drawpos, radius)
-                    #if not draw background image
-                    elif layer==False:
-                        surface.blit(self.backimg, drawpos)
+                                       (self.mmox, self.mmoy))
+                    #draw block
+                    self.draw_block(surface, block, layer, drawpos)
         #draw light emited by player
         #functions.drawlight(self.lightsurface,(lx,ly),4)
         #blit light mask
         surface.blit(self.lightsurface, (0, 0))
+
+    def draw_block(self, surface, block, layer, drawpos):
+        """Draw block by given tile position"""
+        drawblock=True
+
+        #check for air and empty blocks
+        if not block:drawblock=False # skip empty places
+        elif block.id==0:drawblock=False # skip block with id 0
+
+        #draw block only if there is one
+        if drawblock:
+            if layer==0:surface.blit(self.backimg, drawpos)
+            surface.blit(self.blockimages[block.id], drawpos)
+            #draw light emited by block
+            if block.lightradius:
+                radius=block.lightradius
+                functions.drawlight(self.lightsurface, drawpos, radius)
+        #if not draw background image
+        elif layer==False:
+            surface.blit(self.backimg, drawpos)
 
     def drawplayer(self, surface):
         """Draw player centered at screen"""
