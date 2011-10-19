@@ -6,6 +6,7 @@ import map
 import player
 import tools
 import ui
+from functions import *
 
 #Main paths
 mainpath=""
