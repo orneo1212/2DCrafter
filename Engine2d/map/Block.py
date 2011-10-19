@@ -20,6 +20,7 @@ class Block:
         self.onput=0 # item id when block right click (action e.g.door)
         self.unique=False # Is unique object like chests, signs
         self.itemdata=None
+        self.item=False # is this block item?
         #callbacks
         self.onputcall=None # when player put a block
         self.onminecall=None
@@ -49,6 +50,8 @@ class Block:
             self.blocked=engine.blocks[self.id]["blocked"]
         if bldata.has_key("obstacle"):
             self.obstacle=engine.blocks[self.id]["obstacle"]
+        if bldata.has_key("item"):
+            self.item=engine.blocks[self.id]["item"]
         if bldata.has_key("lightradius"):
             self.lightradius=engine.blocks[self.id]["lightradius"]
         if bldata.has_key("mineitems"):

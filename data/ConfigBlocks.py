@@ -49,6 +49,7 @@ blocks[8]={
     "name": "Torch",
     "blocked": False,
     "lightradius": 4,
+    "item": True,
 }
 
 blocks[9]={
@@ -89,6 +90,7 @@ blocks[14]={
 blocks[15]={
     "name": "Stick",
     "blocked": False,
+    "item": True,
 }
 
 blocks[16]={
@@ -106,6 +108,7 @@ blocks[18]={
     "blocked": True,
     "unique": True,
     "onputcall": "OpenChest",
+    "item": True,
 }
 
 blocks[19]={
