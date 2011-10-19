@@ -4,7 +4,7 @@ import sys
 import pygamefrontend
 from pygamefrontend import imageloader, maprender, inventoryscreen
 from pygamefrontend import actionbar
-import Engine2d as engine
+import Engine
 import pygame
 
 SW, SH=pygamefrontend.SW, pygamefrontend.SH
@@ -14,8 +14,8 @@ class Game:
     def __init__(self, screen):
         self.screen=screen
         #define variables
-        self.mapo=engine.map.mapstack.getmapbyindex(0)
-        self.player=engine.player.Player("test", self.mapo)
+        self.mapo=Engine.map.mapstack.getmapbyindex(0)
+        self.player=Engine.player.Player("test", self.mapo)
         self.imageloader=pygamefrontend.imgloader # alias for main image loader
         self.maprender=maprender.MapRender()
         #Sounds
@@ -32,8 +32,8 @@ class Game:
         self.movespeed=0.25
         self.mineticks=10 # number of ticks to mine
         #timers
-        self.minetimer=engine.tools.Timer()
-        self.eventtimer=engine.tools.Timer()
+        self.minetimer=Engine.tools.Timer()
+        self.eventtimer=Engine.tools.Timer()
         #Action Distance
         self.actiondistance=4
 
@@ -44,25 +44,25 @@ class Game:
         self.currentrecipe=""
         self.currentrecipeID=0
         #prepare game
-        engine.ui.msgbuffer.clear()
+        Engine.ui.msgbuffer.clear()
 
     def update(self):
         """Update game"""
         daydelta=time.time()-self.starttime
         if daydelta>1:
             self.starttime=time.time()
-            engine.environment.DAYTIME.updatedaytime()
+            Engine.environment.DAYTIME.updatedaytime()
         #Grow
         if self.minetimer.tickpassed(200):
-            engine.map.randomgrow(self.player.currmap)
+            Engine.map.randomgrow(self.player.currmap)
         #Unload sectors
         if self.minetimer.tickpassed(1000):
             #print "Unloading all sectors on the fly"
-            engine.map.mapstack.unloadall()
+            Engine.map.mapstack.unloadall()
 
         #move msg texts up
         if self.minetimer.tickpassed(50):
-            engine.ui.msgbuffer.addtext("")
+            Engine.ui.msgbuffer.addtext("")
         #update pages
         self.invscreen.update()
         if self.chestinventory:self.chestinventory.update()
@@ -126,16 +126,16 @@ class Game:
         if event.key==pygame.K_PAGEUP:self.nextrecipe(True)
         #Craft
         if event.key==pygame.K_RETURN:
-            engine.crafting.craft(self.player, self.currentrecipe)
+            Engine.crafting.craft(self.player, self.currentrecipe)
             self.nextrecipe(update=True)
         #Sort inventory
         if event.key==pygame.K_BACKSPACE:
             self.player.sortinventory()
         #time change
         if event.key==pygame.K_F3:
-            engine.environment.DAYTIME.daytime-=5
+            Engine.environment.DAYTIME.daytime-=5
         if event.key==pygame.K_F4:
-            engine.environment.DAYTIME.daytime+=5
+            Engine.environment.DAYTIME.daytime+=5
 
     def handlemouseevents(self):
         """Handle mouse events"""
@@ -247,7 +247,7 @@ class Game:
             else:self.currentrecipeID+=1
 
         items=self.player.inventory.getitems()
-        recipelist=engine.crafting.getpossiblerecipes(items)
+        recipelist=Engine.crafting.getpossiblerecipes(items)
         if self.currentrecipeID>len(recipelist)-1:
             self.currentrecipeID=0
         if self.currentrecipeID<0:self.currentrecipeID=len(recipelist)-1
@@ -278,7 +278,7 @@ class Game:
         text=self.font.render("Position: %s" % str(pos), 1, (255, 255, 255))
         screen.blit(text, (0, 0))
         #draw current day state
-        daystate=engine.environment.DAYTIME.daystate
+        daystate=Engine.environment.DAYTIME.daystate
         text=self.font.render(str(daystate), 1, (255, 255, 255))
         screen.blit(text, (0, 1*18))
         #draw selected block  name
@@ -292,7 +292,7 @@ class Game:
             1, (255, 255, 255))
         screen.blit(text, (0, 3*18))
         #Draw messages
-        msgs=engine.ui.msgbuffer.getlast(10)
+        msgs=Engine.ui.msgbuffer.getlast(10)
         msgs.reverse()
         counter=0
         for msg in msgs:
@@ -302,10 +302,10 @@ class Game:
 
     def onexit(self,backtomenu=False):
         """On exit"""
-        engine.ui.msgbuffer.addtext("Saveing data please wait...")
+        Engine.ui.msgbuffer.addtext("Saveing data please wait...")
         self.redraw(self.screen, force=True)
         pygame.display.update()
-        engine.map.mapstack.unloadall()
+        Engine.map.mapstack.unloadall()
         self.player.unloadplayer()
         time.sleep(1)
         if backtomenu:

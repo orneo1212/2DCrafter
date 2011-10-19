@@ -1,6 +1,6 @@
 import math
 import pygame
-import Engine2d as engine
+import Engine
 import pygamefrontend
 
 lightoffset=pygamefrontend.TILESIZE/2 # offset for blit lights circles

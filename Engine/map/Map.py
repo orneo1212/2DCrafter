@@ -1,6 +1,6 @@
 import os
 import json
-import Engine2d as engine
+import Engine
 
 class Map:
     def __init__(self):
@@ -38,16 +38,16 @@ class Map:
                 loadedsector.position[1]==sectorposition[1]:
                 #return currently loaded sector
                 return loadedsector
-        sector=engine.map.loadsector(self.mapname, sectorposition)
+        sector=Engine.map.loadsector(self.mapname, sectorposition)
         if sector==1:
             #not found loaded sector create new sector
             #Select correct map generator
             if self.maptype==0:
-                sector=engine.map.Sector(sectorposition)
-                engine.map.generate_outdoor(sector)
+                sector=Engine.map.Sector(sectorposition)
+                Engine.map.generate_outdoor(sector)
             elif self.maptype==1:
-                sector=engine.map.Sector(sectorposition)
-                engine.map.generate_underground(sector)
+                sector=Engine.map.Sector(sectorposition)
+                Engine.map.generate_underground(sector)
             sector.markmodified()
 
         #add it to loaded
@@ -70,7 +70,7 @@ class Map:
         for sector in self.sectors:
             if sector.modified:
                 print "Unloading sector.", sector
-                engine.map.savesector(self.mapname, sector)
+                Engine.map.savesector(self.mapname, sector)
         #clear momory used by sectors
         self.sectors=[]
 
@@ -80,17 +80,17 @@ class Map:
 
     def convertposition(self, position):
         """Convert position from world to sector"""
-        secx=position[0]/engine.Config['SS']
-        secy=position[1]/engine.Config['SS']
+        secx=position[0]/Engine.Config['SS']
+        secy=position[1]/Engine.Config['SS']
         #local position for sector tiles
-        locx=position[0]-secx*engine.Config['SS']
-        locy=position[1]-secy*engine.Config['SS']
+        locx=position[0]-secx*Engine.Config['SS']
+        locy=position[1]-secy*Engine.Config['SS']
         return [[int(secx), int(secy)], [int(locx), int(locy)]]
 
     def savemapdata(self, worldname="world"):
         """Save map data to file"""
         #create world directory if not exist
-        worldpath=os.path.join(engine.mainpath, worldname)
+        worldpath=os.path.join(Engine.mainpath, worldname)
         mapspath=os.path.join(worldpath, self.mapname)
         if not os.path.isdir(worldpath):os.mkdir(worldpath)
         if not os.path.isdir(mapspath):os.mkdir(mapspath)
@@ -99,14 +99,14 @@ class Map:
             datafile=open(mapfile, "w")
         except:return
         args={}
-        args["daytime"]=engine.environment.DAYTIME.daytime
-        args["mapseed"]=engine.seed
+        args["daytime"]=Engine.environment.DAYTIME.daytime
+        args["mapseed"]=Engine.seed
         json.dump(args, datafile)
         datafile.close()
 
     def loadmapdata(self, worldname="world"):
         """Load map data from file"""
-        worldpath=os.path.join(engine.mainpath, worldname)
+        worldpath=os.path.join(Engine.mainpath, worldname)
         layerspath=os.path.join(worldpath, self.mapname)
         mapfile=os.path.join(layerspath, "worlddata.txt")
         try:
@@ -114,6 +114,6 @@ class Map:
         except:return
 
         mapdata=json.load(data) # load mapdata from file
-        engine.environment.DAYTIME.daytime=mapdata["daytime"]
+        Engine.environment.DAYTIME.daytime=mapdata["daytime"]
         print
-        engine.seed=mapdata["mapseed"]
+        Engine.seed=mapdata["mapseed"]

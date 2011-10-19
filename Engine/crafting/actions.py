@@ -1,11 +1,11 @@
-import Engine2d as engine
+import Engine
 
 def craft(player,recipename):
     """Do player craft"""
-    if engine.crafting.checkrecipemet(recipename,\
+    if Engine.crafting.checkrecipemet(recipename,\
         player.inventory.getitems()):
         #can craft
-        recipe=engine.crafting.getrecipe(recipename)
+        recipe=Engine.crafting.getrecipe(recipename)
         #simulate add result
         for cc in range(recipe["count"]):
             err=player.inventory.additem(recipe["result"],True)

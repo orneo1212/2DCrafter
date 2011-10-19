@@ -1,7 +1,7 @@
 import os
 import json
 import random
-import Engine2d as engine
+import Engine
 
 class Player:
     def __init__(self, name, currmap):
@@ -12,7 +12,7 @@ class Player:
         self.currmap=currmap
         self.mapindex=0 # 0-outdoor 1+ undergrounds
 
-        self.inventory=engine.player.Inventory()
+        self.inventory=Engine.player.Inventory()
         self.actiondata=None # action data like chest data
         self.tryloadplayer()
 
@@ -38,8 +38,8 @@ class Player:
         self.mapindex+=1
         index=self.currmap.index
         index+=1
-        self.currmap=engine.map.mapstack.getmapbyindex(index)
-        engine.ui.msgbuffer.addtext("Go below floor")
+        self.currmap=Engine.map.mapstack.getmapbyindex(index)
+        Engine.ui.msgbuffer.addtext("Go below floor")
 
     def moveup(self, fromposition):
         """Move to upper layer"""
@@ -48,16 +48,16 @@ class Player:
         index=self.currmap.index
         index-=1
         if index<0:index=0
-        self.currmap=engine.map.mapstack.getmapbyindex(index)
-        engine.ui.msgbuffer.addtext("Go above floor")
+        self.currmap=Engine.map.mapstack.getmapbyindex(index)
+        Engine.ui.msgbuffer.addtext("Go above floor")
 
     def movetomap(self, mapindex):
         self.mapindex=mapindex
-        self.currmap=engine.map.mapstack.getmapbyindex(mapindex)
+        self.currmap=Engine.map.mapstack.getmapbyindex(mapindex)
 
     def tryloadplayer(self):
         """Try load player"""
-        playerspath=os.path.join(engine.mainpath, "players")
+        playerspath=os.path.join(Engine.mainpath, "players")
         playerfile=os.path.join(playerspath, "%s.txt" % self.name)
         try:
             playerdata=open(playerfile, "r")
@@ -80,7 +80,7 @@ class Player:
     def unloadplayer(self):
         """unload player data"""
         #create players directory if not exist
-        playerspath=os.path.join(engine.mainpath, "players")
+        playerspath=os.path.join(Engine.mainpath, "players")
         if not os.path.isdir(playerspath):
             os.mkdir(playerspath)
         playerfile=os.path.join(playerspath, "%s.txt" % self.name)
@@ -119,9 +119,9 @@ class Player:
 
     def addpickupmsg(self, itemid):
         """Add pickup message"""
-        block=engine.map.Block(itemid)
+        block=Engine.map.Block(itemid)
         txt="You got %s" % block.name
-        engine.ui.msgbuffer.addtext(txt)
+        Engine.ui.msgbuffer.addtext(txt)
 
     def verify_and_mine(self, blockposition, layer):
         """Verify and mine block from first possible layer"""
@@ -188,13 +188,13 @@ class Player:
             if block.onput: #action (replace blocks)
                 self.currmap.setblock(blockposition, None)
                 self.currmap.setblock(blockposition, \
-                    engine.map.Block(block.onput))
+                    Engine.map.Block(block.onput))
             if block.obstacle:return 2 # Block exist
 
         #put block on the empty field
         if self.inventory.haveitem(blockID):
             #create block to put on the emopty place
-            newblock=engine.map.Block(blockID)
+            newblock=Engine.map.Block(blockID)
 
             #call onputemptycall(player, block, blockposition)
             if newblock.onputemptycall:
@@ -213,7 +213,7 @@ class Player:
         for layer in [0, 1]:
             #get current block on the ground
             block=self.currmap.getblock(blockposition, layer)
-            newblock=engine.map.Block(blockID) # temp item
+            newblock=Engine.map.Block(blockID) # temp item
             #dont put item block on layer 0 and not item blocks on layer 1
             if layer==0 and newblock and newblock.item:continue
             if layer==1 and newblock and not newblock.item:continue

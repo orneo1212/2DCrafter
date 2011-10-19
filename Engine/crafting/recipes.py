@@ -1,13 +1,13 @@
-import Engine2d as engine
+import Engine
 
 def getrecipesnames():
     """Return recipes names"""
-    return engine.recipes.keys()
+    return Engine.recipes.keys()
 
 def getrecipe(name):
     """get recipe data"""
     if name in getrecipesnames():
-        return engine.recipes[name]
+        return Engine.recipes[name]
     return False
 
 def checkrecipemet(recipename,items):

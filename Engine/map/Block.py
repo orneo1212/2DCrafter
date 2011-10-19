@@ -1,6 +1,6 @@
 import sys
 import time
-import Engine2d as engine
+import Engine
 from data import callbacks
 
 class Block:
@@ -40,38 +40,38 @@ class Block:
 
     def restorefromconfig(self):
         """restore settings from blocks.yaml if possible """
-        blocks=engine.blocks
+        blocks=Engine.blocks
         if self.id not in blocks.keys():return
         #
         bldata=blocks[self.id] # block data
         if bldata.has_key("name"):
-            self.name=engine.blocks[self.id]["name"]
+            self.name=Engine.blocks[self.id]["name"]
         if bldata.has_key("blocked"):
-            self.blocked=engine.blocks[self.id]["blocked"]
+            self.blocked=Engine.blocks[self.id]["blocked"]
         if bldata.has_key("obstacle"):
-            self.obstacle=engine.blocks[self.id]["obstacle"]
+            self.obstacle=Engine.blocks[self.id]["obstacle"]
         if bldata.has_key("item"):
-            self.item=engine.blocks[self.id]["item"]
+            self.item=Engine.blocks[self.id]["item"]
         if bldata.has_key("lightradius"):
-            self.lightradius=engine.blocks[self.id]["lightradius"]
+            self.lightradius=Engine.blocks[self.id]["lightradius"]
         if bldata.has_key("mineitems"):
-            self.mineitems=engine.blocks[self.id]["mineitems"]
+            self.mineitems=Engine.blocks[self.id]["mineitems"]
         if bldata.has_key("ongrow"):
-            self.ongrow=engine.blocks[self.id]["ongrow"]
+            self.ongrow=Engine.blocks[self.id]["ongrow"]
         if bldata.has_key("growtime"):
-            self.growtime=engine.blocks[self.id]["growtime"]
+            self.growtime=Engine.blocks[self.id]["growtime"]
             self.startgrowtime=int(time.time())
         if bldata.has_key("onput"):
-            self.onput=engine.blocks[self.id]["onput"]
+            self.onput=Engine.blocks[self.id]["onput"]
         if bldata.has_key("unique"):
-            self.unique=engine.blocks[self.id]["unique"]
+            self.unique=Engine.blocks[self.id]["unique"]
         #callbacks
         if bldata.has_key("onputcall"):
-            fn=engine.blocks[self.id]["onputcall"]
+            fn=Engine.blocks[self.id]["onputcall"]
             self.onputcall=self.getcallfunction(fn)
         if bldata.has_key("onminecall"):
-            fn=engine.blocks[self.id]["onminecall"]
+            fn=Engine.blocks[self.id]["onminecall"]
             self.onminecall=self.getcallfunction(fn)
         if bldata.has_key("onputemptycall"):
-            fn=engine.blocks[self.id]["onputemptycall"]
+            fn=Engine.blocks[self.id]["onputemptycall"]
             self.onputemptycall=self.getcallfunction(fn)

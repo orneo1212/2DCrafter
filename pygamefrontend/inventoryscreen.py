@@ -1,5 +1,5 @@
 from pygamefrontend import imageloader
-import Engine2d as engine
+import Engine
 import pygame
 import time
 import pygamefrontend

@@ -1,4 +1,4 @@
-import Engine2d as engine
+import Engine
 
 class MapStack:
     def __init__(self):
@@ -10,7 +10,7 @@ class MapStack:
         if self.loaded.has_key(index):
             return self.loaded[index]
         else:
-            newmap=engine.map.Map()
+            newmap=Engine.map.Map()
             newmap.index=index
             newmap.mapname="layer"+str(index)
             if index>0:newmap.maptype=1

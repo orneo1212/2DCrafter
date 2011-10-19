@@ -1,6 +1,6 @@
 import os
 import pygame
-import Engine2d as engine
+import Engine
 import pygamefrontend
 from pygamefrontend import functions
 
@@ -44,7 +44,7 @@ class MapRender:
         if mapobject.index>0:
             lightlevel=255-16
         else:
-            lightlevel=engine.environment.DAYTIME.getlightlevel()
+            lightlevel=Engine.environment.DAYTIME.getlightlevel()
         #fill mask layer
         self.lightsurface.fill((0, 0, 0, lightlevel))
         #calculate map move offset

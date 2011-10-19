@@ -1,4 +1,4 @@
-import Engine2d as engine
+import Engine
 
 def OpenChest(player,position, chestblock):
     """Open Chest"""
@@ -19,31 +19,31 @@ def OpenChest(player,position, chestblock):
     #set player action data
     player.actiondata=chestblock
 
-def MoveDown(player,position):
+def MoveDown(player,position, block):
     """Move down"""
     player.movedown(position)
 
-def MoveUp(player,position):
+def MoveUp(player,position, block):
     """Move up"""
     player.moveup(position)
 
 def MineDownStairs(player,block,blockposition):
-    nmap=engine.map.mapstack.getmapbyindex(player.mapindex+1)
+    nmap=Engine.map.mapstack.getmapbyindex(player.mapindex+1)
     nmap.setblock(blockposition,None)
     return 0
 
 def MineUpstairs(player,block,blockposition):
-    nmap=engine.map.mapstack.getmapbyindex(player.mapindex-1)
+    nmap=Engine.map.mapstack.getmapbyindex(player.mapindex-1)
     nmap.setblock(blockposition,None)
     return 0
 
 def PutDownstairs(player, block, blockposition):
-    nmap=engine.map.mapstack.getmapbyindex(player.mapindex+1)
-    nmap.setblock(blockposition,engine.map.Block(23))
+    nmap=Engine.map.mapstack.getmapbyindex(player.mapindex+1)
+    nmap.setblock(blockposition,Engine.map.Block(23))
     return 0
 
 def PutUpstairs(player, block, blockposition):
     if player.mapindex==0:return 1 # Error. can place stairs up
-    nmap=engine.map.mapstack.getmapbyindex(player.mapindex-1)
-    nmap.setblock(blockposition,engine.map.Block(22))
+    nmap=Engine.map.mapstack.getmapbyindex(player.mapindex-1)
+    nmap.setblock(blockposition,Engine.map.Block(22))
     return 0

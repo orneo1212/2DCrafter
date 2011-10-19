@@ -1,5 +1,5 @@
 import random
-import Engine2d as engine
+import Engine
 import math
 import random
 
@@ -39,10 +39,10 @@ class Sector:
     def makearray(self):
         """Make array for blocks data"""
         array=[]
-        size=engine.Config['SS']
-        for yy in range(size+1):
+        size=Engine.Config['SS']
+        for yy in xrange(size+1):
             line=[]
-            for xx in range(size+1):
+            for xx in xrange(size+1):
                 line.append(None)
             array.append(line);line=[]
         return array

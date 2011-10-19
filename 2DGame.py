@@ -19,14 +19,14 @@ import os
 
 import pygamefrontend
 from pygamefrontend import mainmenu
-import Engine2d as engine
+import Engine
 
 pygame.init()
 pygame.key.set_repeat(100, 100)
 
 #set main path
 mainpath=os.path.dirname(__file__)
-engine.mainpath=mainpath
+Engine.mainpath=mainpath
 
 SW, SH=pygamefrontend.SW, pygamefrontend.SH
 
@@ -42,7 +42,7 @@ class MainApp:
 
     def mainloop(self):
         while pygamefrontend.CURRPAGE:
-                self.gametimer.tick(engine.Config["maxfps"])
+                self.gametimer.tick(Engine.Config["maxfps"])
                 pygamefrontend.CURRPAGE.events()
                 pygamefrontend.CURRPAGE.update()
                 pygamefrontend.CURRPAGE.redraw(self.screen)

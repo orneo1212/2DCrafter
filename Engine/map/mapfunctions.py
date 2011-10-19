@@ -2,13 +2,13 @@ import random
 import os
 import time
 import json
-import Engine2d as engine
+import Engine
 
 def makenoise(x,y,freq,seedchange=0):
     """make perlin noise for global X and Y position.
     seedchange is value added to seed to perform other noise"""
-    pnoise=engine.tools.pnoise
-    seed=engine.seed
+    pnoise=Engine.tools.pnoise
+    seed=Engine.seed
 
     freq=1/float(freq)
     return pnoise(x*freq,y*freq,seed+seedchange)
@@ -16,7 +16,7 @@ def makenoise(x,y,freq,seedchange=0):
 def loadsector(mapname, sectorposition, worldname="world"):
     """Load sector from given mapname at position sectorposition"""
     #paths
-    worldpath=os.path.join(engine.mainpath, worldname)
+    worldpath=os.path.join(Engine.mainpath, worldname)
     mapspath=os.path.join(worldpath, mapname)
 
     xx, yy=sectorposition
@@ -26,9 +26,9 @@ def loadsector(mapname, sectorposition, worldname="world"):
         return 1 # sector not loaded (not exist)
 
     sectordata=json.load(data)
-    newsector=engine.map.Sector(sectorposition)
+    newsector=Engine.map.Sector(sectorposition)
 
-    size=engine.Config['SS']
+    size=Engine.Config['SS']
     for layer in [0,1]: # layers 0=blocks 1=items
         for yy in xrange(size+1):
             for xx in xrange(size+1):
@@ -36,7 +36,7 @@ def loadsector(mapname, sectorposition, worldname="world"):
                     blockdata=sectordata["%i|%iX%i" % (layer, xx, yy)]
                     if blockdata!=None:
                         #create block
-                        block=engine.map.Block(blockdata["id"])
+                        block=Engine.map.Block(blockdata["id"])
                         #load metadata
                         if blockdata.has_key("uid"):
                             block.uid=blockdata["uid"]
@@ -54,7 +54,7 @@ def loadsector(mapname, sectorposition, worldname="world"):
 def savesector(mapname, sector, worldname="world"):
     """Save sector to folder named mapname."""
     #paths
-    worldpath=os.path.join(engine.mainpath, worldname)
+    worldpath=os.path.join(Engine.mainpath, worldname)
     mapspath=os.path.join(worldpath, mapname)
     #create directories if not exist
     if not os.path.isdir(worldpath):os.mkdir(worldpath)
@@ -64,7 +64,7 @@ def savesector(mapname, sector, worldname="world"):
 
     sectorfile={}
 
-    size=engine.Config['SS']
+    size=Engine.Config['SS']
     for layer in [0,1]: # layers 0=blocks 1=items
         for yy in xrange(size+1):
             for xx in xrange(size+1):
@@ -90,25 +90,25 @@ def randomgrow(map):
     try:
         sector=random.choice(map.sectors)
     except:return
-    for yy in xrange(engine.Config['SS']):
-        for xx in xrange(engine.Config['SS']):
+    for yy in xrange(Engine.Config['SS']):
+        for xx in xrange(Engine.Config['SS']):
             block=sector.getblock((xx, yy))
             if not block:continue
             if block.ongrow:
                 if time.time()-block.startgrowtime>block.growtime:
                     sector.setblock((xx, yy), None)
-                    sector.setblock((xx, yy), engine.map.Block(block.ongrow))
+                    sector.setblock((xx, yy), Engine.map.Block(block.ongrow))
 
 def generate_outdoor(sector):
     """Generate new sector (outdoor)"""
     x,y=sector.position
     print "Generating sector %s" % sector.position
 
-    size=engine.Config['SS']
+    size=Engine.Config['SS']
 
     #fill
-    for yy in range(size+1):
-        for xx in range(size+1):
+    for yy in xrange(size+1):
+        for xx in xrange(size+1):
             blockid=0 # air
 
             #global position
@@ -159,7 +159,7 @@ def generate_outdoor(sector):
                 if h>=128 and water:blockid=3 #lakes
                 if h>=128 and lava:blockid=5 #lava lakes
             #create block and put on sector
-            if blockid:block=engine.map.Block(blockid)
+            if blockid:block=Engine.map.Block(blockid)
             else:block=None
             sector.setblock([xx,yy],block)
 
@@ -168,7 +168,7 @@ def generate_underground(sector):
     x,y=sector.position
     print "Generating sector %s" % sector.position
 
-    size=engine.Config['SS']
+    size=Engine.Config['SS']
 
     #fill
     for yy in range(size+1):
@@ -216,6 +216,6 @@ def generate_underground(sector):
                 if h>=128 and water:blockid=3 #lakes
                 if h>=128 and lava:blockid=5 #lava lakes
             #create block and put on sector
-            if blockid:block=engine.map.Block(blockid)
+            if blockid:block=Engine.map.Block(blockid)
             else:block=None
             sector.setblock([xx,yy],block)
