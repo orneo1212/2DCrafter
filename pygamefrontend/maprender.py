@@ -66,7 +66,7 @@ class MapRender:
 
                     #draw block only if there is one
                     if drawblock:
-                        surface.blit(self.backimg, drawpos)
+                        if layer==0:surface.blit(self.backimg, drawpos)
                         surface.blit(self.blockimages[block.id], drawpos)
                         #draw light emited by block
                         if block.lightradius:
