@@ -1,6 +1,6 @@
 import Engine2d as engine
 
-def OpenChest(player,position):
+def OpenChest(player,position, chestblock):
     """Open Chest"""
     mapo=player.currmap
     chestblock=mapo.getblock(position)

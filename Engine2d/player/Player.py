@@ -182,7 +182,8 @@ class Player:
         if block:
             #call onputcall(player,position)
             if block.onputcall:
-                block.onputcall(self, blockposition)
+                blockonground=self.currmap.getblock(blockposition, layer)
+                block.onputcall(self, blockposition, blockonground)
             #make block action
             if block.onput: #action (replace blocks)
                 self.currmap.setblock(blockposition, None)
