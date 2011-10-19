@@ -1,0 +1,14 @@
+release-0.4
+----------------------------
+* new map format (saves saved in 0.3 not work with this release)
+* game not depend on yaml
+
+release-0.3
+----------------------------
+* added TitleScreen
+* added inventory rearrange option
+* added actionbar
+* changed images for tiles
+* added stairs
+* added undergrounds
+
