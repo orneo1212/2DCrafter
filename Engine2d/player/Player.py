@@ -195,7 +195,7 @@ class Player:
             if err:print "Removeitem error code:",err
             #TODO:check for unique. Generate uid
             #set block at position
-            self.currmap.setblock(blockposition,newblock)
+            self.currmap.setblock(blockposition,newblock, 1)
             return 0 # Done
 
     def getposition(self):

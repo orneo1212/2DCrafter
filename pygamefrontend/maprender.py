@@ -50,30 +50,31 @@ class MapRender:
         #calculate map move offset
         #self.mmox=int((center[0]-cx)*tilesize)
         #self.mmoy=int((center[1]-cy)*tilesize)
-        #render tiles
-        for yy in range(cy-self.center[1]-1, cy+self.center[1]+2):
-            for xx in range(cx-self.center[0]-1, cx+self.center[0]+2):
-                drawblock=True
-                #get block and blit it
-                block=mapobject.getblock((xx, yy))
-                #check for air and empty blocks
-                if not block:drawblock=False # skip empty places
-                elif block.id==0:drawblock=False # skip block with id 0
+        #render tiles in each layer
+        for layer in [0,1]: # layers 0=blocks 1=items
+            for yy in range(cy-self.center[1]-1, cy+self.center[1]+2):
+                for xx in range(cx-self.center[0]-1, cx+self.center[0]+2):
+                    drawblock=True
+                    #get block and blit it
+                    block=mapobject.getblock((xx, yy), layer)
+                    #check for air and empty blocks
+                    if not block:drawblock=False # skip empty places
+                    elif block.id==0:drawblock=False # skip block with id 0
 
-                drawpos=self.calculate_drawpos((xx, yy), (cx, cy), \
-                                               (self.mmox, self.mmoy))
+                    drawpos=self.calculate_drawpos((xx, yy), (cx, cy), \
+                                                   (self.mmox, self.mmoy))
 
-                #draw block only if there is one
-                if drawblock:
-                    surface.blit(self.backimg, drawpos)
-                    surface.blit(self.blockimages[block.id], drawpos)
-                    #draw light emited by block
-                    if block.lightradius:
-                        radius=block.lightradius
-                        functions.drawlight(self.lightsurface, drawpos, radius)
-                #if not draw background image
-                else:
-                    surface.blit(self.backimg, drawpos)
+                    #draw block only if there is one
+                    if drawblock:
+                        surface.blit(self.backimg, drawpos)
+                        surface.blit(self.blockimages[block.id], drawpos)
+                        #draw light emited by block
+                        if block.lightradius:
+                            radius=block.lightradius
+                            functions.drawlight(self.lightsurface, drawpos, radius)
+                    #if not draw background image
+                    elif layer==False:
+                        surface.blit(self.backimg, drawpos)
         #draw light emited by player
         #functions.drawlight(self.lightsurface,(lx,ly),4)
         #blit light mask

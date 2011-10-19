@@ -29,23 +29,25 @@ def loadsector(mapname, sectorposition, worldname="world"):
     newsector=engine.map.Sector(sectorposition)
 
     size=engine.Config['SS']
-    for yy in range(size+1):
-        for xx in range(size+1):
-            if sectordata.has_key("%iX%i" % (xx, yy)):
-                blockdata=sectordata["%iX%i" % (xx, yy)]
-                if blockdata!=None:
-                    #create block
-                    block=engine.map.Block(blockdata["id"])
-                    #load metadata
-                    if blockdata.has_key("uid"):
-                        block.uid=blockdata["uid"]
-                    if blockdata.has_key("itemdata"):
-                        block.itemdata=blockdata["itemdata"]
-                    #If not block
-                    if block.id==None:block=None
-                    if block.id==0:block=None
-                else:block=None
-                newsector.setblock((xx, yy), block)
+    for layer in [0,1]: # layers 0=blocks 1=items
+        for yy in xrange(size+1):
+            for xx in xrange(size+1):
+                if sectordata.has_key("%i|%iX%i" % (layer, xx, yy)):
+                    blockdata=sectordata["%i|%iX%i" % (layer, xx, yy)]
+                    if blockdata!=None:
+                        #create block
+                        block=engine.map.Block(blockdata["id"])
+                        #load metadata
+                        if blockdata.has_key("uid"):
+                            block.uid=blockdata["uid"]
+                        if blockdata.has_key("itemdata"):
+                            block.itemdata=blockdata["itemdata"]
+                        #If not block
+                        if block.id==None:block=None
+                        if block.id==0:block=None
+                    else:block=None
+                    #put block on the map on the correct layer
+                    newsector.setblock((xx, yy), block, layer)
     newsector.marknotmodified()
     return newsector
 
@@ -63,19 +65,20 @@ def savesector(mapname, sector, worldname="world"):
     sectorfile={}
 
     size=engine.Config['SS']
-    for yy in range(size+1):
-        for xx in range(size+1):
-            data={}
-            block=sector.getblock((xx, yy))
-            #new format
-            if block:
-                if block.id==0:continue
-                data["id"]=block.id
-                if block.uid!=0:data["uid"]=block.uid
-                if block.itemdata!=None:data["itemdata"]=block.itemdata
-            else:continue
-
-            sectorfile["%iX%i" % (xx, yy)]=data
+    for layer in [0,1]: # layers 0=blocks 1=items
+        for yy in xrange(size+1):
+            for xx in xrange(size+1):
+                data={}
+                block=sector.getblock((xx, yy), layer)
+                #new format
+                if block:
+                    if block.id==0:continue
+                    data["id"]=block.id
+                    if block.uid!=0:data["uid"]=block.uid
+                    if block.itemdata!=None:data["itemdata"]=block.itemdata
+                else:continue
+                #fill dictionary with block/item data
+                sectorfile["%i|%iX%i" % (layer, xx, yy)]=data
     #Store data
     sectorpath=os.path.join(mapspath, "%iX%i" % (pos[0], pos[1]) )
     dfile=open(sectorpath, "w")
@@ -87,8 +90,8 @@ def randomgrow(map):
     try:
         sector=random.choice(map.sectors)
     except:return
-    for yy in range(engine.Config['SS']):
-        for xx in range(engine.Config['SS']):
+    for yy in xrange(engine.Config['SS']):
+        for xx in xrange(engine.Config['SS']):
             block=sector.getblock((xx, yy))
             if not block:continue
             if block.ongrow:
