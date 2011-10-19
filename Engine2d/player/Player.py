@@ -172,12 +172,11 @@ class Player:
         if not self.currmap:return 1 #Err: Map not assigned
         block=self.currmap.getblock(blockposition)
         if block:
-
             #call onputcall(player,position)
             if block.onputcall:
                 block.onputcall(self,blockposition)
             #make block action
-            if block.onput: #action
+            if block.onput: #action (replace blocks)
                 self.currmap.setblock(blockposition,None)
                 self.currmap.setblock(blockposition,\
                     engine.map.Block(block.onput))
