@@ -179,7 +179,8 @@ class Player:
             #make block action
             if block.onput: #action
                 self.currmap.setblock(blockposition,None)
-                self.currmap.setblock(blockposition,engine.map.Block(block.onput))
+                self.currmap.setblock(blockposition,\
+                    engine.map.Block(block.onput))
             if block.obstacle:return 2 # Block exist
 
         #put block on the empty field
@@ -195,7 +196,7 @@ class Player:
             if err:print "Removeitem error code:",err
             #TODO:check for unique. Generate uid
             #set block at position
-            self.currmap.setblock(blockposition,newblock, 1)
+            self.currmap.setblock(blockposition,newblock)
             return 0 # Done
 
     def getposition(self):
