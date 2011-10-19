@@ -140,8 +140,6 @@ class Game:
     def handlemouseevents(self):
         """Handle mouse events"""
         mousekeys=pygame.mouse.get_pressed()
-        #get mouse pos and calculate block position
-
         #mine block
         if mousekeys[0]==1 and not self.isunderpages():
             self.mineblock((self.mtx, self.mty))
@@ -215,7 +213,7 @@ class Game:
             self.chestinventory=inventoryscreen.InventoryScreen("chestframe")
             self.chestinventory.invsoffset=(10, -180)
             #create inventory object to store items
-            inventory=engine.player.Inventory()
+            inventory=Engine.player.Inventory()
             if actiondata.itemdata:
                 inventory.slots=actiondata.itemdata["data"]
             #set inventory to show in inventoryscreen

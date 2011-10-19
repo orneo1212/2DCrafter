@@ -135,7 +135,7 @@ class Player:
                 if block.itemdata:
                     #dont mine non empty chests
                     if not block.itemdata["data"].count(None)==32:
-                        engine.ui.msgbuffer.addtext("You can't mine non empty"\
+                        Engine.ui.msgbuffer.addtext("You can't mine non empty"\
                                                     " chests")
                         return 4 #Cannot remoeve non empty chest
             err=0
@@ -180,15 +180,15 @@ class Player:
 
         #If block exist
         if block:
-            #call onputcall(player,position)
-            if block.onputcall:
-                blockonground=self.currmap.getblock(blockposition, layer)
-                block.onputcall(self, blockposition, blockonground)
             #make block action
             if block.onput: #action (replace blocks)
                 self.currmap.setblock(blockposition, None)
                 self.currmap.setblock(blockposition, \
                     Engine.map.Block(block.onput))
+            #call onputcall(player, blockposition)
+            if block.onputcall:
+                err=block.onputcall(self, blockposition, layer)
+                if err:return 1 #can't place block
             if block.obstacle:return 2 # Block exist
 
         #put block on the empty field
