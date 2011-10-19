@@ -8,8 +8,9 @@ import tools
 import ui
 import dataobj
 
-#Main path
+#Main paths
 mainpath=""
+worldspath=""
 
 #Default config
 Config={

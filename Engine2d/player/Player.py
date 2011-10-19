@@ -1,4 +1,5 @@
 import os
+import json
 import random
 import Engine2d as engine
 
@@ -59,15 +60,15 @@ class Player:
         playerspath=os.path.join(engine.mainpath,"players")
         playerfile=os.path.join(playerspath,"%s.txt" % self.name)
         try:
-            playerdata=open(playerfile,"r").read()
+            playerdata=open(playerfile,"r")
             if not playerdata:return
         except:
             #find new player spawn point
             self.find_spawn_position()
             return
 
-        #TODO: INSECURE PLACE
-        exec(playerdata) # exec file
+        playerdata=json.load(playerdata) # load json player data
+
         #parse data fropm file
         if playerdata.has_key("player"):
             self.position=playerdata["player"]["position"]
@@ -89,7 +90,7 @@ class Player:
         data["player"]["position"]=self.position
         data["inventory"]=self.inventory.slots
         data["mapindex"]=self.currmap.index
-        playerfile.write("playerdata=%s" % repr(data))
+        json.dump(data,playerfile) # dump data to json player file
         playerfile.close()
         return 0 # done
 

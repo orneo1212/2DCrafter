@@ -1,4 +1,5 @@
 import os
+import json
 import Engine2d as engine
 
 class Map:
@@ -92,7 +93,7 @@ class Map:
         args={}
         args["daytime"]=engine.environment.DAYTIME.daytime
         args["mapseed"]=engine.seed
-        datafile.write("worlddata=%s" % repr(args))
+        json.dump(args,datafile)
         datafile.close()
 
     def loadmapdata(self):
@@ -100,11 +101,10 @@ class Map:
         worldpath=os.path.join(engine.mainpath, self.mapname)
         mapfile=os.path.join(worldpath,"worlddata.txt")
         try:
-            data=open(mapfile).read()
+            data=open(mapfile)
         except:return
 
-        #TODO: INSECURE PLACE
-        exec(data) # exec file
-        engine.environment.DAYTIME.daytime=worlddata["daytime"]
+        mapdata=json.load(data) # load mapdata from file
+        engine.environment.DAYTIME.daytime=mapdata["daytime"]
         print
-        engine.seed=worlddata["mapseed"]
+        engine.seed=mapdata["mapseed"]
