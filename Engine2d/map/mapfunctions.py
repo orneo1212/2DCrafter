@@ -4,11 +4,15 @@ import time
 import json
 import Engine2d as engine
 
-def loadsector(mapname, sectorposition):
+def loadsector(mapname, sectorposition, worldname="world"):
     """Load sector from given mapname at position sectorposition"""
+    #paths
+    worldpath=os.path.join(engine.mainpath, worldname)
+    mapspath=os.path.join(worldpath, mapname)
+
     xx, yy=sectorposition
-    try:
-        data=open("%s/%iX%i" % (mapname, xx, yy))
+    sectorpath=os.path.join(mapspath,"%iX%i" % (xx, yy))
+    try:data=open(sectorpath)
     except IOError:
         return 1 # sector not loaded (not exist)
 
@@ -21,10 +25,6 @@ def loadsector(mapname, sectorposition):
             if sectordata.has_key("%iX%i" % (xx, yy)):
                 blockdata=sectordata["%iX%i" % (xx, yy)]
                 if blockdata!=None:
-                    #convert old format
-                    if isinstance(blockdata,int):
-                        print "Converting"
-                        blockdata={"id":blockdata}
                     #create block
                     block=engine.map.Block(blockdata["id"])
                     #load metadata
@@ -40,12 +40,14 @@ def loadsector(mapname, sectorposition):
     newsector.marknotmodified()
     return newsector
 
-def savesector(mapname, sector):
+def savesector(mapname, sector, worldname="world"):
     """Save sector to folder named mapname."""
-    #create world directory if not exist
-    mapspath=os.path.join(engine.mainpath, mapname)
-    if not os.path.isdir(mapspath):
-        os.mkdir(mapspath)
+    #paths
+    worldpath=os.path.join(engine.mainpath, worldname)
+    mapspath=os.path.join(worldpath, mapname)
+    #create directories if not exist
+    if not os.path.isdir(worldpath):os.mkdir(worldpath)
+    if not os.path.isdir(mapspath):os.mkdir(mapspath)
 
     pos=sector.position
 
@@ -65,7 +67,9 @@ def savesector(mapname, sector):
             else:continue
 
             sectorfile["%iX%i" % (xx, yy)]=data
-    dfile=open("%s/%iX%i" % (mapname, pos[0], pos[1]), "w")
+    #Store data
+    sectorpath=os.path.join(mapspath, "%iX%i" % (pos[0], pos[1]) )
+    dfile=open(sectorpath, "w")
     json.dump(sectorfile,dfile)
     return 0 # Done
 

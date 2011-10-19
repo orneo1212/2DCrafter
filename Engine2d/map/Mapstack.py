@@ -2,6 +2,7 @@ import Engine2d as engine
 
 class MapStack:
     def __init__(self):
+        self.worldname="World"
         self.loaded={}
 
     def getmapbyindex(self,index):
@@ -11,7 +12,7 @@ class MapStack:
         else:
             newmap=engine.map.Map()
             newmap.index=index
-            newmap.mapname="world"+str(index)
+            newmap.mapname="layer"+str(index)
             if index>0:newmap.maptype=1
             else:newmap.maptype=0
             newmap.loadmapdata()

@@ -6,11 +6,10 @@ import map
 import player
 import tools
 import ui
-import dataobj
 
 #Main paths
 mainpath=""
-worldspath=""
+worldsdir=""
 
 #Default config
 Config={

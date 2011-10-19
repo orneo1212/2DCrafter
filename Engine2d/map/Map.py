@@ -6,7 +6,7 @@ class Map:
     def __init__(self):
         self.sectors=[] # loaded sectors
         self.entities=[]
-        self.mapname="world"
+        self.mapname="layer"
         self.maptype=0 # 0-outdoor 1-underground
 
     # SET
@@ -15,7 +15,7 @@ class Map:
         sector=self.getsector(secpos[0])
         sector.setblock(secpos[1], newblock)
 
-    def setmapname(self,newmapname):
+    def setmapname(self, newmapname):
         """Set new name for map """
         self.mapname=newmapname
         for sector in self.sectors:
@@ -62,7 +62,7 @@ class Map:
         """Unload all sectors"""
         for sector in self.sectors:
             if sector.modified:
-                print "Unloading sector.",sector
+                print "Unloading sector.", sector
                 engine.map.savesector(self.mapname, sector)
         #clear momory used by sectors
         self.sectors=[]
@@ -80,26 +80,28 @@ class Map:
         locy=position[1]-secy*engine.Config['SS']
         return [[int(secx), int(secy)], [int(locx), int(locy)]]
 
-    def savemapdata(self):
+    def savemapdata(self, worldname="world"):
         """Save map data to file"""
         #create world directory if not exist
-        mapspath=os.path.join(engine.mainpath, self.mapname)
-        if not os.path.isdir(mapspath):
-            os.mkdir(mapspath)
-        mapfile=os.path.join(mapspath,"worlddata.txt")
+        worldpath=os.path.join(engine.mainpath, worldname)
+        mapspath=os.path.join(worldpath, self.mapname)
+        if not os.path.isdir(worldpath):os.mkdir(worldpath)
+        if not os.path.isdir(mapspath):os.mkdir(mapspath)
+        mapfile=os.path.join(mapspath, "worlddata.txt")
         try:
-            datafile=open(mapfile,"w")
+            datafile=open(mapfile, "w")
         except:return
         args={}
         args["daytime"]=engine.environment.DAYTIME.daytime
         args["mapseed"]=engine.seed
-        json.dump(args,datafile)
+        json.dump(args, datafile)
         datafile.close()
 
-    def loadmapdata(self):
+    def loadmapdata(self, worldname="world"):
         """Load map data from file"""
-        worldpath=os.path.join(engine.mainpath, self.mapname)
-        mapfile=os.path.join(worldpath,"worlddata.txt")
+        worldpath=os.path.join(engine.mainpath, worldname)
+        layerspath=os.path.join(worldpath, self.mapname)
+        mapfile=os.path.join(layerspath, "worlddata.txt")
         try:
             data=open(mapfile)
         except:return
