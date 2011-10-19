@@ -10,24 +10,25 @@ class Map:
         self.maptype=0 # 0-outdoor 1-underground
 
     # SET
-    def setblock(self, position, newblock):
-        secpos=self.convertposition(position)
-        sector=self.getsector(secpos[0])
-        sector.setblock(secpos[1], newblock)
-
     def setmapname(self, newmapname):
         """Set new name for map """
         self.mapname=newmapname
         for sector in self.sectors:
             if sector:sector.markmodified()
 
+    def setblock(self, position, newblock, item=False):
+        """Set block(or item if item is True) at global position"""
+        secpos=self.convertposition(position)
+        sector=self.getsector(secpos[0])
+        sector.setblock(secpos[1], newblock, item)
+
     # GET
-    def getblock(self, position):
-        """get block from global position=[x,y]
+    def getblock(self, position, item=False):
+        """get block(or item if item is True) from global position=[x,y]
         """
         secpos=self.convertposition(position)
         sector=self.getsector(secpos[0])
-        block=sector.getblock(secpos[1])
+        block=sector.getblock(secpos[1], item)
         return block
 
     def getsector(self, sectorposition):
@@ -55,8 +56,14 @@ class Map:
 
     #OTHERS FUNCTIONS
     def isblocked(self, position):
+        """Return True if position is blocked"""
+        #check block
         block=self.getblock(position)
-        if block:return block.blocked
+        if block and block.blocked:return True
+        #check item
+        item=self.getblock(position,True) #item get
+        if item and item.blocked:return True
+        return False
 
     def unloadsectors(self):
         """Unload all sectors"""

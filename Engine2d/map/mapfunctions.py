@@ -4,6 +4,15 @@ import time
 import json
 import Engine2d as engine
 
+def makenoise(x,y,freq,seedchange=0):
+    """make perlin noise for global X and Y position.
+    seedchange is value added to seed to perform other noise"""
+    pnoise=engine.tools.pnoise
+    seed=engine.seed
+
+    freq=1/float(freq)
+    return pnoise(x*freq,y*freq,seed+seedchange)
+
 def loadsector(mapname, sectorposition, worldname="world"):
     """Load sector from given mapname at position sectorposition"""
     #paths
@@ -103,16 +112,16 @@ def generate_outdoor(sector):
             nx=x*size+xx+1
             ny=y*size+yy+1
             #noises
-            h=sector.makenoise(nx,ny,512)*128 -\
-                sector.makenoise(nx,ny,8,276)*8
+            h=makenoise(nx,ny,512)*128 -\
+                makenoise(nx,ny,8,276)*8
             h=int(128+h)
 
             #others
-            ndetail=sector.makenoise(nx,ny,2,869)
-            ndetail2=sector.makenoise(nx,ny,2,7965)
-            ngravel=sector.makenoise(nx,ny,8,8496)
-            nstone=sector.makenoise(nx,ny,64,9865)
-            nwater=sector.makenoise(nx,ny,12,1045)
+            ndetail=makenoise(nx,ny,2,869)
+            ndetail2=makenoise(nx,ny,2,7965)
+            ngravel=makenoise(nx,ny,8,8496)
+            nstone=makenoise(nx,ny,64,9865)
+            nwater=makenoise(nx,ny,12,1045)
 
             #
             trees=ndetail>0.4 and ndetail2>0.1
@@ -167,15 +176,15 @@ def generate_underground(sector):
             nx=x*size+xx+1
             ny=y*size+yy+1
             #noises
-            h=sector.makenoise(nx,ny,512)*128
+            h=makenoise(nx,ny,512)*128
             h=int(128+h)
 
             #others
-            ndetail=sector.makenoise(nx,ny,2,869)
-            ndetail2=sector.makenoise(nx,ny,2,7965)
-            ngravel=sector.makenoise(nx,ny,8,8496)
-            nstone=sector.makenoise(nx,ny,64,9865)
-            nwater=sector.makenoise(nx,ny,12,1045)
+            ndetail=makenoise(nx,ny,2,869)
+            ndetail2=makenoise(nx,ny,2,7965)
+            ngravel=makenoise(nx,ny,8,8496)
+            nstone=makenoise(nx,ny,64,9865)
+            nwater=makenoise(nx,ny,12,1045)
 
             coalore=ndetail>0.4 and ndetail2>0.2
             ironore=ndetail>0.4 and ndetail2>0.4

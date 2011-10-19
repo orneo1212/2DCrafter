@@ -7,22 +7,25 @@ class Sector:
     def __init__(self, newposition):
         self.position=newposition
         self.blocks=self.makearray()
+        self.items=self.makearray()
         self.modified=True
 
     def __str__(self):
         return "Sector at position %i,%i" % (self.position[0],self.position[1])
 
-    def getblock(self, localposition):
-        """get block from local position"""
+    def getblock(self, localposition,item=False):
+        """get block(or item if item is True) from local position"""
         posx=int(localposition[0])
         posy=int(localposition[1])
-        return self.blocks[posy][posx]
+        if item:return self.items[posy][posx]
+        else:return self.blocks[posy][posx]
 
-    def setblock(self, localposition, block):
-        """set block in local position"""
+    def setblock(self, localposition, block,item=False):
+        """set block(or item if item is True) in local position"""
         posx=int(localposition[0])
         posy=int(localposition[1])
-        self.blocks[posy][posx]=block
+        if item:self.items[posy][posx]=block
+        else:self.blocks[posy][posx]=block
         self.markmodified()
 
     def markmodified(self):
@@ -43,11 +46,3 @@ class Sector:
                 line.append(None)
             array.append(line);line=[]
         return array
-
-    #temp
-    def makenoise(self,x,y,freq,seedchange=0):
-        pnoise=engine.tools.pnoise
-        seed=engine.seed
-
-        freq=1/float(freq)
-        return pnoise(x*freq,y*freq,seed+seedchange)
