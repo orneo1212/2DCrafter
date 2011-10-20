@@ -1,3 +1,4 @@
+import time
 
 class AnimatedSprite:
     def __init__(self, image):
@@ -6,11 +7,26 @@ class AnimatedSprite:
         self.image_size=image.get_size()
         self.framewidth=32 # 32 pixels width frame
         self.noframes=self.image_size[0]/self.framewidth # number of frames
+        self.started=False
+        self.animlist=list(range(0,self.noframes)) # List of frames for animation
+        #times
+        self.starttime=0
+        self.lastupdate=0
+        self.animation_delay=0 # in milisecs
+        #
+
+    def set_animlist(self,newanimlist):
+        """Set new animation list"""
+        self.animlist=newanimlist
+
+    def set_default_animlist(self):
+        """Set default animation list"""
+        self.animlist=list(range(0,self.noframes))
 
     def _updaterange(self):
         """Update range of frames to avoid get non existing frame"""
-        if self.current_frame>self.noframes:self.current_frame=0
-        if self.current_frame<0:self.current_frame=self.noframes
+        if self.current_frame>len(self.animlist)-1:self.current_frame=0
+        if self.current_frame<0:self.current_frame=len(self.animlist)-1
 
     def get_current_frame(self):
         """Return current frame"""
@@ -19,8 +35,8 @@ class AnimatedSprite:
 
     def get_frame(self,frameindex):
         """Return frame frameindex"""
-        if frameindex>self.noframes:frameindex=0
-        if frameindex<0:frameindex=self.noframes
+        if frameindex>len(self.animlist)-1:frameindex=0
+        if frameindex<0:frameindex=len(self.animlist)-1
         px=self.framewidth*frameindex
         py=self.image_size[1]
         pw=self.framewidth
@@ -38,3 +54,19 @@ class AnimatedSprite:
         self.current_frame-=1
         self._updaterange()
         return self.current_frame
+
+    def start_animation(self):
+        """Start animation"""
+        self.started=True
+        self.starttime=time.time()
+
+    def stop_animation(self):
+        """Stop animation"""
+        self.started=False
+        self.starttime=0
+
+    def update(self):
+        """Update animation state"""
+        if not self.started:return
+        if self.starttime+1.0/self.animation_delay>time.time():
+            self.next()
