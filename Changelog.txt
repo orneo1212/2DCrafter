@@ -4,6 +4,7 @@ release-0.4
 * game not depend on yaml
 * added tooltips to inventory
 * added item layer
+* added night sound
 
 release-0.3
 ----------------------------
@@ -13,4 +14,3 @@ release-0.3
 * changed images for tiles
 * added stairs
 * added undergrounds
-

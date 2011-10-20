@@ -1,3 +1,5 @@
+import Engine
+
 class Daytime:
     def __init__(self):
         self.daylength=40*60 # day+night length in secs
@@ -7,6 +9,7 @@ class Daytime:
         #sunset sunrise take 10% of time
         self.daydelta=255.0/(self.daylength*0.1)
         self.daystate="Day"
+        self.lastdaystate=""
 
     def getlightlevel(self):
         """Return current light level 0-255"""
@@ -43,6 +46,13 @@ class Daytime:
         #limit
         if self.daytime>self.daylength:self.daytime=0
         if self.daytime<0:self.daytime=self.daylength
+
+        #Emit change daystate event
+        if self.lastdaystate!=self.daystate:
+            self.lastdaystate=self.daystate[:]
+            event=Engine.events.EventDaytimeChange()
+            event.daytime=self.daystate[:]
+            Engine.events.addevent(event)
 
 #Global object
 DAYTIME=Daytime()

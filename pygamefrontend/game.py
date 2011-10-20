@@ -21,6 +21,7 @@ class Game:
         #Sounds
         self.minesound=pygame.mixer.Sound("data/sounds/pickaxe.ogg")
         self.nightmusic=pygame.mixer.Sound("data/sounds/night.ogg")
+        self.nightmusic.set_volume(0.5)
         #Font
         self.font=pygame.font.SysFont("Sans", 16)
         self.font1=pygame.font.SysFont("Sans", 12)
@@ -61,11 +62,6 @@ class Game:
         if self.minetimer.tickpassed(1000):
             #print "Unloading all sectors on the fly"
             Engine.map.mapstack.unloadall()
-        #Update music
-        if Engine.environment.DAYTIME.daystate=="Night":
-            self.nightmusic.play(-1)
-        else:
-            self.nightmusic.fadeout(5000)
 
         #move msg texts up
         if self.minetimer.tickpassed(50):
@@ -151,6 +147,12 @@ class Game:
         if mousekeys[0]==1 and not self.isunderpages():
             self.mineblock((self.mtx, self.mty))
 
+    def handlegamevents(self):
+        gevent=Engine.events.poll()
+
+        if gevent.type=="daytimechange":
+            self.update_daytime_sounds(gevent.daytime)
+
     def events(self):
         """handle events"""
         #Tick timers
@@ -164,6 +166,9 @@ class Game:
             self.plpos, (self.mx, self.my))
         #get event from queue
         pygame.event.clear(pygame.MOUSEMOTION)
+
+        self.handlegamevents()
+
         event=pygame.event.poll()
 
         if event.type==pygame.QUIT:self.onexit()
@@ -186,6 +191,13 @@ class Game:
         if self.chestinventory:
             self.chestinventory.events(event)
         self.actionbar.events(event)
+
+    def update_daytime_sounds(self,newdaystate):
+        """Update datytime sounds"""
+        if newdaystate=="Night":
+            self.nightmusic.play(-1)
+        else:
+            self.nightmusic.fadeout(5000)
 
     def actioninrange(self, actionpos, distance=0):
         """Check if the action is in range.
@@ -310,8 +322,11 @@ class Game:
         Engine.ui.msgbuffer.addtext("Saveing data please wait...")
         self.redraw(self.screen, force=True)
         pygame.display.update()
+        #Unload data
         Engine.map.mapstack.unloadall()
         self.player.unloadplayer()
+        #stop mixer
+        pygame.mixer.stop()
         time.sleep(1)
         if backtomenu:
             from pygamefrontend import mainmenu
