@@ -6,7 +6,6 @@ Forum: https://groups.google.com/forum/#!forum/2dbuildinggame
 Required libraries:
     python 2.5 >
     pygame
-    pyyaml
 
 Controls:
     LMB: Hold to mine block

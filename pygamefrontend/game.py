@@ -20,6 +20,7 @@ class Game:
         self.maprender=maprender.MapRender()
         #Sounds
         self.minesound=pygame.mixer.Sound("data/sounds/pickaxe.ogg")
+        self.nightmusic=pygame.mixer.Sound("data/sounds/night.ogg")
         #Font
         self.font=pygame.font.SysFont("Sans", 16)
         self.font1=pygame.font.SysFont("Sans", 12)
@@ -48,6 +49,7 @@ class Game:
 
     def update(self):
         """Update game"""
+        #update daytime
         daydelta=time.time()-self.starttime
         if daydelta>1:
             self.starttime=time.time()
@@ -59,6 +61,11 @@ class Game:
         if self.minetimer.tickpassed(1000):
             #print "Unloading all sectors on the fly"
             Engine.map.mapstack.unloadall()
+        #Update music
+        if Engine.environment.DAYTIME.daystate=="Night":
+            self.nightmusic.play(-1)
+        else:
+            self.nightmusic.fadeout(5000)
 
         #move msg texts up
         if self.minetimer.tickpassed(50):
