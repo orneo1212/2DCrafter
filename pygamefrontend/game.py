@@ -188,8 +188,6 @@ class Game:
             self.chestinventory.events(event)
         self.actionbar.events(event)
 
-
-
     def actioninrange(self, actionpos, distance=0):
         """Check if the action is in range.
         If distance=0 then will be used self.actiondistance"""
@@ -279,16 +277,16 @@ class Game:
         self.invscreen.redraw(screen)
         self.actionbar.redraw(screen)
 
-    def drawosd(self, screen):
+    def drawosd(self, surface):
         """Draw on screen texts"""
         #draw position
         pos=self.player.getposition()
         text=self.font.render("Position: %s" % str(pos), 1, (255, 255, 255))
-        screen.blit(text, (0, 0))
+        surface.blit(text, (0, 0))
         #draw current day state
         daystate=Engine.environment.DAYTIME.daystate
         text=self.font.render(str(daystate), 1, (255, 255, 255))
-        screen.blit(text, (0, 1*18))
+        surface.blit(text, (0, 1*18))
         #draw selected block  name
         #lock=engine.map.Block(self.currenttile)
         #f block:name=block.name
@@ -298,7 +296,7 @@ class Game:
         #draw current recipe
         text=self.font.render("Recipe: %s" % str(self.currentrecipe), \
             1, (255, 255, 255))
-        screen.blit(text, (0, 3*18))
+        surface.blit(text, (0, 3*18))
         #Draw messages
         msgs=Engine.ui.msgbuffer.getlast(10)
         msgs.reverse()
@@ -306,7 +304,7 @@ class Game:
         for msg in msgs:
             counter+=1
             text=self.font1.render(str(msg), 1, (255, 255, 255))
-            screen.blit(text, (20, SH-counter*10-40))
+            surface.blit(text, (20, SH-counter*10-40))
 
     def onexit(self,backtomenu=False):
         """On exit"""

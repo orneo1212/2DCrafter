@@ -1,3 +1,4 @@
+import Engine
 
 class TextBuffer:
     def __init__(self):
@@ -6,6 +7,10 @@ class TextBuffer:
     def addtext(self, text):
         if len(self.tbuffer)>1024:self.clear()
         self.tbuffer.append(text)
+        #Emit messageadded event
+        event=Engine.events.makeevent("messageadded")
+        event.newmessage=text
+        Engine.events.addevent(event)
 
     def getlast(self,n=1):
         """get n last texts from buffer"""
