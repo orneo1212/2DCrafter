@@ -2,6 +2,8 @@ release-0.4
 ----------------------------
 * new map format (saves saved in 0.3 not work with this release)
 * game not depend on yaml
+* added tooltips to inventory
+* added item layer
 
 release-0.3
 ----------------------------
