@@ -25,6 +25,7 @@ class InventoryScreen:
         self.visible=False
         self.inventory=None
         self.selected=None
+        self.lastslot=None # for tooltips
         self.tradeinventory=None # trade inventory
 
     def setinventory(self, inventory):
@@ -48,22 +49,27 @@ class InventoryScreen:
         pass
 
     def events(self, event):
+        """Handle Inventory screen events"""
         #if not visible unselect slot
         if not self.visible:
             self.selected=None
             return
 
+        #get slot under cursor
+        mx, my=pygame.mouse.get_pos()
+        slotpos=self.getslotunderpoint((mx, my))
+        self.lastslot=slotpos # required for tooltips
+
         #left mouse button (select)
         if pygame.mouse.get_pressed()[0]==1:
             #select block
-            mx, my=pygame.mouse.get_pos()
             nx,ny=self.getinvpos()
 
             #Hide inventory with Cross
             if mx>nx and mx<nx+10 and my>ny-20 and my<ny-5:
                 self.visible=False
 
-            slotpos=self.getslotunderpoint((mx, my))
+            #check slotpos
             if slotpos!=None and self.inventory:
                 slot=self.inventory.getslot(slotpos)
                 if slot!=None:self.selected=slotpos
@@ -137,12 +143,27 @@ class InventoryScreen:
                 nx=(xx%self.invsize[0])*self.ts+self.getinvpos()[0]
                 ny=(xx/self.invsize[0])*self.ts+self.getinvpos()[1]
                 screen.blit(img, (nx, ny))
-                #draw count
+                #Draw count
                 txt=self.font.render(str(item[1]), 1, (255, 255, 0))
                 screen.blit(txt, (nx, ny))
-                #draw selection
+                #Draw selection
                 if xx==self.selected and drawselected:
                     pygame.draw.rect(screen, (255, 255, 0), \
                         (nx-1, ny-1, self.ts-2, self.ts-2), 1)
                     drawselected=False
+            #increase index
             xx+=1
+        #Draw tooltip
+        if self.lastslot!=None:
+            slot=self.inventory.getslot(self.lastslot)
+            if slot!=None:
+                mx, my=pygame.mouse.get_pos()
+                block=Engine.create_block(slot[0]) # create temp block
+                #Draw tooltip background
+                #pygame.draw.rect(screen, (64, 64, 64), \
+                #   (mx, my, 128, 32), 0)
+                #Draw item name
+                color=(200, 200, 200)
+                img=self.font.render(str(block.name), 1, color, (64, 64, 64))
+                px,py=mx+(64-img.get_size()[0]/2),my
+                screen.blit(img, (px, py))

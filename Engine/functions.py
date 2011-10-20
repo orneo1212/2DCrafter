@@ -1,5 +1,7 @@
 import Engine
 
-def crate_block(blockID):
+def create_block(blockID):
     """Create block by ID"""
-    return Engine.block.Block(blockID)
+    if blockID==None:return None
+    if blockID==1:return None
+    return Engine.map.Block(blockID)
