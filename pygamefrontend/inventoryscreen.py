@@ -57,6 +57,12 @@ class InventoryScreen:
         if pygame.mouse.get_pressed()[0]==1:
             #select block
             mx, my=pygame.mouse.get_pos()
+            nx,ny=self.getinvpos()
+
+            #Hide inventory with Cross
+            if mx>nx and mx<nx+10 and my>ny-20 and my<ny-5:
+                self.visible=False
+
             slotpos=self.getslotunderpoint((mx, my))
             if slotpos!=None and self.inventory:
                 slot=self.inventory.getslot(slotpos)
