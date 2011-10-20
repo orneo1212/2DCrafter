@@ -215,8 +215,9 @@ class Player:
             block=self.currmap.getblock(blockposition, layer)
             newblock=Engine.map.Block(blockID) # temp item
             #dont put item block on layer 0 and not item blocks on layer 1
-            if layer==0 and newblock and newblock.item:continue
-            if layer==1 and newblock and not newblock.item:continue
+            if not block:
+                if layer==0 and newblock and newblock.item:continue
+                if layer==1 and newblock and not newblock.item:continue
             err=self.verify_and_put(block, blockposition, blockID, layer)
             if not err:return 0 # item placed
         return 1 # cant place item
