@@ -20,8 +20,6 @@ class Game:
         self.maprender=maprender.MapRender()
         #Sounds
         self.minesound=pygame.mixer.Sound("data/sounds/pickaxe.ogg")
-        self.nightmusic=pygame.mixer.Sound("data/sounds/night.ogg")
-        self.nightmusic.set_volume(0.5)
         #Font
         self.font=pygame.font.SysFont("Sans", 16)
         self.font1=pygame.font.SysFont("Sans", 12)
@@ -38,9 +36,7 @@ class Game:
         self.eventtimer=Engine.tools.Timer()
         #Action Distance
         self.actiondistance=4
-
-        self.starttime=0
-
+        self.starttime=0 # Game start time
         #Current selection
         self.currenttile=0
         self.currentrecipe=""
@@ -151,7 +147,7 @@ class Game:
         gevent=Engine.events.poll()
 
         if gevent.type=="daytimechange":
-            self.update_daytime_sounds(gevent.daytime)
+            pygamefrontend.functions.update_daytime_sounds(gevent.daytime)
 
     def events(self):
         """handle events"""
@@ -192,12 +188,7 @@ class Game:
             self.chestinventory.events(event)
         self.actionbar.events(event)
 
-    def update_daytime_sounds(self,newdaystate):
-        """Update datytime sounds"""
-        if newdaystate=="Night":
-            self.nightmusic.play(-1)
-        else:
-            self.nightmusic.fadeout(5000)
+
 
     def actioninrange(self, actionpos, distance=0):
         """Check if the action is in range.

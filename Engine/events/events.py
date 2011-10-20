@@ -1,12 +1,5 @@
-#################################
-#            EVENTS             #
-#################################
-class EventNoevent:
+class Event:
     type="noevent"
-
-class EventDaytimeChange:
-    type="daytimechange"
-    daytime="" # Day night sunset sunrise
 
 #################################
 #      EVENTS DEFINITION        #
@@ -15,7 +8,7 @@ EVENTS=[] # Events queue
 def poll():
     """Poll one event from queue"""
     global EVENTS
-    if len(EVENTS)==0:return EventNoevent()
+    if len(EVENTS)==0:return Event() # return noevent event
     return EVENTS.pop(-1)
 
 def clear(type=None):
@@ -31,3 +24,8 @@ def addevent(event):
     """Add event to queue"""
     global EVENTS
     EVENTS.append(event)
+
+def makeevent(eventtype):
+    event=Event()
+    event.type=eventtype
+    return event

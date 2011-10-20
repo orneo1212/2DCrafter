@@ -2,6 +2,7 @@ import math
 import pygame
 import Engine
 import pygamefrontend
+from pygamefrontend.sounds import *
 
 lightoffset=pygamefrontend.TILESIZE/2 # offset for blit lights circles
 
@@ -25,3 +26,10 @@ def drawlight(surface,position,radius,delta=3,color=(128,128,0)):
         #draw circle lights
         pygame.draw.circle(surface,(c1,c2,c3,alpha),position,radius*\
             pygamefrontend.TILESIZE)
+
+def update_daytime_sounds(newdaystate):
+    """Update datytime sounds"""
+    if newdaystate=="Night":
+        nightmusic.play(-1)
+    else:
+        nightmusic.fadeout(5000)
