@@ -38,6 +38,7 @@ class Game:
         self.growtimer=Engine.tools.Timer()
         self.unloadtimer=Engine.tools.Timer()
         self.messagetimer=Engine.tools.Timer()
+        self.redrawtimer=Engine.tools.Timer()
         #Action Distance
         self.actiondistance=4
         self.starttime=0 # Game start time
@@ -266,7 +267,7 @@ class Game:
 
     def redraw(self, screen,force=False):
         if not force:
-            if not self.eventtimer.tickpassed(2):return
+            if not self.redrawtimer.timepassed(200):return
         #clean the screen
         screen.fill((117, 101, 50))
         #render
@@ -297,6 +298,7 @@ class Game:
         msgs.reverse()
         counter=0
         for msg in msgs:
+            if not msg:continue
             counter+=1
             text=self.font1.render(str(msg), 1, (255, 255, 255))
             surface.blit(text, (20, SH-counter*10-40))
