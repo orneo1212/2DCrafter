@@ -38,8 +38,8 @@ class MapRender:
         should be drawn on the screen"""
         nx=tiledposition[0]-centered[0]
         ny=tiledposition[1]-centered[1]
-        xx = (nx*32+16)-(ny*32)+400
-        yy = (nx*16-16)+(ny*16)+300
+        xx = (nx-ny)*32+400-32
+        yy = (nx+ny)*16+300-16
         return (xx+offset[0], yy+offset[1])
 
     def render(self, surface, center, mapobject):
