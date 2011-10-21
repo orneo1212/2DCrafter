@@ -102,12 +102,17 @@ class MapRender:
 
     def getglobalfromscreen(self, centerpos, screenpos):
         """get global position (in tiles) from screenpos,
-        where view is centered at position centerposition.
+        where view is centered at position centerposition (in tiles).
         positions should be given as tuple (x,y)"""
-        screentilex=(screenpos[0]-self.mmox)/self.tilesize
-        screentiley=(screenpos[1]-self.mmoy)/self.tilesize
-        gx=self.center[0]+centerpos[0]-screentilex
-        gy=self.center[1]+centerpos[1]-screentiley
+        #xx = (nx*32+16)-(ny*32)+400
+        #yy = (nx*16-16)+(ny*16)+300
+        nx=(screenpos[0]-self.mmox)-400
+        ny=(screenpos[1]-self.mmoy)-300
+        screentilex=(ny+nx/2)/32
+        screentiley=(ny-nx/2)/32
+        gx=screentilex+centerpos[0]
+        gy=screentiley+centerpos[1]
+        print gx,gy,centerpos, screentilex,screentiley
         return [gx, gy]
 
     def renderatplayer(self, surface, player, mapobject):
