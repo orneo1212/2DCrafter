@@ -100,10 +100,10 @@ class Player:
     def move(self, direction, speed, collisions=True):
         """Move player to a given direction"""
         #north east west south
-        mv={"n":(0, speed),
-            "s":(0, -speed),
-            "e":(-speed, 0),
-            "w":(speed, 0)}
+        mv={"n":(0, -speed),
+            "s":(0, speed),
+            "e":(speed, 0),
+            "w":(-speed, 0)}
         if direction not in mv.keys():return
 
         #can't go through a blocked block
