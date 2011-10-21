@@ -209,7 +209,6 @@ class Game:
         plpos=self.player.getposition()
         if self.actioninrange(mousepos, 2):
             if not self.minetimer.timepassed(self.minedelay):return
-            self.minetimer.tick()
             self.hidechest()
             err=self.player.mineblock(mousepos)
             if not err:self.playsound(self.minesound)
@@ -245,8 +244,7 @@ class Game:
 
     def playsound(self, sound):
         """Play sound"""
-        if not pygame.mixer.get_busy():
-            if sound:sound.play()
+        if sound:sound.play()
 
     def nextrecipe(self, reverse=False, update=False):
         """Toggle recipe"""
@@ -267,7 +265,7 @@ class Game:
 
     def redraw(self, screen,force=False):
         if not force:
-            if not self.redrawtimer.timepassed(70):return
+            if not self.redrawtimer.timepassed(60):return
         #clean the screen
         screen.fill((117, 101, 50))
         #render
@@ -298,8 +296,8 @@ class Game:
         msgs.reverse()
         counter=0
         for msg in msgs:
-            if not msg:continue
             counter+=1
+            if not msg:continue
             text=self.font1.render(str(msg), 1, (255, 255, 255))
             surface.blit(text, (20, SH-counter*10-40))
 

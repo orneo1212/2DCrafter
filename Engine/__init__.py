@@ -18,7 +18,7 @@ Config={
     "SS":32,
     "seed":0,
     "maxfps":30,
-    "circlelight":True
+    "circlelight":False
     }
 
 #update seed
