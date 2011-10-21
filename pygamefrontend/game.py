@@ -29,7 +29,7 @@ class Game:
         self.chestinventory=None #chest content if selected
         self.actionbar=actionbar.Actionbar(self.player.inventory)
         #speeds
-        self.movespeed=0.5
+        self.movespeed=0.3
         self.minedelay=150 # number of milisecs to mine
         self.movedelay=50 # number of milisecs to move
         #timers
@@ -120,7 +120,7 @@ class Game:
             pygame.display.toggle_fullscreen()
         #Toggle light circle
         if event.key==pygame.K_F10:
-            conf=engine.Config
+            conf=Engine.Config
             light=conf["circlelight"]
             if light:conf["circlelight"]=False
             else: conf["circlelight"]=True
@@ -267,7 +267,7 @@ class Game:
 
     def redraw(self, screen,force=False):
         if not force:
-            if not self.redrawtimer.timepassed(100):return
+            if not self.redrawtimer.timepassed(70):return
         #clean the screen
         screen.fill((117, 101, 50))
         #render
