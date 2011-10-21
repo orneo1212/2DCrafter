@@ -36,9 +36,11 @@ class MapRender:
     def calculate_drawpos(self, tiledposition, centered=(0, 0), offset=(0, 0)):
         """Calculate where object at tiledpositions (centered at center)
         should be drawn on the screen"""
-        locx=self.center[0]+centered[0]-tiledposition[0]
-        locy=self.center[1]+centered[1]-tiledposition[1]
-        return (locx*self.tilesize+offset[0], locy*self.tilesize+offset[1])
+        nx=tiledposition[0]-centered[0]
+        ny=tiledposition[1]-centered[1]
+        xx = (nx*32+16)-(ny*32)+400
+        yy = (nx*16-16)+(ny*16)+300
+        return (xx+offset[0], yy+offset[1])
 
     def render(self, surface, center, mapobject):
         """Render map on the surface. Map will be centered on center position (global)."""
@@ -53,8 +55,8 @@ class MapRender:
         #fill mask layer
         self.lightsurface.fill((0, 0, 0, lightlevel))
         #calculate map move offset (smooth move)
-        self.mmox=int((center[0]-cx)*tilesize)
-        self.mmoy=int((center[1]-cy)*tilesize)
+        #self.mmox=int((center[0]-cx)*tilesize)
+        #self.mmoy=int((center[1]-cy)*tilesize)
         #render tiles in each layer
         for layer in [0,1]: # layers 0=blocks 1=items
             for yy in xrange(cy-self.center[1]-1, cy+self.center[1]+2):
