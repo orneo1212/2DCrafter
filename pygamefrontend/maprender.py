@@ -83,7 +83,6 @@ class MapRender:
 
         #draw block only if there is one
         if drawblock:
-            if layer==0:surface.blit(self.backimg, drawpos)
             surface.blit(self.blockimages[block.id], drawpos)
             #draw light emited by block
             if block.lightradius:
@@ -112,7 +111,7 @@ class MapRender:
         screentiley=(ny-nx/2)/32
         gx=screentilex+centerpos[0]
         gy=screentiley+centerpos[1]
-        print gx,gy,centerpos, screentilex,screentiley
+        #print gx,gy,centerpos, screentilex,screentiley
         return [gx, gy]
 
     def renderatplayer(self, surface, player, mapobject):
