@@ -267,7 +267,7 @@ class Game:
 
     def redraw(self, screen,force=False):
         if not force:
-            if not self.redrawtimer.timepassed(200):return
+            if not self.redrawtimer.timepassed(100):return
         #clean the screen
         screen.fill((117, 101, 50))
         #render
