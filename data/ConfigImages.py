@@ -3,7 +3,7 @@ images={
     #blockid: filepath
     #0: air
     "player": "data/images/player.png",
-    "backimg": "data/images/1backimg.png",
+    "backimg": "data/images/backimg.png",
     "inventoryframe": "data/images/gui/inventory_frame.png",
     "chestframe": "data/images/gui/chest_frame.png",
     "slotsframe": "data/images/gui/slotsframe.png",
