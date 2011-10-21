@@ -25,7 +25,7 @@ class Timer:
         else:return False
 
     def timepassed(self, timepassed):
-        if time.time()>self.lasttick+timepassed:
+        if time.time()-self.lasttick>timepassed:
             return True
         else:return False
 

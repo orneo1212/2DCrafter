@@ -287,12 +287,6 @@ class Game:
         daystate=Engine.environment.DAYTIME.daystate
         text=self.font.render(str(daystate), 1, (255, 255, 255))
         surface.blit(text, (0, 1*18))
-        #draw selected block  name
-        #lock=engine.map.Block(self.currenttile)
-        #f block:name=block.name
-        #lse:name=""
-        #ext=self.font.render("Selected: %s" % name, 1, (255, 255, 255))
-        #creen.blit(text, (0, 3*18))
         #draw current recipe
         text=self.font.render("Recipe: %s" % str(self.currentrecipe), \
             1, (255, 255, 255))

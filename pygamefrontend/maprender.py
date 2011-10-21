@@ -19,6 +19,11 @@ class MapRender:
         self.lightsurface=pygame.Surface((SW, SH), pygame.SRCALPHA)
         #player image
         self.playerimg=pygamefrontend.imgloader.loadimage("player")
+        #Sprites
+        self.playersprite=pygamefrontend.animation.AnimatedSprite(self.playerimg)
+        self.playersprite.start_animation()
+        self.playersprite.set_delay(250)
+        #images
         self.backimg=pygamefrontend.imgloader.loadimage("backimg")
         self.blockimages=pygamefrontend.imgloader.loadimages()
         #player position
@@ -88,8 +93,10 @@ class MapRender:
 
     def drawplayer(self, surface):
         """Draw player centered at screen"""
-        #render player image on center position
-        surface.blit(self.playerimg, (self.playerx, self.playery))
+        #render player image on center position\
+        self.playersprite.update()
+        playerframe=self.playersprite.get_current_frame()
+        surface.blit(playerframe, (self.playerx, self.playery))
 
     def getglobalfromscreen(self, centerpos, screenpos):
         """get global position (in tiles) from screenpos,

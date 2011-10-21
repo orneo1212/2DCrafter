@@ -10,9 +10,9 @@ class AnimatedSprite:
         self.started=False
         self.animlist=list(range(0,self.noframes)) # List of frames for animation
         #times
-        self.starttime=0
-        self.lastupdate=0
-        self.animation_delay=0 # in milisecs
+        self.starttime=0.0
+        self.lastupdate=0.0
+        self.animation_delay=100 # in milisecs
         #
 
     def set_animlist(self,newanimlist):
@@ -32,6 +32,10 @@ class AnimatedSprite:
         """Return current frame"""
         self._updaterange()
         return self.get_frame(self.current_frame)
+
+    def set_delay(self,delay):
+        """Set animation delay (in milisecs)"""
+        self.animation_delay=delay
 
     def get_frame(self,frameindex):
         """Return frame frameindex"""
@@ -59,14 +63,16 @@ class AnimatedSprite:
         """Start animation"""
         self.started=True
         self.starttime=time.time()
+        self.lastupdate=time.time()
 
     def stop_animation(self):
         """Stop animation"""
         self.started=False
-        self.starttime=0
+        self.starttime=0.0
 
     def update(self):
         """Update animation state"""
         if not self.started:return
-        if self.starttime+1.0/self.animation_delay>time.time():
+        if time.time()-self.lastupdate>=self.animation_delay/1000.0:
+            self.lastupdate=time.time()
             self.next()
