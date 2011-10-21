@@ -29,11 +29,15 @@ class Game:
         self.chestinventory=None #chest content if selected
         self.actionbar=actionbar.Actionbar(self.player.inventory)
         #speeds
-        self.movespeed=0.25
-        self.mineticks=10 # number of ticks to mine
+        self.movespeed=0.5
+        self.minedelay=150 # number of milisecs to mine
+        self.movedelay=50 # number of milisecs to move
         #timers
         self.minetimer=Engine.tools.Timer()
         self.eventtimer=Engine.tools.Timer()
+        self.growtimer=Engine.tools.Timer()
+        self.unloadtimer=Engine.tools.Timer()
+        self.messagetimer=Engine.tools.Timer()
         #Action Distance
         self.actiondistance=4
         self.starttime=0 # Game start time
@@ -52,15 +56,14 @@ class Game:
             self.starttime=time.time()
             Engine.environment.DAYTIME.updatedaytime()
         #Grow
-        if self.minetimer.tickpassed(200):
+        if self.growtimer.timepassed(15000):
             Engine.map.randomgrow(self.player.currmap)
         #Unload sectors
-        if self.minetimer.tickpassed(1000):
+        if self.unloadtimer.timepassed(15000):
             #print "Unloading all sectors on the fly"
             Engine.map.mapstack.unloadall()
-
         #move msg texts up
-        if self.minetimer.tickpassed(50):
+        if self.messagetimer.timepassed(500):
             Engine.ui.msgbuffer.addtext("")
         #update pages
         self.invscreen.update()
@@ -151,10 +154,6 @@ class Game:
 
     def events(self):
         """handle events"""
-        #Tick timers
-        #events tick
-        self.eventtimer.tick()
-        self.minetimer.tick()
         #Some global variables
         self.plpos=self.player.getposition()
         self.mx, self.my=pygame.mouse.get_pos()
@@ -179,7 +178,8 @@ class Game:
                     self.putblock((self.mtx, self.mty))
                     self.setupaction() # setupaction if any
         #playermove
-        self.movekeys_events()
+        if self.eventtimer.timepassed(self.movedelay):
+            self.movekeys_events()
         #mouse events
         self.handlemouseevents()
         #Send events to pages
@@ -207,7 +207,8 @@ class Game:
         """Collect block"""
         plpos=self.player.getposition()
         if self.actioninrange(mousepos, 2):
-            if not self.minetimer.tickpassed(self.mineticks):return
+            if not self.minetimer.timepassed(self.minedelay):return
+            self.minetimer.tick()
             self.hidechest()
             err=self.player.mineblock(mousepos)
             if not err:self.playsound(self.minesound)
