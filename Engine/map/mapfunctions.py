@@ -163,7 +163,7 @@ def generate_outdoor(sector):
             else:block=None
             sector.setblock([xx,yy],block)
 
-def generate_underground(sector):
+def generate_underground(sector,seedchange=0):
     """Generate new sector (underground)"""
     x,y=sector.position
     print "Generating sector %s" % sector.position
@@ -179,15 +179,15 @@ def generate_underground(sector):
             nx=x*size+xx+1
             ny=y*size+yy+1
             #noises
-            h=makenoise(nx,ny,512)*128
+            h=makenoise(nx,ny,512,seedchange)*128
             h=int(128+h)
 
             #others
-            ndetail=makenoise(nx,ny,2,869)
-            ndetail2=makenoise(nx,ny,2,7965)
-            ngravel=makenoise(nx,ny,8,8496)
-            nstone=makenoise(nx,ny,64,9865)
-            nwater=makenoise(nx,ny,12,1045)
+            ndetail=makenoise(nx,ny,2,869+seedchange)
+            ndetail2=makenoise(nx,ny,2,7965+seedchange)
+            ngravel=makenoise(nx,ny,8,8496+seedchange)
+            nstone=makenoise(nx,ny,64,9865+seedchange)
+            nwater=makenoise(nx,ny,12,1045+seedchange)
 
             coalore=ndetail>0.4 and ndetail2>0.2
             ironore=ndetail>0.4 and ndetail2>0.4
@@ -199,10 +199,17 @@ def generate_underground(sector):
 
             #water level (stone underground)
             if h<128:
-                blockid=1 #underground stone
+                if h<128:blockid=1 # Stone
+                if h<=128-45 and coalore:blockid=13 #coal ore
+                if h<=128-45 and ironore:blockid=14 #Iron ore
+                if h<=128-60 and blackmarble:blockid=21 #Blk marble
             #ground level h>128
             else:
-                if h>128:blockid=16
+                if h>=128:blockid=16
+                if h>=128+5:blockid=1
+                if h>=128+5 and coalore:blockid=13 #coal ore
+                if h>=128+5 and ironore:blockid=14 #Iron ore
+                if h>=128+5 and blackmarble:blockid=21 #Blk marble
                 if h>=128+8 and gravel:blockid=16 #gravel
                 if h>=128+8 and stone:blockid=1 #stone
                 if h>=128+8 and stone and coalore:blockid=13 #coal ore

@@ -39,9 +39,9 @@ class Game:
         self.unloadtimer=Engine.tools.Timer()
         self.messagetimer=Engine.tools.Timer()
         self.redrawtimer=Engine.tools.Timer()
+        self.daytimetimer=Engine.tools.Timer()
         #Action Distance
         self.actiondistance=4
-        self.starttime=0 # Game start time
         #Current selection
         self.currenttile=0
         self.currentrecipe=""
@@ -52,12 +52,10 @@ class Game:
     def update(self):
         """Update game"""
         #update daytime
-        daydelta=time.time()-self.starttime
-        if daydelta>1:
-            self.starttime=time.time()
+        if self.daytimetimer.timepassed(1000):
             Engine.environment.DAYTIME.updatedaytime()
         #Grow
-        if self.growtimer.timepassed(15000):
+        if self.growtimer.timepassed(2000):
             Engine.map.randomgrow(self.player.currmap)
         #Unload sectors
         if self.unloadtimer.timepassed(15000):
@@ -181,13 +179,13 @@ class Game:
         #playermove
         if self.eventtimer.timepassed(self.movedelay):
             self.movekeys_events()
-        #mouse events
-        self.handlemouseevents()
-        #Send events to pages
-        self.invscreen.events(event)
-        if self.chestinventory:
-            self.chestinventory.events(event)
-        self.actionbar.events(event)
+            #mouse events
+            self.handlemouseevents()
+            #Send events to pages
+            self.invscreen.events(event)
+            if self.chestinventory:
+                self.chestinventory.events(event)
+            self.actionbar.events(event)
 
     def actioninrange(self, actionpos, distance=0):
         """Check if the action is in range.

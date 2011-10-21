@@ -8,6 +8,7 @@ class Map:
         self.entities=[]
         self.mapname="layer"
         self.maptype=0 # 0-outdoor 1-underground
+        self.index=0
 
     # SET
     def setmapname(self, newmapname):
@@ -47,7 +48,7 @@ class Map:
                 Engine.map.generate_outdoor(sector)
             elif self.maptype==1:
                 sector=Engine.map.Sector(sectorposition)
-                Engine.map.generate_underground(sector)
+                Engine.map.generate_underground(sector,self.index*97)
             sector.markmodified()
 
         #add it to loaded
