@@ -103,10 +103,8 @@ class MapRender:
         """get global position (in tiles) from screenpos,
         where view is centered at position centerposition (in tiles).
         positions should be given as tuple (x,y)"""
-        #xx = (nx*32+16)-(ny*32)+400
-        #yy = (nx*16-16)+(ny*16)+300
-        nx=(screenpos[0]-self.mmox)-400
-        ny=(screenpos[1]-self.mmoy)-300
+        nx=(screenpos[0]+self.mmox)-400
+        ny=(screenpos[1]+self.mmoy)-300+8
         screentilex=(ny+nx/2)/32
         screentiley=(ny-nx/2)/32
         gx=screentilex+centerpos[0]
