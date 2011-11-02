@@ -53,11 +53,11 @@ class MapRender:
         #fill mask layer
         self.lightsurface.fill((0, 0, 0, lightlevel))
         #calculate map move offset (smooth move)
-        self.mmox=int((center[0]-cx)*tilesize)
-        self.mmoy=int((center[1]-cy)*tilesize)
+        #self.mmox=int((center[0]-cx)*tilesize)
+        #self.mmoy=int((center[1]-cy)*tilesize)
         #render tiles in each layer
         for layer in [0,1]: # layers 0=blocks 1=items
-            for yy in xrange(cy-self.center[1]-1, cy+self.center[1]+2):
+            for yy in xrange(cy+self.center[1]+2, cy-self.center[1]-1, -1):
                 for xx in xrange(cx-self.center[0]-1, cx+self.center[0]+2):
                     #get block
                     block=mapobject.getblock((xx, yy), layer)
@@ -82,13 +82,20 @@ class MapRender:
         #draw block only if there is one
         if drawblock:
             if layer==0:surface.blit(self.backimg, drawpos)
-            surface.blit(self.blockimages[block.id], drawpos)
+            drawpos=list(drawpos)
+            #get block image
+            img=self.blockimages[block.id]
+            #vertical offset
+            vertoffset=img.get_size()[1]-self.tilesize
+            drawpos[1]-=vertoffset
+            #blit block image
+            surface.blit(img, drawpos)
             #draw light emited by block
             if block.lightradius:
                 radius=block.lightradius
                 functions.drawlight(self.lightsurface, drawpos, radius)
         #if not draw background image
-        elif layer==False:
+        elif layer==0:
             surface.blit(self.backimg, drawpos)
 
     def drawplayer(self, surface):
