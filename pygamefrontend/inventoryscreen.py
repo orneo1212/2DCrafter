@@ -72,15 +72,28 @@ class InventoryScreen:
             #check slotpos
             if slotpos!=None and self.inventory:
                 slot=self.inventory.getslot(slotpos)
-                if slot!=None:self.selected=slotpos
+                #If not selected. select one
+                if slot!=None:
+                    if self.selected is not None:
+                        #replace items
+                        data=self.inventory.getslot(slotpos)
+                        tmp=self.inventory.getslot(self.selected)
+                        self.inventory.slots[self.selected]=data
+                        self.inventory.slots[slotpos]=tmp
+                        self.selected=slotpos
+                    else:
+                        #Select one
+                        self.selected=slotpos
                 #rearrange slots
                 else:
-                    #only reaareng when slot is selected
+                    #only rearrange when slot is selected
                     if self.selected is not None:
                         data=self.inventory.getslot(self.selected)
-                        self.inventory.slots[slotpos]=data
-                        self.inventory.slots[self.selected]=None
-                        self.selected=None
+                        if data is not None:
+                            #Rearrange
+                            self.inventory.slots[slotpos]=data
+                            self.inventory.slots[self.selected]=None
+                            self.selected=None
 
         #right mouse button (Trade)
         if pygame.mouse.get_pressed()[2]==1:
