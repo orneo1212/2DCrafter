@@ -1,11 +1,15 @@
 import time
 import math
 import sys
+import pygame
+
+#import plugin system
+from pluginsystem import basePluginSystem
+
 import pygamefrontend
 from pygamefrontend import imageloader, maprender, inventoryscreen
 from pygamefrontend import actionbar
 import Engine
-import pygame
 
 SW, SH=pygamefrontend.SW, pygamefrontend.SH
 
@@ -37,7 +41,6 @@ class Game:
         self.eventtimer=Engine.tools.Timer()
         self.growtimer=Engine.tools.Timer()
         self.unloadtimer=Engine.tools.Timer()
-        self.messagetimer=Engine.tools.Timer()
         self.redrawtimer=Engine.tools.Timer()
         self.daytimetimer=Engine.tools.Timer()
         #Action Distance
@@ -53,7 +56,7 @@ class Game:
         """Update game"""
         #update daytime
         if self.daytimetimer.timepassed(1000):
-            Engine.environment.DAYTIME.updatedaytime()
+            basePluginSystem.emit_event("daytimeupdate")
         #Grow
         if self.growtimer.timepassed(2000):
             Engine.map.randomgrow(self.player.currmap)
@@ -61,9 +64,6 @@ class Game:
         if self.unloadtimer.timepassed(15000):
             #print "Unloading all sectors on the fly"
             Engine.map.mapstack.unloadall()
-        #move msg texts up
-        if self.messagetimer.timepassed(500):
-            Engine.ui.msgbuffer.addtext("")
         #update pages
         self.invscreen.update()
         if self.chestinventory:self.chestinventory.update()
@@ -145,12 +145,6 @@ class Game:
         if mousekeys[0]==1 and not self.isunderpages():
             self.mineblock((self.mtx, self.mty))
 
-    def handlegamevents(self):
-        gevent=Engine.events.poll()
-
-        if gevent.type=="daytimechange":
-            pygamefrontend.functions.update_daytime_sounds(gevent.daytime)
-
     def events(self):
         """handle events"""
         #Some global variables
@@ -160,8 +154,6 @@ class Game:
             self.plpos, (self.mx, self.my))
         #get event from queue
         pygame.event.clear(pygame.MOUSEMOTION)
-
-        self.handlegamevents()
 
         event=pygame.event.poll()
 
@@ -200,16 +192,25 @@ class Game:
     def putblock(self, mousepos):
         """Put block on the ground"""
         if self.actioninrange(mousepos):
-            err=self.player.putblock(mousepos, self.currenttile)
+            #Emit mineblock event
+            basePluginSystem.emit_event("placeblock",
+                pos=mousepos,
+                block=self.currenttile,
+                player=self.player)
 
     def mineblock(self, mousepos):
         """Collect block"""
         plpos=self.player.getposition()
         if self.actioninrange(mousepos, 2):
             if not self.minetimer.timepassed(self.minedelay):return
+            #Emit mineblock event
+            basePluginSystem.emit_event("mineblock",
+                pos=mousepos,
+                player=self.player)
+            #
             self.hidechest()
-            err=self.player.mineblock(mousepos)
-            if not err:self.playsound(self.minesound)
+            #TODO:Sound plugin
+            self.playsound(self.minesound)
 
     def setupaction(self):
         """Setup action. like open chests"""

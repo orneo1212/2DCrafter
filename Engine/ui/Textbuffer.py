@@ -1,3 +1,4 @@
+from pluginsystem import basePluginSystem
 import Engine
 
 class TextBuffer:
@@ -7,16 +8,15 @@ class TextBuffer:
     def addtext(self, text):
         if len(self.tbuffer)>1024:self.clear()
         self.tbuffer.append(text)
-        #Emit messageadded event
-        event=Engine.events.makeevent("messageadded")
-        event.newmessage=text
-        Engine.events.addevent(event)
+        basePluginSystem.emit_event("messageadded",
+            message=text)
 
     def getlast(self,n=1):
         """get n last texts from buffer"""
         if len(self.tbuffer)<n:n=len(self.tbuffer)
         if n>0:
-            return self.tbuffer[-n:]
+            messages=self.tbuffer[-n:]
+            return messages
         else:return []
 
     def clear(self):

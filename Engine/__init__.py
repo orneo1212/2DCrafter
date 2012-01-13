@@ -1,6 +1,5 @@
 import random
 
-import events
 import environment
 import crafting
 import map

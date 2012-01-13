@@ -17,6 +17,12 @@ import pygame
 import sys
 import os
 
+#import plugin system
+from pluginsystem import basePluginSystem
+from plugins import *
+#Install plugins
+basePluginSystem.installPlugin(CorePlugin)
+
 import pygamefrontend
 from pygamefrontend import mainmenu
 import Engine
@@ -44,6 +50,7 @@ class MainApp:
         while pygamefrontend.CURRPAGE:
                 self.gametimer.tick(Engine.Config["maxfps"])
                 pygamefrontend.CURRPAGE.events()
+                basePluginSystem.run() # handle plugin events
                 pygamefrontend.CURRPAGE.update()
                 pygamefrontend.CURRPAGE.redraw(self.screen)
                 #redraw screen

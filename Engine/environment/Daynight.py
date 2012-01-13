@@ -1,3 +1,4 @@
+from pluginsystem import basePluginSystem
 import Engine
 
 class Daytime:
@@ -50,10 +51,8 @@ class Daytime:
         #Emit change daystate event
         if self.lastdaystate!=self.daystate:
             self.lastdaystate=self.daystate[:]
-            event=Engine.events.Event()
-            event.type="daytimechange"
-            event.daytime=self.daystate[:]
-            Engine.events.addevent(event)
+            basePluginSystem.emit_event("daytimechange",
+                daytime=self.daystate[:])
 
 #Global object
 DAYTIME=Daytime()
