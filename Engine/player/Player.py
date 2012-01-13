@@ -1,7 +1,9 @@
 import os
 import json
 import random
+
 import Engine
+from pluginsystem import basePluginSystem
 
 class Player:
     def __init__(self, name, currmap):
@@ -113,9 +115,17 @@ class Player:
             if collisions and self.currmap.isblocked((xx, yy)):
                 #self.position=[int(self.position[0]),int(self.position[1])]
                 return
+        #Emit event
+        frompos=tuple(self.position)
+        topos=[0,0]
+        topos[0]=self.position[0]+mv[direction][0]
+        topos[1]=self.position[1]+mv[direction][1]
+        basePluginSystem.emit_event("playermove",
+            player=self,
+            frompos=frompos,topos=topos)
         #update position
-        self.position[0]+=mv[direction][0]
-        self.position[1]+=mv[direction][1]
+        self.position=topos[:]
+
 
     def addpickupmsg(self, itemid):
         """Add pickup message"""

@@ -13,21 +13,22 @@ class CorePlugin(BasePlugin):
         self.createHook("daytimeupdate",self.on_daytime_update)
         self.createHook("daytimechange",self.on_daytime_change)
         self.createHook("messageadded",self.on_message_added)
+        self.createHook("playermove",self.on_player_move)
 
     def on_block_mine(self,player,pos):
-        print "Mine block event",pos,player
         player.mineblock(pos)
 
     def on_block_place(self,pos,block,player):
-        print "Place block event"
         player.putblock(pos, block)
 
     def on_daytime_update(self):
-        print "Daytime update event"
         Engine.environment.DAYTIME.updatedaytime()
 
     def on_daytime_change(self,daytime):
         pygamefrontend.functions.update_daytime_sounds(daytime)
 
     def on_message_added(self,message):
-        print "Message:%s" % message
+        pass
+
+    def on_player_move(self,player,frompos,topos):
+        pass
