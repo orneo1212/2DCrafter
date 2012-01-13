@@ -110,8 +110,8 @@ class Player:
 
         #can't go through a blocked block
         if self.currmap:
-            xx=int(self.position[0]+mv[direction][0])
-            yy=int(self.position[1]+mv[direction][1])
+            xx=int(self.position[0]+0.2+mv[direction][0])
+            yy=int(self.position[1]+0.2+mv[direction][1])
             if collisions and self.currmap.isblocked((xx, yy)):
                 #self.position=[int(self.position[0]),int(self.position[1])]
                 return
